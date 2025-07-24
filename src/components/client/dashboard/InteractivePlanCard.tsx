@@ -75,96 +75,103 @@ export function InteractivePlanCard() {
       transition={{ duration: 0.5 }}
       className="max-w-6xl mx-auto"
     >
-      {/* Plan Card Wrapper */}
-      <div className="flex items-center justify-center my-8 gap-3">
-        <button 
-          onClick={() => changePlan(-1)}
-          className="bg-transparent border-none text-3xl cursor-pointer p-3 text-primary hover:text-primary/80 transition-colors hidden md:block"
-        >
-          ←
-        </button>
-        
-        <motion.div 
-          key={currentPlan}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4 }}
-          className="w-64 h-80 relative overflow-hidden rounded-3xl p-6 text-white text-center flex flex-col justify-center"
-          style={{
-            background: `linear-gradient(135deg, #6b00b6, #9c27b0)`,
-            boxShadow: '0 15px 35px rgba(0, 0, 0, 0.35)',
-            transition: 'all 0.4s ease-in-out'
-          }}
-        >
-          {/* Rotating light effect */}
-          <div 
-            className="absolute w-[200%] h-[200%] -top-1/2 -left-1/2 z-0"
-            style={{
-              background: 'radial-gradient(circle at center, rgba(255,255,255,0.1), transparent 70%)',
-              animation: 'rotateLight 8s linear infinite'
-            }}
-          />
-          
-          <div className="relative z-10">
-            <h4 className="font-bold tracking-wider mb-3 text-sm">
-              ASSINATURA<br/>
-              <span className="text-base">SEM FIDELIDADE</span>
-            </h4>
+      {/* Layout with Plan Card on Left and Levels on Right */}
+      <div className="flex flex-col lg:flex-row gap-8 mb-8">
+        {/* Left Side - Plan Card */}
+        <div className="lg:w-1/3">
+          <div className="flex items-center justify-center gap-3">
+            <button 
+              onClick={() => changePlan(-1)}
+              className="bg-transparent border-none text-3xl cursor-pointer p-3 text-primary hover:text-primary/80 transition-colors hidden md:block"
+            >
+              ←
+            </button>
             
-            <h1 className="text-6xl my-3 font-bold">
-              {plan.gb}
-            </h1>
-            <div className="text-lg opacity-80">GB</div>
+            <motion.div 
+              key={currentPlan}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4 }}
+              className="w-64 h-80 relative overflow-hidden rounded-3xl p-6 text-white text-center flex flex-col justify-center"
+              style={{
+                background: `linear-gradient(135deg, #6b00b6, #9c27b0)`,
+                boxShadow: '0 15px 35px rgba(0, 0, 0, 0.35)',
+                transition: 'all 0.4s ease-in-out'
+              }}
+            >
+              {/* Rotating light effect */}
+              <div 
+                className="absolute w-[200%] h-[200%] -top-1/2 -left-1/2 z-0"
+                style={{
+                  background: 'radial-gradient(circle at center, rgba(255,255,255,0.1), transparent 70%)',
+                  animation: 'rotateLight 8s linear infinite'
+                }}
+              />
+              
+              <div className="relative z-10">
+                <h4 className="font-bold tracking-wider mb-3 text-sm">
+                  ASSINATURA<br/>
+                  <span className="text-base">SEM FIDELIDADE</span>
+                </h4>
+                
+                <h1 className="text-6xl my-3 font-bold">
+                  {plan.gb}
+                </h1>
+                <div className="text-lg opacity-80">GB</div>
+                
+                <small className="text-base mt-4 block">
+                  Por <strong>{formatCurrency(plan.price)}</strong><br/>/mês
+                </small>
+              </div>
+            </motion.div>
             
-            <small className="text-base mt-4 block">
-              Por <strong>{formatCurrency(plan.price)}</strong><br/>/mês
-            </small>
+            <button 
+              onClick={() => changePlan(1)}
+              className="bg-transparent border-none text-3xl cursor-pointer p-3 text-primary hover:text-primary/80 transition-colors hidden md:block"
+            >
+              →
+            </button>
           </div>
-        </motion.div>
-        
-        <button 
-          onClick={() => changePlan(1)}
-          className="bg-transparent border-none text-3xl cursor-pointer p-3 text-primary hover:text-primary/80 transition-colors hidden md:block"
-        >
-          →
-        </button>
-      </div>
+        </div>
 
-      {/* Commission Levels Box */}
-      <motion.div 
-        key={`levels-${currentPlan}`}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className="flex flex-wrap justify-between my-8 gap-3"
-      >
-        {plan.commissionLevels.map((level, index) => (
-          <div
-            key={level.level}
-            className="w-full md:w-[50%] bg-white rounded-2xl p-5 pl-6"
-            style={{
-              background: 'linear-gradient(135deg, #fff, #f5f2fc)',
-              borderLeft: '8px solid #9c27b0',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
-            }}
+        {/* Right Side - Commission Levels */}
+        <div className="lg:w-2/3">
+          <motion.div 
+            key={`levels-${currentPlan}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-4"
           >
-            <h3 className="text-primary font-bold text-xl mb-3">
-              {level.title}
-            </h3>
-            
-            <p className="my-1 font-medium text-gray-700">
-              {level.indications} indicações{" "}
-              <strong className="text-gray-900">
-                {formatCurrency(level.commission)}
-              </strong> por indicado
-            </p>
-            
-            <p className="my-1 font-bold text-primary text-lg">
-              Total: {formatCurrency(level.monthlyValue)}/mês
-            </p>
-          </div>
-        ))}
-      </motion.div>
+            {plan.commissionLevels.map((level, index) => (
+              <div
+                key={level.level}
+                className="bg-white rounded-2xl p-5 pl-6"
+                style={{
+                  background: 'linear-gradient(135deg, #fff, #f5f2fc)',
+                  borderLeft: '8px solid #9c27b0',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+                }}
+              >
+                <h3 className="text-primary font-bold text-xl mb-3">
+                  {level.title}
+                </h3>
+                
+                <p className="my-1 font-medium text-gray-700">
+                  {level.indications} indicações{" "}
+                  <strong className="text-gray-900">
+                    {formatCurrency(level.commission)}
+                  </strong> por indicado
+                </p>
+                
+                <p className="my-1 font-bold text-primary text-lg">
+                  Total: {formatCurrency(level.monthlyValue)}/mês
+                </p>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </div>
 
       {/* Consumption Table Box */}
       <motion.div 
