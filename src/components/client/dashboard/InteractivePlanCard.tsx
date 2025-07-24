@@ -203,7 +203,7 @@ export function InteractivePlanCard() {
                     boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
                   }}
                 >
-                  <h3 className="text-primary font-bold text-xl mb-3" style={{ marginLeft: index > 0 ? '40px' : '0' }}>
+                  <h3 className="text-primary font-bold text-xl mb-3">
                     {level.title}
                   </h3>
                   
@@ -252,7 +252,6 @@ export function InteractivePlanCard() {
                     animate={{ scale: 1, y: 0 }}
                     transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.2 }}
                     className="text-lg font-black text-transparent bg-gradient-to-r from-gray-700 via-gray-800 to-black bg-clip-text"
-                    style={{ marginLeft: index > 0 ? '40px' : '0' }}
                   >
                     {level.level}º
                   </motion.span>
