@@ -31,7 +31,6 @@ import InventoryReports from "@/pages/client/inventory-reports";
 import ClientTermsUpdated from "@/pages/client/terms-updated";
 import PaymentReturn from "@/pages/client/payment-return";
 import ChipActivation from "@/pages/client/chip-activation";
-import VirtualOffice from "@/pages/client/virtual-office";
 
 // Admin pages
 import AdminLogin from "@/pages/admin/login";
@@ -89,7 +88,6 @@ function App() {
               <Route path="facial-biometry" element={<ClientFacialBiometry />} />
               <Route path="plan-selection" element={<ClientPlanSelection />} />
               <Route path="navigation" element={<ClientNavigation />} />
-              <Route path="virtual-office" element={<VirtualOffice />} />
               <Route path="inventory-reports" element={<InventoryReports />} />
             </Route>
           </Route>
