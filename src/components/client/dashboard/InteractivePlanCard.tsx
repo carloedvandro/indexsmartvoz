@@ -52,92 +52,127 @@ const plans: Plan[] = [
 
 export function InteractivePlanCard() {
   const [currentPlan, setCurrentPlan] = useState(0);
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
 
-  const changePlan = (direction: number) => {
-    setCurrentPlan(prev => {
-      const newIndex = prev + direction;
-      if (newIndex < 0) return plans.length - 1;
-      if (newIndex >= plans.length) return 0;
-      return newIndex;
-    });
+  const scrollToCard = (index: number) => {
+    if (scrollContainerRef.current) {
+      const card = scrollContainerRef.current.children[index] as HTMLElement;
+      if (card) {
+        card.scrollIntoView({ behavior: "smooth", inline: "center" });
+        setCurrentPlan(index);
+      }
+    }
   };
+
+  const handleScroll = React.useCallback(() => {
+    if (!scrollContainerRef.current) return;
+    
+    const scrollLeft = scrollContainerRef.current.scrollLeft;
+    const cardWidth = 300; // approximate card width with gap
+    const activeIndex = Math.round(scrollLeft / cardWidth);
+    
+    if (activeIndex !== currentPlan && activeIndex >= 0 && activeIndex < plans.length) {
+      setCurrentPlan(activeIndex);
+    }
+  }, [currentPlan]);
+
+  React.useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', handleScroll);
+      return () => container.removeEventListener('scroll', handleScroll);
+    }
+  }, [handleScroll]);
 
   const calculateTotal = (commissionLevels: CommissionLevel[]) => {
     return commissionLevels.reduce((total, level) => total + level.monthlyValue, 0);
   };
 
-  const plan = plans[currentPlan];
-
   const getCardGradient = (planIndex: number) => {
-    const colors = ['#7400c8', '#9c27b0', '#7b1fa2'];
+    const colors = ['#6b00b6', '#9c27b0', '#7b1fa2'];
     return `linear-gradient(145deg, ${colors[planIndex]}, #ae4fff)`;
   };
+
+  const plan = plans[currentPlan];
 
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-6xl mx-auto"
+      className="max-w-6xl mx-auto p-5"
     >
-      {/* Plan Card Wrapper */}
-      <div className="flex items-center justify-center my-8 gap-3">
-        <button 
-          onClick={() => changePlan(-1)}
-          className="bg-transparent border-none text-3xl cursor-pointer p-3 text-primary hover:text-primary/80 transition-colors hidden md:block"
-        >
-          ←
-        </button>
-        
-        <motion.div 
-          key={currentPlan}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.4 }}
-          className="w-64 h-96 relative overflow-hidden p-6 text-white text-center flex flex-col justify-start items-center"
+      {/* Plan Cards Slider */}
+      <div className="mb-5 relative">
+        <div 
+          ref={scrollContainerRef}
+          className="overflow-x-auto scrollbar-hide mb-3"
           style={{
-            background: getCardGradient(currentPlan),
-            borderRadius: '40px 40px 80px 80px',
-            boxShadow: '0 8px 25px rgba(0, 0, 0, 0.35)',
-            transition: 'transform 0.4s ease'
+            scrollSnapType: 'x mandatory',
+            WebkitOverflowScrolling: 'touch'
           }}
         >
-          {/* Rotating light effect */}
-          <div 
-            className="absolute -top-10 -left-10 w-[150%] h-[150%] z-0"
-            style={{
-              background: 'radial-gradient(circle at center, rgba(255,255,255,0.15), transparent 60%)',
-              animation: 'rotateLight 10s linear infinite'
-            }}
-          />
-          
-          <div className="relative z-10 flex flex-col items-center">
-            <h4 className="font-bold text-sm tracking-wider mt-3 mb-3">
-              ASSINATURA<br/>
-              <span className="text-base">SEM FIDELIDADE</span>
-            </h4>
-            
-            <h1 className="text-6xl my-3 font-bold">
-              {plan.gb}
-            </h1>
-            <div className="text-lg opacity-80">GB</div>
-            
-            <div className="text-sm mt-3 text-gray-200">
-              Ligações e SMS ilimitados para qualquer operadora do Brasil.
-            </div>
-            
-            <small className="text-base mt-4 block">
-              Por <strong>{formatCurrency(plan.price)}</strong><br/>/mês
-            </small>
+          <div className="flex gap-5 w-max">
+            {plans.map((planItem, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className="min-w-[280px] h-[400px] relative overflow-hidden p-6 text-white text-center flex flex-col justify-start items-center cursor-pointer"
+                style={{
+                  background: getCardGradient(index),
+                  borderRadius: '40px 40px 80px 80px',
+                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.35)',
+                  scrollSnapAlign: 'center'
+                }}
+                onClick={() => scrollToCard(index)}
+              >
+                {/* Rotating light effect */}
+                <div 
+                  className="absolute -top-10 -left-10 w-[150%] h-[150%] z-0"
+                  style={{
+                    background: 'radial-gradient(circle at center, rgba(255,255,255,0.15), transparent 60%)',
+                    animation: 'rotateLight 10s linear infinite'
+                  }}
+                />
+                
+                <div className="relative z-10 flex flex-col items-center">
+                  <h4 className="font-bold text-sm tracking-wider mt-3 mb-3">
+                    ASSINATURA<br/>
+                    <span className="text-base">SEM FIDELIDADE</span>
+                  </h4>
+                  
+                  <h1 className="text-6xl my-3 font-bold">
+                    {planItem.gb}
+                  </h1>
+                  <div className="text-lg opacity-80">GB</div>
+                  
+                  <div className="text-sm mt-3 text-gray-200 px-2">
+                    Ligações e SMS ilimitados para qualquer operadora do Brasil.
+                  </div>
+                  
+                  <small className="text-base mt-4 block">
+                    Por <strong>{formatCurrency(planItem.price)}</strong><br/>/mês
+                  </small>
+                </div>
+              </motion.div>
+            ))}
           </div>
-        </motion.div>
-        
-        <button 
-          onClick={() => changePlan(1)}
-          className="bg-transparent border-none text-3xl cursor-pointer p-3 text-primary hover:text-primary/80 transition-colors hidden md:block"
-        >
-          →
-        </button>
+        </div>
+
+        {/* Dots Indicators */}
+        <div className="flex justify-center gap-2 mt-3">
+          {plans.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => scrollToCard(index)}
+              className={`w-3 h-3 rounded-full transition-colors duration-300 ${
+                index === currentPlan ? 'bg-primary' : 'bg-gray-300'
+              }`}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Commission Levels Box */}
