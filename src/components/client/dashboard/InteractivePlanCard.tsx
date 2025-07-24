@@ -141,7 +141,7 @@ export function InteractivePlanCard() {
         {plan.commissionLevels.map((level, index) => (
           <div
             key={level.level}
-            className="w-full md:w-[49%] bg-white rounded-2xl p-5 pl-6"
+            className="w-full md:w-[50%] bg-white rounded-2xl p-5 pl-6"
             style={{
               background: 'linear-gradient(135deg, #fff, #f5f2fc)',
               borderLeft: '8px solid #9c27b0',
