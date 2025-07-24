@@ -464,10 +464,66 @@ export function InteractivePlanCard() {
           transition: transform 0.3s ease;
         }
 
-        .nivel1 .col:first-child { border-left: 5px solid #ff6b35; }
-        .nivel2 .col:first-child { border-left: 5px solid #a855f7; }
-        .nivel3 .col:first-child { border-left: 5px solid #3b82f6; }
-        .nivel4 .col:first-child { border-left: 5px solid #ec4899; }
+        .nivel1 .col:first-child { 
+          border-left: 5px solid #ff6b35;
+          border-radius: 0 1rem 1rem 0;
+          position: relative;
+        }
+        .nivel1 .col:first-child::before {
+          content: '';
+          position: absolute;
+          left: -8px;
+          top: 0;
+          bottom: 0;
+          width: 8px;
+          background: #ff6b35;
+          border-radius: 1rem 0 0 1rem;
+        }
+        .nivel2 .col:first-child { 
+          border-left: 5px solid #a855f7;
+          border-radius: 0 1rem 1rem 0;
+          position: relative;
+        }
+        .nivel2 .col:first-child::before {
+          content: '';
+          position: absolute;
+          left: -8px;
+          top: 0;
+          bottom: 0;
+          width: 8px;
+          background: #a855f7;
+          border-radius: 1rem 0 0 1rem;
+        }
+        .nivel3 .col:first-child { 
+          border-left: 5px solid #3b82f6;
+          border-radius: 0 1rem 1rem 0;
+          position: relative;
+        }
+        .nivel3 .col:first-child::before {
+          content: '';
+          position: absolute;
+          left: -8px;
+          top: 0;
+          bottom: 0;
+          width: 8px;
+          background: #3b82f6;
+          border-radius: 1rem 0 0 1rem;
+        }
+        .nivel4 .col:first-child { 
+          border-left: 5px solid #ec4899;
+          border-radius: 0 1rem 1rem 0;
+          position: relative;
+        }
+        .nivel4 .col:first-child::before {
+          content: '';
+          position: absolute;
+          left: -8px;
+          top: 0;
+          bottom: 0;
+          width: 8px;
+          background: #ec4899;
+          border-radius: 1rem 0 0 1rem;
+        }
         .total .col {
           background: #ede5ff;
           font-weight: bold;
