@@ -194,6 +194,62 @@ export function InteractivePlanCard() {
         </div>
       </div>
 
+      {/* Consumption Table Box */}
+      <motion.div 
+        key={`table-${currentPlan}`}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+        className="tabela-container"
+      >
+        <h2 className="titulo">Consumo inteligente</h2>
+        <div className="tabela">
+          <div className="linha cabecalho">
+            <div className="coluna">Nível</div>
+            <div className="coluna">Clientes</div>
+            <div className="coluna">Usuário</div>
+            <div className="coluna">Por Nível</div>
+            <div className="coluna">Acumulado</div>
+          </div>
+
+          {plan.commissionLevels.map((level, index) => {
+            const gradientClass = ['gradient-laranja', 'gradient-roxo', 'gradient-azul', 'gradient-rosa'][index];
+            return (
+              <div key={level.level} className="linha">
+                <div className={`coluna nivel ${gradientClass}`}>{level.level}º</div>
+                <div className="coluna">{level.indications}</div>
+                <div className="coluna destaque">
+                  R$<AnimatedNumber value={level.commission} delay={index * 100} />,00<br/>
+                  <small>Por indicado</small>
+                </div>
+                <div className="coluna">
+                  R$<AnimatedNumber value={level.commission} delay={index * 100} />,00
+                </div>
+                <div className="coluna">
+                  R$<AnimatedNumber value={level.monthlyValue} delay={index * 100} />,00
+                </div>
+              </div>
+            );
+          })}
+
+          <div className="linha total">
+            <div className="coluna nivel">Total</div>
+            <div className="coluna">{totalClients}</div>
+            <div className="coluna destaque">
+              R$<AnimatedNumber value={35} delay={400} />,00
+            </div>
+            <div className="coluna">
+              R$<AnimatedNumber value={35} delay={400} />,00
+            </div>
+            <div className="coluna roxo-claro">
+              R$<AnimatedNumber value={totalValue} delay={400} />,00
+            </div>
+          </div>
+        </div>
+        <p className="nota-final">
+          Valor total a receber na recorrência <strong>R${totalValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</strong>
+        </p>
+      </motion.div>
 
       {/* Global Styles for Plan Card */}
       <style>{`
