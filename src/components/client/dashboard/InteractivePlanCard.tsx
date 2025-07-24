@@ -136,12 +136,12 @@ export function InteractivePlanCard() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="flex flex-wrap justify-between my-8 gap-3 max-w-4xl mx-auto"
+        className="flex flex-wrap justify-between my-8 gap-3"
       >
         {plan.commissionLevels.map((level, index) => (
           <div
             key={level.level}
-            className="w-full md:w-[48%] bg-white rounded-2xl p-5 pl-6"
+            className="w-full md:w-[49%] bg-white rounded-2xl p-5 pl-6"
             style={{
               background: 'linear-gradient(135deg, #fff, #f5f2fc)',
               borderLeft: '8px solid #9c27b0',
