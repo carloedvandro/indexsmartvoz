@@ -232,6 +232,7 @@ export function InteractivePlanCard() {
           text-align: center;
           min-height: 420px;
           max-width: 420px;
+          width: 100%;
           margin: auto;
           font-family: 'Segoe UI', sans-serif;
           position: relative;
