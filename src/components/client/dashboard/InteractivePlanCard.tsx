@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { formatCurrency } from "@/utils/format";
 import { motion } from 'framer-motion';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, CarouselApi } from "@/components/ui/carousel";
+import HyperText from "@/components/ui/hyper-text";
 
 interface Plan {
   gb: number;
@@ -196,12 +197,23 @@ export function InteractivePlanCard() {
                   {level.title}
                 </h3>
                 
-                <p className="my-1 font-normal text-gray-600">
-                  {level.indications} indicações{" "}
+                <div className="my-1 font-normal text-gray-600 flex items-center gap-1">
+                  <HyperText 
+                    text={`${level.indications} indicações`}
+                    className="font-normal text-gray-600 font-sans"
+                    duration={600}
+                    animateOnLoad={false}
+                  />
                   <strong className="text-gray-900">
                     {formatCurrency(level.commission)}
-                  </strong> por indicado
-                </p>
+                  </strong>
+                  <HyperText 
+                    text="por indicado"
+                    className="font-normal text-gray-600 font-sans"
+                    duration={600}
+                    animateOnLoad={false}
+                  />
+                </div>
                 
                 <p className="my-1 font-bold text-primary text-lg">
                   Total: {formatCurrency(level.monthlyValue)}/mês
