@@ -51,136 +51,141 @@ const plans: Plan[] = [
 ];
 
 export function InteractivePlanCard() {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [api, setApi] = useState<CarouselApi>();
+  const [currentPlan, setCurrentPlan] = useState(0);
 
-  const onSelect = useCallback(() => {
-    if (!api) return;
-    setCurrentSlide(api.selectedScrollSnap());
-  }, [api]);
-
-  React.useEffect(() => {
-    if (!api) return;
-    onSelect();
-    api.on("select", onSelect);
-    return () => {
-      api.off("select", onSelect);
-    };
-  }, [api, onSelect]);
+  const changePlan = (direction: number) => {
+    setCurrentPlan(prev => {
+      const newIndex = prev + direction;
+      if (newIndex < 0) return plans.length - 1;
+      if (newIndex >= plans.length) return 0;
+      return newIndex;
+    });
+  };
 
   const calculateTotal = (commissionLevels: CommissionLevel[]) => {
     return commissionLevels.reduce((total, level) => total + level.monthlyValue, 0);
   };
+
+  const plan = plans[currentPlan];
 
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-6xl mx-auto"
+      className="max-w-5xl mx-auto"
     >
-      <Carousel 
-        setApi={setApi}
-        opts={{
-          align: "start",
-          loop: true,
-        }}
-        className="w-full"
-      >
-        <CarouselContent>
-          {plans.map((plan, planIndex) => (
-            <CarouselItem key={plan.gb}>
-              <div className="flex flex-col lg:flex-row gap-6">
-                {/* Left Section - Plan Info */}
-                <div className="bg-gradient-to-br from-primary to-primary/80 text-white p-8 rounded-2xl lg:w-1/3 text-center relative overflow-hidden">
-                  {/* Background Pattern */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
-                  
-                  <div className="relative z-10">
-                    <div className="mb-6">
-                      <span className="text-sm font-semibold uppercase tracking-wider opacity-90">
-                        ASSINATURA<br/>
-                        <strong className="text-base">SEM FIDELIDADE</strong>
-                      </span>
-                    </div>
-                    
-                    <div className="my-8">
-                      <div className="text-6xl font-bold leading-none">
-                        {plan.gb}
-                      </div>
-                      <div className="text-lg opacity-80 mt-1">GB</div>
-                    </div>
-                    
-                    <div className="text-sm leading-relaxed">
-                      <div className="opacity-90">Por</div>
-                      <div className="text-2xl font-bold my-1">{formatCurrency(plan.price)}</div>
-                      <div className="opacity-80">/mês</div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Right Section - Commission Levels */}
-                <div className="lg:w-2/3">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {plan.commissionLevels.map((level, index) => (
-                      <motion.div
-                        key={level.level}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
-                        className="p-6 transition-all duration-300"
-                      >
-                        <h3 className="text-primary font-bold text-lg mb-3">
-                          {level.title}
-                        </h3>
-                        
-                        <div className="space-y-2 text-sm text-gray-600">
-                          <p>
-                            {level.indications} indicações<br/>
-                            <strong className="text-gray-900">
-                              {formatCurrency(level.commission)}
-                            </strong> por indicado
-                          </p>
-                        </div>
-                        
-                        <div className="mt-4 pt-3 border-t border-gray-100">
-                          <div className="font-bold text-gray-900">
-                            {formatCurrency(level.monthlyValue)}/mês
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
+      {/* Plan Card Section */}
+      <div className="flex items-center justify-center mb-8 gap-4">
+        <button 
+          onClick={() => changePlan(-1)}
+          className="text-3xl text-primary hover:text-primary/80 transition-colors p-2"
+        >
+          ←
+        </button>
+        
+        <motion.div 
+          key={currentPlan}
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
+          className="w-64 h-80 relative overflow-hidden rounded-3xl p-6 text-white text-center flex flex-col justify-center shadow-2xl"
+          style={{
+            background: `linear-gradient(135deg, #6b00b6, #9c27b0)`,
+          }}
+        >
+          {/* Rotating light effect */}
+          <div className="absolute inset-0 w-full h-full opacity-10">
+            <div 
+              className="absolute w-[200%] h-[200%] -top-1/2 -left-1/2 animate-spin"
+              style={{
+                background: 'radial-gradient(circle at center, rgba(255,255,255,0.3), transparent 70%)',
+                animationDuration: '8s'
+              }}
+            />
+          </div>
+          
+          <div className="relative z-10">
+            <div className="mb-4">
+              <div className="text-sm font-bold uppercase tracking-wider">
+                ASSINATURA
               </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious className="bg-transparent border-none shadow-none hover:bg-transparent focus:bg-transparent" />
-        <CarouselNext className="bg-transparent border-none shadow-none hover:bg-transparent focus:bg-transparent" />
-      </Carousel>
+              <div className="text-sm">
+                <strong>SEM FIDELIDADE</strong>
+              </div>
+            </div>
+            
+            <div className="my-6">
+              <div className="text-6xl font-bold leading-none">
+                {plan.gb}
+              </div>
+              <div className="text-lg opacity-80">GB</div>
+            </div>
+            
+            <div className="text-sm">
+              <div className="opacity-90">Por</div>
+              <div className="text-2xl font-bold my-1">{formatCurrency(plan.price)}</div>
+              <div className="opacity-80">/mês</div>
+            </div>
+          </div>
+        </motion.div>
+        
+        <button 
+          onClick={() => changePlan(1)}
+          className="text-3xl text-primary hover:text-primary/80 transition-colors p-2"
+        >
+          →
+        </button>
+      </div>
 
-      {/* Tabela de Consumo Inteligente */}
+      {/* Commission Levels Section */}
       <motion.div 
+        key={`levels-${currentPlan}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.3 }}
-        className="mt-8 bg-white rounded-2xl shadow-xl p-6"
+        transition={{ duration: 0.3 }}
+        className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"
       >
-        <h2 className="text-2xl font-bold text-primary text-center mb-6">
+        {plan.commissionLevels.map((level, index) => (
+          <div
+            key={level.level}
+            className="bg-gradient-to-br from-gray-50 to-purple-50 rounded-2xl p-6 shadow-md"
+          >
+            <h3 className="text-primary font-bold text-xl mb-3">
+              {level.title}
+            </h3>
+            
+            <div className="space-y-2 text-sm text-gray-600">
+              <p>{level.indications} indicações</p>
+              <p>
+                <strong className="text-gray-900 text-base">
+                  {formatCurrency(level.commission)}
+                </strong> por indicado
+              </p>
+              <p className="text-lg font-bold text-primary pt-2">
+                Total: {formatCurrency(level.monthlyValue)}/mês
+              </p>
+            </div>
+          </div>
+        ))}
+      </motion.div>
+
+      {/* Consumption Table Section */}
+      <motion.div 
+        key={`table-${currentPlan}`}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, delay: 0.1 }}
+        className="bg-white rounded-2xl shadow-xl p-6"
+      >
+        <h2 className="text-2xl font-bold text-primary mb-6">
           Consumo Inteligente
         </h2>
         
         <div className="overflow-x-auto">
-          <motion.table 
-            key={currentSlide}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.3 }}
-            className="w-full border-collapse"
-          >
+          <table className="w-full border-collapse">
             <thead>
-              <tr className="bg-slate-50">
+              <tr className="bg-purple-50">
                 <th className="px-4 py-3 text-center border-b border-gray-200 font-semibold text-gray-700">Nível</th>
                 <th className="px-4 py-3 text-center border-b border-gray-200 font-semibold text-gray-700">Clientes</th>
                 <th className="px-4 py-3 text-center border-b border-gray-200 font-semibold text-gray-700">Valor por Indicado</th>
@@ -188,7 +193,7 @@ export function InteractivePlanCard() {
               </tr>
             </thead>
             <tbody>
-              {plans[currentSlide]?.commissionLevels.map((level) => (
+              {plan.commissionLevels.map((level) => (
                 <tr key={level.level} className="hover:bg-gray-50 transition-colors">
                   <td className="px-4 py-3 text-center border-b border-gray-100">{level.title}</td>
                   <td className="px-4 py-3 text-center border-b border-gray-100">{level.indications}</td>
@@ -196,16 +201,16 @@ export function InteractivePlanCard() {
                   <td className="px-4 py-3 text-center border-b border-gray-100">{formatCurrency(level.monthlyValue)}</td>
                 </tr>
               ))}
-              <tr className="bg-slate-100 font-bold">
+              <tr className="bg-purple-100 font-bold">
                 <td className="px-4 py-3 text-center border-b border-gray-200">Total</td>
                 <td className="px-4 py-3 text-center border-b border-gray-200">780</td>
                 <td className="px-4 py-3 text-center border-b border-gray-200">-</td>
                 <td className="px-4 py-3 text-center border-b border-gray-200 text-primary font-bold">
-                  {formatCurrency(calculateTotal(plans[currentSlide]?.commissionLevels || []))}
+                  {formatCurrency(calculateTotal(plan.commissionLevels))}
                 </td>
               </tr>
             </tbody>
-          </motion.table>
+          </table>
         </div>
       </motion.div>
     </motion.div>
