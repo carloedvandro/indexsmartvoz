@@ -203,7 +203,7 @@ export function InteractivePlanCard() {
                     boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
                   }}
                 >
-                  <h3 className="text-primary font-bold text-xl mb-3">
+                  <h3 className="text-primary font-bold text-xl mb-3" style={{ marginLeft: index > 0 ? '40px' : '0' }}>
                     {level.title}
                   </h3>
                   
