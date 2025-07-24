@@ -61,15 +61,14 @@ export const NetworkCard = ({
         </div>
         <p className="text-center text-gray-500 text-base mb-6">Total de Indicados: {totalMembers}</p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6"
-             style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))' }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
           {niveis.map((nivel, index) => (
             <motion.div
               key={index}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
-              className={`relative p-6 rounded-2xl shadow-[0_0_30px_rgba(255,255,255,0.35)] ${nivel.corFundo} ${nivel.borda} border-[6px] overflow-hidden backdrop-blur-[2px]`}
+              className={`relative p-6 rounded-2xl shadow-[0_0_30px_rgba(255,255,255,0.35)] ${nivel.corFundo} ${nivel.borda} border-[6px] overflow-hidden backdrop-blur-[2px] max-w-[280px] sm:max-w-[350px] md:max-w-none mx-auto`}
             >
               <div className="absolute -inset-px rounded-2xl border-4 border-white border-opacity-30 animate-pulse"></div>
               <h3 className={`text-lg font-extrabold mb-1 relative z-10 ${nivel.corTexto}`}>{nivel.titulo}</h3>
