@@ -214,7 +214,7 @@ export function InteractivePlanCard() {
         }
 
         .plano-card {
-          width: 280px;
+          width: 320px;
           height: 360px;
           background: linear-gradient(145deg, #7f00ff, #e100ff);
           box-shadow:
