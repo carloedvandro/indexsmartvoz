@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { formatCurrency } from "@/utils/format";
 import { motion } from 'framer-motion';
-import { FlipPlanCard } from './FlipPlanCard';
-import "@/styles/components/flip-card-3d.css";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, CarouselApi } from "@/components/ui/carousel";
 
 interface Plan {
   gb: number;
@@ -34,9 +33,9 @@ const plans: Plan[] = [
     price: 124.99,
     commissionLevels: [
       { level: 1, title: "1º Nível", indications: 5, commission: 25.00, monthlyValue: 125.00 },
-      { level: 2, title: "2º Nível", indications: 25, commission: 7.00, monthlyValue: 175.00 },
-      { level: 3, title: "3º Nível", indications: 125, commission: 6.00, monthlyValue: 750.00 },
-      { level: 4, title: "4º Nível", indications: 625, commission: 6.00, monthlyValue: 3750.00 }
+      { level: 2, title: "2º Nível", indications: 25, commission: 5.00, monthlyValue: 125.00 },
+      { level: 3, title: "3º Nível", indications: 125, commission: 5.00, monthlyValue: 625.00 },
+      { level: 4, title: "4º Nível", indications: 625, commission: 5.00, monthlyValue: 3125.00 }
     ]
   },
   {
@@ -44,9 +43,9 @@ const plans: Plan[] = [
     price: 144.99,
     commissionLevels: [
       { level: 1, title: "1º Nível", indications: 5, commission: 30.00, monthlyValue: 150.00 },
-      { level: 2, title: "2º Nível", indications: 25, commission: 10.00, monthlyValue: 250.00 },
-      { level: 3, title: "3º Nível", indications: 125, commission: 7.00, monthlyValue: 875.00 },
-      { level: 4, title: "4º Nível", indications: 625, commission: 7.00, monthlyValue: 4375.00 }
+      { level: 2, title: "2º Nível", indications: 25, commission: 5.00, monthlyValue: 125.00 },
+      { level: 3, title: "3º Nível", indications: 125, commission: 5.00, monthlyValue: 625.00 },
+      { level: 4, title: "4º Nível", indications: 625, commission: 5.00, monthlyValue: 3125.00 }
     ]
   }
 ];
@@ -54,12 +53,17 @@ const plans: Plan[] = [
 export function InteractivePlanCard() {
   const [currentPlan, setCurrentPlan] = useState(0);
 
-  const calculateTotal = (commissionLevels: CommissionLevel[]) => {
-    return commissionLevels.reduce((total, level) => total + level.monthlyValue, 0);
+  const changePlan = (direction: number) => {
+    setCurrentPlan(prev => {
+      const newIndex = prev + direction;
+      if (newIndex < 0) return plans.length - 1;
+      if (newIndex >= plans.length) return 0;
+      return newIndex;
+    });
   };
 
-  const handleDotClick = (index: number) => {
-    setCurrentPlan(index);
+  const calculateTotal = (commissionLevels: CommissionLevel[]) => {
+    return commissionLevels.reduce((total, level) => total + level.monthlyValue, 0);
   };
 
   const plan = plans[currentPlan];
@@ -71,68 +75,103 @@ export function InteractivePlanCard() {
       transition={{ duration: 0.5 }}
       className="max-w-6xl mx-auto"
     >
-      {/* Container com Flip Cards */}
-      <div className="plano-slide-container mb-8">
-        <div className="plano-cards-wrapper">
-          {plans.map((planItem, index) => (
-            <FlipPlanCard 
-              key={index}
-              plan={planItem}
-              isActive={index === currentPlan}
-            />
-          ))}
-        </div>
-        
-        {/* Dots Navigation */}
-        <div className="dots-wrapper">
-          {plans.map((_, index) => (
-            <div 
-              key={index}
-              className={`dot ${index === currentPlan ? 'active' : ''}`}
-              onClick={() => handleDotClick(index)}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* Commission Levels Box */}
-      <motion.div 
-        key={`levels-${currentPlan}`}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className="bg-white rounded-2xl p-6 mb-8"
-        style={{
-          boxShadow: '0 6px 16px rgba(0,0,0,0.09)'
-        }}
-      >
-        <h2 className="text-primary font-bold text-xl mb-6">
-          Níveis de Comissão - Plano {plan.gb}GB
-        </h2>
-        
-        <div className="space-y-4">
-          {plan.commissionLevels.map((level) => (
-            <div
-              key={level.level}
-              className="bg-gradient-to-r from-purple-50 to-white rounded-xl p-5 pl-6 border-l-4 border-primary"
+      {/* Layout with Plan Card on Left and Levels on Right */}
+      <div className="flex flex-col lg:flex-row gap-8 mb-8">
+        {/* Left Side - Plan Card */}
+        <div className="lg:w-1/3">
+          <div className="flex items-center justify-center gap-3">
+            <button 
+              onClick={() => changePlan(-1)}
+              className="bg-transparent border-none text-3xl cursor-pointer p-3 text-primary hover:text-primary/80 transition-colors hidden md:block"
             >
-              <h3 className="text-primary font-bold text-lg mb-2">
-                {level.title}
-              </h3>
+              ←
+            </button>
+            
+            <motion.div 
+              key={currentPlan}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.4 }}
+              className="w-64 h-80 relative overflow-hidden rounded-3xl p-6 text-white text-center flex flex-col justify-center"
+              style={{
+                background: `linear-gradient(135deg, #6b00b6, #9c27b0)`,
+                boxShadow: '0 15px 35px rgba(0, 0, 0, 0.35)',
+                transition: 'all 0.4s ease-in-out'
+              }}
+            >
+              {/* Rotating light effect */}
+              <div 
+                className="absolute w-[220%] h-[250%] -top-1/2 -left-1/2 z-0"
+                style={{
+                  background: 'radial-gradient(circle at center, rgba(255,255,255,0.1), transparent 70%)',
+                  animation: 'rotateLight 8s linear infinite'
+                }}
+              />
               
-              <p className="text-gray-700 mb-1">
-                {level.indications} indicações × {formatCurrency(level.commission)} = {formatCurrency(level.monthlyValue)}/mês
-              </p>
-            </div>
-          ))}
-          
-          <div className="bg-primary text-white rounded-xl p-5 text-center">
-            <h3 className="font-bold text-xl">
-              Total Mensal: {formatCurrency(calculateTotal(plan.commissionLevels))}
-            </h3>
+              <div className="relative z-10">
+                <h4 className="font-bold tracking-wider mb-3 text-sm">
+                  ASSINATURA<br/>
+                  <span className="text-base">SEM FIDELIDADE</span>
+                </h4>
+                
+                <h1 className="text-6xl my-3 font-bold">
+                  {plan.gb}
+                </h1>
+                <div className="text-lg opacity-80">GB</div>
+                
+                <small className="text-base mt-4 block">
+                  Por <strong>{formatCurrency(plan.price)}</strong><br/>/mês
+                </small>
+              </div>
+            </motion.div>
+            
+            <button 
+              onClick={() => changePlan(1)}
+              className="bg-transparent border-none text-3xl cursor-pointer p-3 text-primary hover:text-primary/80 transition-colors hidden md:block"
+            >
+              →
+            </button>
           </div>
         </div>
-      </motion.div>
+
+        {/* Right Side - Commission Levels */}
+        <div className="lg:w-2/3">
+          <motion.div 
+            key={`levels-${currentPlan}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="space-y-4"
+          >
+            {plan.commissionLevels.map((level, index) => (
+              <div
+                key={level.level}
+                className="bg-white rounded-2xl p-5 pl-6"
+                style={{
+                  background: 'linear-gradient(135deg, #fff, #f5f2fc)',
+                  borderLeft: '8px solid #9c27b0',
+                  boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+                }}
+              >
+                <h3 className="text-primary font-bold text-xl mb-3">
+                  {level.title}
+                </h3>
+                
+                <p className="my-1 font-medium text-gray-700">
+                  {level.indications} indicações{" "}
+                  <strong className="text-gray-900">
+                    {formatCurrency(level.commission)}
+                  </strong> por indicado
+                </p>
+                
+                <p className="my-1 font-bold text-primary text-lg">
+                  Total: {formatCurrency(level.monthlyValue)}/mês
+                </p>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      </div>
 
       {/* Consumption Table Box */}
       <motion.div 
@@ -180,6 +219,14 @@ export function InteractivePlanCard() {
           </table>
         </div>
       </motion.div>
+
+      {/* Global style for rotating light animation */}
+      <style>{`
+        @keyframes rotateLight {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </motion.div>
   );
 }
