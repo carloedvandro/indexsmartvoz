@@ -12,6 +12,7 @@ import { InteractiveBrazilMap } from "@/components/client/dashboard/InteractiveB
 import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
 import { InteractivePlanCard } from "@/components/client/dashboard/InteractivePlanCard";
+import { IntelligentConsumptionTable } from "@/components/client/dashboard/IntelligentConsumptionTable";
 import "@/styles/logo.css";
 export default function ClientDashboard() {
   const navigate = useNavigate();
@@ -51,6 +52,10 @@ export default function ClientDashboard() {
           level4Count: 0
         }} onClick={handleNetworkClick} />
         </div>
+      </div>
+
+      <div className="container mb-8">
+        <IntelligentConsumptionTable />
       </div>
 
       <div className="container mb-8">
