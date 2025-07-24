@@ -239,9 +239,20 @@ export function InteractivePlanCard() {
 
           {plan.commissionLevels.map((level, index) => {
             const nivelClass = ['nivel1', 'nivel2', 'nivel3', 'nivel4'][index];
+            const borderColors = ['#ff6b35', '#a855f7', '#3b82f6', '#ec4899'];
+            
             return (
               <div key={level.level} className={`tabela-row ${nivelClass}`}>
-                <div className="col">{level.level}º</div>
+                <div 
+                  className="col" 
+                  style={{
+                    borderLeft: `8px solid ${borderColors[index]}`,
+                    borderRadius: '1rem 1rem 1rem 0',
+                    position: 'relative'
+                  }}
+                >
+                  {level.level}º
+                </div>
                 <div className="col">{level.indications}</div>
                 <div className="col">
                   <strong>R$<AnimatedNumber value={level.commission} delay={index * 100} />,00</strong><br/>
@@ -462,67 +473,6 @@ export function InteractivePlanCard() {
         .tabela-row:hover .col {
           transform: translateY(-2px);
           transition: transform 0.3s ease;
-        }
-
-        .nivel1 .col:first-child { 
-          border-left: 5px solid #ff6b35;
-          border-radius: 0 1rem 1rem 0;
-          position: relative;
-        }
-        .nivel1 .col:first-child::before {
-          content: '';
-          position: absolute;
-          left: -8px;
-          top: 0;
-          bottom: 0;
-          width: 8px;
-          background: #ff6b35;
-          border-radius: 1rem 0 0 1rem;
-        }
-        .nivel2 .col:first-child { 
-          border-left: 5px solid #a855f7;
-          border-radius: 0 1rem 1rem 0;
-          position: relative;
-        }
-        .nivel2 .col:first-child::before {
-          content: '';
-          position: absolute;
-          left: -8px;
-          top: 0;
-          bottom: 0;
-          width: 8px;
-          background: #a855f7;
-          border-radius: 1rem 0 0 1rem;
-        }
-        .nivel3 .col:first-child { 
-          border-left: 5px solid #3b82f6;
-          border-radius: 0 1rem 1rem 0;
-          position: relative;
-        }
-        .nivel3 .col:first-child::before {
-          content: '';
-          position: absolute;
-          left: -8px;
-          top: 0;
-          bottom: 0;
-          width: 8px;
-          background: #3b82f6;
-          border-radius: 1rem 0 0 1rem;
-        }
-        .nivel4 .col:first-child { 
-          border-left: 5px solid #ec4899;
-          border-radius: 0 1rem 1rem 0;
-          position: relative;
-        }
-        .nivel4 .col:first-child::before {
-          content: '';
-          position: absolute;
-          left: -8px;
-          top: 0;
-          bottom: 0;
-          width: 8px;
-          background: #ec4899;
-          border-radius: 1rem 0 0 1rem;
         }
         .total .col {
           background: #ede5ff;
