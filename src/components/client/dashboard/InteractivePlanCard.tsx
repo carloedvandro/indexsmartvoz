@@ -149,11 +149,7 @@ export function InteractivePlanCard() {
   }} className="w-full mx-auto p-5">
       {/* Plan Cards Slider */}
       <div className="mb-5 relative bg-transparent">
-        <div ref={scrollContainerRef} className="overflow-x-auto scrollbar-hide mb-3 flex gap-5 w-max px-5" style={{
-        scrollSnapType: 'x mandatory',
-        WebkitOverflowScrolling: 'touch'
-      }}>
-          {plans.map((planItem, index) => <motion.div key={index} initial={{
+        {plans.map((planItem, index) => <motion.div key={index} initial={{
           opacity: 0,
           scale: 0.9
         }} animate={{
@@ -162,12 +158,12 @@ export function InteractivePlanCard() {
         }} transition={{
           duration: 0.4,
           delay: index * 0.1
-        }} className="min-w-[220px] md:min-w-[280px] h-[320px] md:h-[420px] relative overflow-hidden p-4 md:p-6 text-white text-center flex flex-col justify-start items-center cursor-pointer" style={{
+        }} className="min-w-[220px] md:min-w-[280px] h-[320px] md:h-[420px] relative overflow-hidden p-4 md:p-6 text-white text-center flex flex-col justify-start items-center cursor-pointer mb-3" style={{
           background: getCardGradient(index),
           borderRadius: '40px 40px 80px 80px',
           boxShadow: '0 8px 25px rgba(0, 0, 0, 0.35)',
           scrollSnapAlign: 'center'
-          }} onClick={() => scrollToCard(index)}>
+        }} onClick={() => scrollToCard(index)}>
               <div className="flex flex-col items-center">
                   <h4 className="font-bold text-xs md:text-sm tracking-wider mt-2 md:mt-3 mb-2 md:mb-3">
                     ASSINATURA<br />
@@ -188,7 +184,6 @@ export function InteractivePlanCard() {
                   </small>
               </div>
             </motion.div>)}
-        </div>
 
         {/* Dots Indicators */}
         <div className="flex justify-center gap-2 mt-3">
