@@ -8,37 +8,37 @@ import { ArrowLeft, ArrowRight } from 'lucide-react';
 const testimonials = [
   {
     quote:
-      "This platform revolutionized our data analysis process. The speed and accuracy are unparalleled. A must-have for any data-driven team.",
+      "Esta plataforma revolucionou nosso processo de análise de dados. A velocidade e precisão são incomparáveis. Indispensável para qualquer equipe orientada por dados.",
     name: "Priya Sharma",
-    designation: "Data Scientist at QuantumLeap",
+    designation: "Cientista de Dados na QuantumLeap",
     src: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     quote:
-      "The user interface is incredibly intuitive, which made the onboarding process for my team a breeze. We were up and running in hours, not days.",
+      "A interface do usuário é incrivelmente intuitiva, o que tornou o processo de integração da minha equipe muito fácil. Estávamos funcionando em questão de horas, não dias.",
     name: "Marcus Johnson",
-    designation: "Head of Operations at Synergy Corp",
+    designation: "Chefe de Operações na Synergy Corp",
     src: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     quote:
-      "Customer support is top-notch. They are responsive, knowledgeable, and genuinely invested in our success. It feels like a true partnership.",
+      "O suporte ao cliente é excelente. Eles são responsivos, conhecedores e genuinamente investidos em nosso sucesso. Parece uma verdadeira parceria.",
     name: "Isabella Rossi",
-    designation: "Client Success Manager at Horizon",
+    designation: "Gerente de Sucesso do Cliente na Horizon",
     src: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=1888&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   },
   {
     quote:
-      "I'm impressed by the constant stream of updates and new features. The development team is clearly passionate and listens to user feedback.",
+      "Estou impressionado com o fluxo constante de atualizações e novos recursos. A equipe de desenvolvimento é claramente apaixonada e ouve o feedback dos usuários.",
     name: "Kenji Tanaka",
-    designation: "Software Engineer at CodeCrafters",
+    designation: "Engenheiro de Software na CodeCrafters",
     src: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%D%3D",
   },
   {
     quote:
-      "The ROI was almost immediate. It streamlined our workflows so effectively that we cut project delivery times by nearly 30%.",
+      "O ROI foi quase imediato. Simplificou nossos fluxos de trabalho de forma tão eficaz que reduzimos os tempos de entrega de projetos em quase 30%.",
     name: "Fatima Al-Jamil",
-    designation: "CFO at Apex Financial",
+    designation: "CFO na Apex Financial",
     src: "https://images.unsplash.com/photo-1557053910-d9eadeed1c58?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%D%3D",
   },
 ];
@@ -149,14 +149,14 @@ const AnimatedTestimonials = ({
           <div className="flex gap-4 pt-12">
             <button
               onClick={handlePrev}
-              aria-label="Previous testimonial"
+              aria-label="Depoimento anterior"
               className="group flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 transition-colors hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 dark:bg-slate-800 dark:hover:bg-slate-700 dark:focus:ring-slate-500"
             >
               <ArrowLeft className="h-5 w-5 text-slate-800 transition-transform duration-300 group-hover:-translate-x-1 dark:text-slate-300" />
             </button>
             <button
               onClick={handleNext}
-              aria-label="Next testimonial"
+              aria-label="Próximo depoimento"
               className="group flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 transition-colors hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 dark:bg-slate-800 dark:hover:bg-slate-700 dark:focus:ring-slate-500"
             >
               <ArrowRight className="h-5 w-5 text-slate-800 transition-transform duration-300 group-hover:translate-x-1 dark:text-slate-300" />
