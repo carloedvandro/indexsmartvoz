@@ -32,9 +32,9 @@ const plans: Plan[] = [
     price: 124.99,
     commissionLevels: [
       { level: 1, title: "1º Nível", indications: 5, commission: 25.00, monthlyValue: 125.00 },
-      { level: 2, title: "2º Nível", indications: 25, commission: 7.00, monthlyValue: 175.00 },
-      { level: 3, title: "3º Nível", indications: 125, commission: 6.00, monthlyValue: 750.00 },
-      { level: 4, title: "4º Nível", indications: 625, commission: 6.00, monthlyValue: 3750.00 }
+      { level: 2, title: "2º Nível", indications: 25, commission: 5.00, monthlyValue: 125.00 },
+      { level: 3, title: "3º Nível", indications: 125, commission: 5.00, monthlyValue: 625.00 },
+      { level: 4, title: "4º Nível", indications: 625, commission: 5.00, monthlyValue: 3125.00 }
     ]
   },
   {
