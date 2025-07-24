@@ -228,7 +228,11 @@ export function InteractivePlanCard() {
           background: linear-gradient(to bottom right, #6600ff, #cc00cc);
           color: white;
           border-radius: 2rem;
-          padding: 2rem;
+          box-shadow:
+            0 10px 20px rgba(0, 0, 0, 0.4),
+            inset 4px 4px 10px rgba(255, 255, 255, 0.1),
+            inset -4px -4px 10px rgba(0, 0, 0, 0.2);
+          padding: 2.5rem 2rem;
           text-align: center;
           width: 480px;
           max-width: 100%;
@@ -238,17 +242,16 @@ export function InteractivePlanCard() {
 
         .label-topo {
           font-weight: 700;
-          font-size: 1.1rem;
+          font-size: 1.2rem;
           text-transform: uppercase;
           text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
-          transform: translateZ(6px);
           margin-bottom: 1.5rem;
           letter-spacing: 0.5px;
-          line-height: 1.3rem;
+          line-height: 1.5rem;
         }
 
         .label-topo span {
-          font-size: 0.95rem;
+          font-size: 1rem;
           display: block;
           opacity: 0.9;
         }
@@ -258,7 +261,7 @@ export function InteractivePlanCard() {
           border-radius: 1rem;
           padding: 1rem 2rem;
           box-shadow: 0 0 0 4px rgba(255,255,255,0.05), 0 8px 16px rgba(0,0,0,0.3);
-          margin-bottom: 1.5rem;
+          margin: 1.5rem auto;
         }
 
         .giga-numero {
@@ -269,7 +272,7 @@ export function InteractivePlanCard() {
         }
 
         .giga-unidade {
-          font-size: 1.7rem;
+          font-size: 2rem;
           margin-left: 0.4rem;
           vertical-align: middle;
           text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
@@ -279,20 +282,20 @@ export function InteractivePlanCard() {
         .beneficios {
           font-size: 1rem;
           text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-          margin-bottom: 1.8rem;
+          margin-bottom: 2rem;
           line-height: 1.4rem;
         }
 
         .preco-box {
           background: #ffffff22;
           border-radius: 0.7rem;
-          padding: 0.7rem 1rem;
+          padding: 0.8rem 1.2rem;
           box-shadow: inset 1px 1px 2px rgba(255,255,255,0.2), inset -1px -1px 2px rgba(0,0,0,0.2);
           text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
 
         .preco-label {
-          font-size: 0.9rem;
+          font-size: 1rem;
           margin-right: 0.2rem;
         }
 
@@ -302,7 +305,7 @@ export function InteractivePlanCard() {
         }
 
         .preco-mes {
-          font-size: 0.9rem;
+          font-size: 1rem;
           opacity: 0.85;
           margin-left: 0.2rem;
         }
