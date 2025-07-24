@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { formatCurrency } from "@/utils/format";
 import { motion } from 'framer-motion';
 import { Orb3D } from '@/components/ui/3d-orb';
+import { GradientText } from '@/components/ui/gradient-text';
 
 interface Plan {
   gb: number;
@@ -134,9 +135,13 @@ export function InteractivePlanCard() {
                 </div>
                 
                 <div className="giga-bloco">
-                  <div className="giga-numero">
+                  <GradientText
+                    colors={["#ffffff", "#ff40aa", "#40aaff", "#ffffff"]}
+                    animationSpeed={4}
+                    className="text-6xl font-extrabold"
+                  >
                     {plan.gb}<span className="giga-unidade">GB</span>
-                  </div>
+                  </GradientText>
                 </div>
                 
                 <div className="beneficios">
