@@ -156,8 +156,8 @@ export function InteractivePlanCard() {
             </h3>
             
             <div className="space-y-2 text-sm text-gray-600">
-              <p>{level.indications} indicações</p>
               <p>
+                {level.indications} indicações{" "}
                 <strong className="text-gray-900 text-base">
                   {formatCurrency(level.commission)}
                 </strong> por indicado
