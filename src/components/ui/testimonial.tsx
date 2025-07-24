@@ -80,11 +80,11 @@ const AnimatedTestimonials = ({
   const randomRotate = () => `${Math.floor(Math.random() * 16) - 8}deg`;
 
   return (
-    <div className="mx-auto max-w-sm px-4 py-20 font-sans antialiased md:max-w-4xl md:px-8 lg:px-12">
-      <div className="relative grid grid-cols-1 gap-y-12 md:grid-cols-2 md:gap-x-20">
+    <div className="mx-auto max-w-sm px-4 py-10 font-sans antialiased md:max-w-3xl md:px-6 lg:px-8">
+      <div className="relative grid grid-cols-1 gap-y-8 md:grid-cols-2 md:gap-x-12">
         {/* Image Section */}
         <div className="flex items-center justify-center">
-            <div className="relative h-80 w-full max-w-xs">
+            <div className="relative h-64 w-full max-w-xs">
               <AnimatePresence>
                 {testimonials.map((testimonial, index) => (
                   <motion.div
@@ -134,19 +134,19 @@ const AnimatedTestimonials = ({
               className="flex flex-col justify-between"
             >
                 <div>
-                    <h3 className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-slate-50">
                         {testimonials[active].name}
                     </h3>
                     <p className="text-sm text-slate-600 dark:text-slate-400">
                         {testimonials[active].designation}
                     </p>
-                    <motion.p className="mt-8 text-lg text-slate-700 dark:text-slate-300">
+                    <motion.p className="mt-4 text-base text-slate-700 dark:text-slate-300">
                         "{testimonials[active].quote}"
                     </motion.p>
                 </div>
             </motion.div>
           </AnimatePresence>
-          <div className="flex gap-4 pt-12">
+          <div className="flex gap-4 pt-6">
             <button
               onClick={handlePrev}
               aria-label="Depoimento anterior"
