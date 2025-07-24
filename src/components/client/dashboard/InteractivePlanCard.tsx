@@ -102,7 +102,7 @@ export function InteractivePlanCard() {
               align: "center",
               loop: true,
             }}
-            className="w-full max-w-xs mx-auto"
+            className="w-full max-w-xs mx-auto overflow-hidden"
           >
             <CarouselContent>
               {plans.map((planItem, index) => (
@@ -137,8 +137,6 @@ export function InteractivePlanCard() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden md:flex" />
-            <CarouselNext className="hidden md:flex" />
           </Carousel>
         </div>
 
@@ -228,11 +226,22 @@ export function InteractivePlanCard() {
         </div>
       </motion.div>
 
-      {/* Global style for rotating light animation */}
+      {/* Global style for rotating light animation and scrollbar hiding */}
       <style>{`
         @keyframes rotateLight {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
+        }
+        
+        /* Hide scrollbars on mobile */
+        @media (max-width: 768px) {
+          .embla__viewport {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+          }
+          .embla__viewport::-webkit-scrollbar {
+            display: none;
+          }
         }
       `}</style>
     </motion.div>
