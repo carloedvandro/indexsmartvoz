@@ -34,3 +34,4 @@ const Loader: React.FC = () => {
 }
 
 export default Loader
+export { Loader as BoxLoader }
