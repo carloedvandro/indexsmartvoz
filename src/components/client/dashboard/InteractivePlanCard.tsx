@@ -246,7 +246,7 @@ export function InteractivePlanCard() {
                 <div 
                   className="col" 
                   style={{
-                    borderLeft: `8px solid ${borderColors[index]}`,
+                    borderLeft: `24px solid ${borderColors[index]}`,
                     borderRadius: '1rem 1rem 1rem 0',
                     position: 'relative'
                   }}
