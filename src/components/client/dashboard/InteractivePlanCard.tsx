@@ -224,16 +224,16 @@ export function InteractivePlanCard() {
             const nivelClass = ['nivel1', 'nivel2', 'nivel3', 'nivel4'][index];
             return (
               <div key={level.level} className={`tabela-row ${nivelClass}`}>
-                <div className="col">{level.level}º</div>
-                <div className="col">{level.indications}</div>
-                <div className="col">
+                <div className="col" data-label="Nível">{level.level}º</div>
+                <div className="col" data-label="Clientes">{level.indications}</div>
+                <div className="col" data-label="Usuário">
                   <strong>R$<AnimatedNumber value={level.commission} delay={index * 100} />,00</strong><br/>
                   <span>Por indicado</span>
                 </div>
-                <div className="col">
+                <div className="col" data-label="Por Nível">
                   R$<AnimatedNumber value={level.commission} delay={index * 100} />,00
                 </div>
-                <div className="col">
+                <div className="col" data-label="Acumulado">
                   R$<AnimatedNumber value={level.monthlyValue} delay={index * 100} />,00
                 </div>
               </div>
@@ -241,15 +241,15 @@ export function InteractivePlanCard() {
           })}
 
           <div className="tabela-row total">
-            <div className="col">Total</div>
-            <div className="col">{totalClients}</div>
-            <div className="col">
+            <div className="col" data-label="Nível">Total</div>
+            <div className="col" data-label="Clientes">{totalClients}</div>
+            <div className="col" data-label="Usuário">
               <strong>R$<AnimatedNumber value={35} delay={400} />,00</strong>
             </div>
-            <div className="col">
+            <div className="col" data-label="Por Nível">
               R$<AnimatedNumber value={35} delay={400} />,00
             </div>
-            <div className="col">
+            <div className="col" data-label="Acumulado">
               R$<AnimatedNumber value={totalValue} delay={400} />,00
             </div>
           </div>
@@ -419,6 +419,49 @@ export function InteractivePlanCard() {
           gap: 0.5rem;
           border-radius: 1rem;
           padding: 1rem;
+        }
+
+        @media (max-width: 768px) {
+          .tabela-wrapper {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+          }
+          
+          .tabela-header {
+            display: none;
+          }
+          
+          .tabela-row {
+            background: white;
+            border-radius: 1rem;
+            padding: 1rem;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            display: block !important;
+          }
+          
+          .tabela-row .col {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            box-shadow: none;
+            background: transparent;
+            border-bottom: 1px solid #f0f0f0;
+          }
+          
+          .tabela-row .col:last-child {
+            border-bottom: none;
+          }
+          
+          .tabela-row .col:before {
+            content: attr(data-label);
+            font-weight: bold;
+            color: #666;
+          }
+          
+          .total .col {
+            background: transparent !important;
+          }
         }
 
         .tabela-header, .tabela-row {
