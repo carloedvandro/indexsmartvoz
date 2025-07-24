@@ -73,13 +73,13 @@ export function InteractivePlanCard() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="max-w-5xl mx-auto"
+      className="max-w-6xl mx-auto"
     >
-      {/* Plan Card Section */}
-      <div className="flex items-center justify-center mb-8 gap-4">
+      {/* Plan Card Wrapper */}
+      <div className="flex items-center justify-center my-8 gap-3">
         <button 
           onClick={() => changePlan(-1)}
-          className="text-3xl text-primary hover:text-primary/80 transition-colors p-2 hidden md:block"
+          className="bg-transparent border-none text-3xl cursor-pointer p-3 text-primary hover:text-primary/80 transition-colors hidden md:block"
         >
           ←
         </button>
@@ -89,130 +89,137 @@ export function InteractivePlanCard() {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4 }}
-          className="w-64 h-80 relative overflow-hidden rounded-3xl p-6 text-white text-center flex flex-col justify-center shadow-2xl"
+          className="w-64 h-80 relative overflow-hidden rounded-3xl p-6 text-white text-center flex flex-col justify-center"
           style={{
             background: `linear-gradient(135deg, #6b00b6, #9c27b0)`,
+            boxShadow: '0 15px 35px rgba(0, 0, 0, 0.35)',
+            transition: 'all 0.4s ease-in-out'
           }}
         >
           {/* Rotating light effect */}
-          <div className="absolute inset-0 w-full h-full opacity-10">
-            <div 
-              className="absolute w-[200%] h-[200%] -top-1/2 -left-1/2 animate-spin"
-              style={{
-                background: 'radial-gradient(circle at center, rgba(255,255,255,0.3), transparent 70%)',
-                animationDuration: '8s'
-              }}
-            />
-          </div>
+          <div 
+            className="absolute w-[200%] h-[200%] -top-1/2 -left-1/2 z-0"
+            style={{
+              background: 'radial-gradient(circle at center, rgba(255,255,255,0.1), transparent 70%)',
+              animation: 'rotateLight 8s linear infinite'
+            }}
+          />
           
           <div className="relative z-10">
-            <div className="mb-4">
-              <div className="text-sm font-bold uppercase tracking-wider">
-                ASSINATURA
-              </div>
-              <div className="text-sm">
-                <strong>SEM FIDELIDADE</strong>
-              </div>
-            </div>
+            <h4 className="font-bold tracking-wider mb-3 text-sm">
+              ASSINATURA<br/>
+              <span className="text-base">SEM FIDELIDADE</span>
+            </h4>
             
-            <div className="my-6">
-              <div className="text-6xl font-bold leading-none">
-                {plan.gb}
-              </div>
-              <div className="text-lg opacity-80">GB</div>
-            </div>
+            <h1 className="text-6xl my-3 font-bold">
+              {plan.gb}
+            </h1>
+            <div className="text-lg opacity-80">GB</div>
             
-            <div className="text-sm">
-              <div className="opacity-90">Por</div>
-              <div className="text-2xl font-bold my-1">{formatCurrency(plan.price)}</div>
-              <div className="opacity-80">/mês</div>
-            </div>
+            <small className="text-base mt-4 block">
+              Por <strong>{formatCurrency(plan.price)}</strong><br/>/mês
+            </small>
           </div>
         </motion.div>
         
         <button 
           onClick={() => changePlan(1)}
-          className="text-3xl text-primary hover:text-primary/80 transition-colors p-2 hidden md:block"
+          className="bg-transparent border-none text-3xl cursor-pointer p-3 text-primary hover:text-primary/80 transition-colors hidden md:block"
         >
           →
         </button>
       </div>
 
-      {/* Commission Levels Section */}
+      {/* Commission Levels Box */}
       <motion.div 
         key={`levels-${currentPlan}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8"
+        className="flex flex-wrap justify-between my-8 gap-3"
       >
         {plan.commissionLevels.map((level, index) => (
           <div
             key={level.level}
-            className="bg-gradient-to-br from-gray-50 to-purple-50 rounded-2xl p-6 shadow-md"
+            className="w-full md:w-[48%] bg-white rounded-2xl p-5 pl-6"
+            style={{
+              background: 'linear-gradient(135deg, #fff, #f5f2fc)',
+              borderLeft: '8px solid #9c27b0',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+            }}
           >
             <h3 className="text-primary font-bold text-xl mb-3">
               {level.title}
             </h3>
             
-            <div className="space-y-2 text-sm text-gray-600">
-              <p>
-                {level.indications} indicações{" "}
-                <strong className="text-gray-900 text-base">
-                  {formatCurrency(level.commission)}
-                </strong> por indicado
-              </p>
-              <p className="text-lg font-bold text-primary pt-2">
-                Total: {formatCurrency(level.monthlyValue)}/mês
-              </p>
-            </div>
+            <p className="my-1 font-medium text-gray-700">
+              {level.indications} indicações{" "}
+              <strong className="text-gray-900">
+                {formatCurrency(level.commission)}
+              </strong> por indicado
+            </p>
+            
+            <p className="my-1 font-bold text-primary text-lg">
+              Total: {formatCurrency(level.monthlyValue)}/mês
+            </p>
           </div>
         ))}
       </motion.div>
 
-      {/* Consumption Table Section */}
+      {/* Consumption Table Box */}
       <motion.div 
         key={`table-${currentPlan}`}
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.1 }}
-        className="bg-white rounded-2xl shadow-xl p-6"
+        className="bg-white p-6 rounded-2xl mb-10"
+        style={{
+          boxShadow: '0 6px 16px rgba(0,0,0,0.09)'
+        }}
       >
-        <h2 className="text-2xl font-bold text-primary mb-6">
+        <h2 className="text-primary font-bold text-xl mb-4">
           Consumo Inteligente
         </h2>
         
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto mt-3">
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-purple-50">
-                <th className="px-4 py-3 text-center border-b border-gray-200 font-semibold text-gray-700">Nível</th>
-                <th className="px-4 py-3 text-center border-b border-gray-200 font-semibold text-gray-700">Clientes</th>
-                <th className="px-4 py-3 text-center border-b border-gray-200 font-semibold text-gray-700">Valor por Indicado</th>
-                <th className="px-4 py-3 text-center border-b border-gray-200 font-semibold text-gray-700">Total no Nível</th>
+                <th className="border-b border-gray-300 p-3 text-center text-sm font-semibold text-gray-700">Nível</th>
+                <th className="border-b border-gray-300 p-3 text-center text-sm font-semibold text-gray-700">Clientes</th>
+                <th className="border-b border-gray-300 p-3 text-center text-sm font-semibold text-gray-700">Valor por Indicado</th>
+                <th className="border-b border-gray-300 p-3 text-center text-sm font-semibold text-gray-700">Total no Nível</th>
               </tr>
             </thead>
             <tbody>
               {plan.commissionLevels.map((level) => (
-                <tr key={level.level} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-4 py-3 text-center border-b border-gray-100">{level.title}</td>
-                  <td className="px-4 py-3 text-center border-b border-gray-100">{level.indications}</td>
-                  <td className="px-4 py-3 text-center border-b border-gray-100">{formatCurrency(level.commission)}</td>
-                  <td className="px-4 py-3 text-center border-b border-gray-100">{formatCurrency(level.monthlyValue)}</td>
+                <tr key={level.level}>
+                  <td className="border-b border-gray-300 p-3 text-center text-sm">{level.title}</td>
+                  <td className="border-b border-gray-300 p-3 text-center text-sm">{level.indications}</td>
+                  <td className="border-b border-gray-300 p-3 text-center text-sm">{formatCurrency(level.commission)}</td>
+                  <td className="border-b border-gray-300 p-3 text-center text-sm">{formatCurrency(level.monthlyValue)}</td>
                 </tr>
               ))}
-              <tr className="bg-purple-100 font-bold">
-                <td className="px-4 py-3 text-center border-b border-gray-200">Total</td>
-                <td className="px-4 py-3 text-center border-b border-gray-200">780</td>
-                <td className="px-4 py-3 text-center border-b border-gray-200">-</td>
-                <td className="px-4 py-3 text-center border-b border-gray-200 text-primary font-bold">
-                  {formatCurrency(calculateTotal(plan.commissionLevels))}
+              <tr>
+                <td className="border-b border-gray-300 p-3 text-center text-sm font-bold" colSpan={3}>
+                  <strong>Total</strong>
+                </td>
+                <td className="border-b border-gray-300 p-3 text-center text-sm font-bold">
+                  <strong>{formatCurrency(calculateTotal(plan.commissionLevels))}</strong>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
       </motion.div>
+
+      {/* Global style for rotating light animation */}
+      <style>{`
+        @keyframes rotateLight {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </motion.div>
   );
 }
