@@ -381,9 +381,6 @@ export function InteractivePlanCard() {
           margin: 2rem auto;
           padding: 1rem;
           font-family: 'Segoe UI', sans-serif;
-          border-radius: 20px;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-          overflow: hidden;
         }
 
         .titulo {
