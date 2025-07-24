@@ -115,7 +115,6 @@ export function InteractivePlanCard() {
                     className="w-64 h-80 relative overflow-hidden rounded-3xl p-6 text-white text-center flex flex-col justify-center mx-auto"
                     style={{
                       background: `linear-gradient(135deg, #6b00b6, #9c27b0)`,
-                      boxShadow: '0 15px 35px rgba(0, 0, 0, 0.35)',
                       transition: 'all 0.4s ease-in-out'
                     }}
                   >
