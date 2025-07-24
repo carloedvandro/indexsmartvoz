@@ -100,13 +100,14 @@ export function InteractivePlanCard() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full mx-auto p-5"
+      className="w-screen mx-auto overflow-hidden"
+      style={{ padding: 0 }}
     >
       {/* Plan Cards Slider */}
-      <div className="mb-5 relative">
+      <div className="mb-5 relative w-screen">
         <div 
           ref={scrollContainerRef}
-          className="overflow-x-auto scrollbar-hide mb-3"
+          className="overflow-x-auto scrollbar-hide mb-3 w-screen"
           style={{
             scrollSnapType: 'x mandatory',
             WebkitOverflowScrolling: 'touch'
@@ -162,10 +163,11 @@ export function InteractivePlanCard() {
         </div>
 
         {/* Dots Indicators */}
-        <div className="flex justify-center gap-2 mt-3 pointer-events-none">
+        <div className="flex justify-center gap-2 mt-3">
           {plans.map((_, index) => (
-            <div
+            <button
               key={index}
+              onClick={() => scrollToCard(index)}
               className={`w-3 h-3 rounded-full transition-colors duration-300 ${
                 index === currentPlan ? 'bg-primary' : 'bg-gray-300'
               }`}
@@ -180,7 +182,7 @@ export function InteractivePlanCard() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        className="flex flex-wrap justify-between my-8 gap-3"
+        className="flex flex-wrap justify-between my-8 gap-3 w-screen px-5 box-border"
       >
         {plan.commissionLevels.map((level, index) => (
           <div
@@ -218,9 +220,14 @@ export function InteractivePlanCard() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.1 }}
-        className="bg-white p-6 rounded-2xl mt-5 w-full max-w-full"
+        className="bg-white rounded-2xl mt-5 w-screen box-border"
         style={{
-          boxShadow: '0 6px 16px rgba(0,0,0,0.09)'
+          boxShadow: '0 6px 16px rgba(0,0,0,0.09)',
+          paddingLeft: '20px',
+          paddingRight: '20px',
+          paddingTop: '25px',
+          paddingBottom: '25px',
+          maxWidth: '100vw'
         }}
       >
         <h2 className="text-primary font-bold text-xl mb-4">
