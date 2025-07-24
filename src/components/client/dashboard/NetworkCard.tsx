@@ -1,6 +1,5 @@
-import { motion } from "framer-motion";
-import { Users } from "lucide-react";
-
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useNetworkStats } from "@/hooks/useNetworkStats";
 interface NetworkCardProps {
   networkStats: {
     level1Count: number;
@@ -10,87 +9,46 @@ interface NetworkCardProps {
   };
   onClick: () => void;
 }
-
 export const NetworkCard = ({
   networkStats,
   onClick
 }: NetworkCardProps) => {
   const totalMembers = (networkStats?.level1Count || 0) + (networkStats?.level2Count || 0) + (networkStats?.level3Count || 0) + (networkStats?.level4Count || 0);
-  
-  const niveis = [
-    {
-      titulo: "Nível 1",
-      quantidade: networkStats?.level1Count || 0,
-      tipo: "Indicados Diretos",
-      corTexto: "text-black",
-      corFundo: "bg-gradient-to-br from-yellow-100 to-yellow-300",
-      borda: "border-yellow-300"
-    },
-    {
-      titulo: "Nível 2",
-      quantidade: networkStats?.level2Count || 0,
-      tipo: "Indicados Indiretos",
-      corTexto: "text-black",
-      corFundo: "bg-gradient-to-br from-lime-100 to-green-300",
-      borda: "border-lime-300"
-    },
-    {
-      titulo: "Nível 3",
-      quantidade: networkStats?.level3Count || 0,
-      tipo: "Indicados Indiretos",
-      corTexto: "text-black",
-      corFundo: "bg-gradient-to-br from-cyan-100 to-blue-300",
-      borda: "border-cyan-300"
-    },
-    {
-      titulo: "Nível 4",
-      quantidade: networkStats?.level4Count || 0,
-      tipo: "Indicados Indiretos",
-      corTexto: "text-black",
-      corFundo: "bg-gradient-to-br from-pink-100 to-fuchsia-300",
-      borda: "border-fuchsia-300"
-    }
-  ];
-
-  return (
-    <div onClick={onClick} className="h-full cursor-pointer hover:opacity-95 transition-opacity">
-      <div className="bg-transparent rounded-3xl p-6 w-full max-w-6xl mx-auto">
-        <div className="flex items-center justify-center gap-2 mb-4">
-          <Users className="text-yellow-400 w-6 h-6" />
-          <h2 className="text-xl font-extrabold text-white drop-shadow">Minha Rede</h2>
+  return <div onClick={onClick} className="h-full cursor-pointer hover:opacity-95 transition-opacity">
+      <div className="pb-2 space-y-0 py-2 bg-transparent pt-5">
+        <div className="text-center flex items-center justify-center gap-2">
+          <img src="/lovable-uploads/45e4529e-207c-4c72-bcc0-c0466235e892.png" alt="Rede" className="h-6 w-6 object-contain" style={{
+          filter: "drop-shadow(0px 1px 1px rgba(0,0,0,0.1))"
+        }} />
+          <span className="text-lg font-medium">Minha Rede</span>
         </div>
-        <p className="text-center text-white font-semibold text-base mb-6 animate-pulse">
+        <p className="text-center text-muted-foreground text-base mt-1">
           Total de Indicados: {totalMembers}
         </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-          {niveis.map((nivel, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              className={`relative py-10 px-8 rounded-[2rem] shadow-[0_0_40px_rgba(255,255,255,0.35)] ${nivel.corFundo} ${nivel.borda} border-[6px] overflow-hidden backdrop-blur-[2px]`}
-            >
-              <div className="absolute inset-0 rounded-[2rem] border-4 border-white/30 pointer-events-none"></div>
-              <h3 className={`text-lg font-extrabold mb-2 relative z-10 ${nivel.corTexto}`}>
-                {nivel.titulo}
-              </h3>
-              <motion.p
-                className={`text-6xl font-black drop-shadow-2xl relative z-10 ${nivel.corTexto}`}
-                initial={{ scale: 0.85, rotateY: 90 }}
-                animate={{ scale: 1, rotateY: 0 }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
-              >
-                {nivel.quantidade}
-              </motion.p>
-              <p className={`text-sm mt-1 relative z-10 ${nivel.corTexto}`}>
-                {nivel.tipo}
-              </p>
-            </motion.div>
-          ))}
+      </div>
+      <div className="py-2 bg-transparent pt-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="p-4 bg-red-50 rounded-lg text-center">
+            <p className="text-sm text-red-600 font-medium">Nível 1</p>
+            <p className="text-2xl font-bold text-red-700">{networkStats?.level1Count || 0}</p>
+            <p className="text-xs text-red-600">Indicados Diretos</p>
+          </div>
+          <div className="p-4 bg-green-50 rounded-lg text-center">
+            <p className="text-sm text-green-600 font-medium">Nível 2</p>
+            <p className="text-2xl font-bold text-green-700">{networkStats?.level2Count || 0}</p>
+            <p className="text-xs text-green-600">Indicados Indiretos</p>
+          </div>
+          <div className="p-4 bg-purple-50 rounded-lg text-center">
+            <p className="text-sm text-purple-600 font-medium">Nível 3</p>
+            <p className="text-2xl font-bold text-purple-700">{networkStats?.level3Count || 0}</p>
+            <p className="text-xs text-purple-600">Indicados Indiretos</p>
+          </div>
+          <div className="p-4 bg-orange-50 rounded-lg text-center">
+            <p className="text-sm text-orange-600 font-medium">Nível 4</p>
+            <p className="text-2xl font-bold text-orange-700">{networkStats?.level4Count || 0}</p>
+            <p className="text-xs text-orange-600">Indicados Indiretos</p>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
