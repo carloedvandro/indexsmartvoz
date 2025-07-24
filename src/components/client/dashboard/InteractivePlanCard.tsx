@@ -121,34 +121,36 @@ export function InteractivePlanCard() {
 
                 {/* Right Section - Commission Levels */}
                 <div className="lg:w-2/3">
-                  {plan.commissionLevels.map((level, index) => (
-                    <motion.div
-                      key={level.level}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                      className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
-                    >
-                      <h3 className="text-primary font-bold text-lg mb-3">
-                        {level.title}
-                      </h3>
-                      
-                      <div className="space-y-2 text-sm text-gray-600">
-                        <p>
-                          {level.indications} indicações<br/>
-                          <strong className="text-gray-900">
-                            {formatCurrency(level.commission)}
-                          </strong> por indicado
-                        </p>
-                      </div>
-                      
-                      <div className="mt-4 pt-3 border-t border-gray-100">
-                        <div className="font-bold text-gray-900">
-                          {formatCurrency(level.monthlyValue)}/mês
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {plan.commissionLevels.map((level, index) => (
+                      <motion.div
+                        key={level.level}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
+                        className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                      >
+                        <h3 className="text-primary font-bold text-lg mb-3">
+                          {level.title}
+                        </h3>
+                        
+                        <div className="space-y-2 text-sm text-gray-600">
+                          <p>
+                            {level.indications} indicações<br/>
+                            <strong className="text-gray-900">
+                              {formatCurrency(level.commission)}
+                            </strong> por indicado
+                          </p>
                         </div>
-                      </div>
-                    </motion.div>
-                  ))}
+                        
+                        <div className="mt-4 pt-3 border-t border-gray-100">
+                          <div className="font-bold text-gray-900">
+                            {formatCurrency(level.monthlyValue)}/mês
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </CarouselItem>
