@@ -96,169 +96,254 @@ export function InteractivePlanCard() {
   const plan = plans[currentPlan];
 
   return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="w-full mx-auto p-5"
-    >
-      {/* Plan Cards Slider */}
-      <div className="mb-5 relative">
-        <div 
-          ref={scrollContainerRef}
-          className="overflow-x-auto scrollbar-hide mb-3"
-          style={{
-            scrollSnapType: 'x mandatory',
-            WebkitOverflowScrolling: 'touch'
-          }}
-        >
-          <div className="flex gap-5 w-max px-5">
+    <div style={{ margin: 0, padding: 0, fontFamily: "'Segoe UI', sans-serif", background: '#f7f7fc' }}>
+      {/* Topbar */}
+      <div className="topbar" style={{
+        width: '100vw',
+        padding: '15px 20px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        background: '#ffffff',
+        borderBottom: '1px solid #e5e5e5',
+        boxShadow: '0 2px 6px rgba(0,0,0,0.05)',
+        boxSizing: 'border-box'
+      }}>
+        <div className="saldo">
+          <span style={{ fontSize: '14px', color: '#777' }}>Saldo em conta</span>
+          <strong style={{ display: 'block', color: '#2e7d32', fontSize: '18px', marginTop: '2px' }}>R$ 269,18</strong>
+        </div>
+        <div className="logo" style={{ fontSize: '22px', fontWeight: 'bold', color: '#6b00b6' }}>
+          SMART<span style={{ color: '#ff4081' }}>VOZ</span>
+        </div>
+        <div className="user-menu">
+          <button className="sair" style={{
+            background: '#ff4081',
+            border: 'none',
+            padding: '8px 16px',
+            color: '#fff',
+            borderRadius: '6px',
+            fontSize: '14px',
+            cursor: 'pointer',
+            transition: 'background 0.3s'
+          }}>Sair</button>
+        </div>
+      </div>
+
+      {/* Container Planos */}
+      <div className="container-planos" style={{
+        width: '100vw',
+        maxWidth: '100%',
+        margin: '0 auto',
+        fontFamily: "'Segoe UI', sans-serif",
+        padding: 0,
+        overflowX: 'hidden',
+        boxSizing: 'border-box'
+      }}>
+        {/* Plan Cards Slider */}
+        <div className="plano-slide-container" style={{
+          overflowX: 'auto',
+          scrollSnapType: 'x mandatory',
+          WebkitOverflowScrolling: 'touch',
+          marginBottom: '20px',
+          position: 'relative',
+          width: '100vw',
+          padding: '0 10px',
+          boxSizing: 'border-box'
+        }}>
+          <div 
+            ref={scrollContainerRef}
+            className="plano-cards-wrapper"
+            style={{
+              display: 'flex',
+              gap: '20px',
+              width: 'max-content',
+              scrollSnapAlign: 'center',
+              padding: '0 10px',
+              boxSizing: 'border-box'
+            }}
+          >
             {plans.map((planItem, index) => (
               <motion.div 
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="min-w-[280px] h-[420px] relative overflow-hidden p-6 text-white text-center flex flex-col justify-start items-center cursor-pointer"
+                className="plano-card"
                 style={{
-                  background: getCardGradient(index),
+                  minWidth: '280px',
+                  height: '420px',
+                  background: 'linear-gradient(145deg, #7400c8, #ae4fff)',
+                  color: 'white',
                   borderRadius: '40px 40px 80px 80px',
+                  padding: '25px',
+                  textAlign: 'center',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
                   boxShadow: '0 8px 25px rgba(0, 0, 0, 0.35)',
-                  scrollSnapAlign: 'center'
+                  scrollSnapAlign: 'center',
+                  position: 'relative',
+                  cursor: 'pointer'
                 }}
                 onClick={() => scrollToCard(index)}
               >
                 {/* Rotating light effect */}
                 <div 
-                  className="absolute -top-10 -left-10 w-[150%] h-[150%] z-0"
                   style={{
+                    content: '""',
+                    position: 'absolute',
+                    top: '-40px',
+                    left: '-40px',
+                    width: '150%',
+                    height: '150%',
                     background: 'radial-gradient(circle at center, rgba(255,255,255,0.15), transparent 60%)',
-                    animation: 'rotateLight 10s linear infinite'
+                    animation: 'rotateLight 10s linear infinite',
+                    zIndex: 0
                   }}
                 />
                 
-                <div className="relative z-10 flex flex-col items-center">
-                  <h4 className="font-bold text-sm tracking-wider mt-3 mb-3">
+                <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                  <h4 style={{ fontWeight: '700', fontSize: '14px', letterSpacing: '1px', marginTop: '10px' }}>
                     ASSINATURA<br/>
-                    <span className="text-base">SEM FIDELIDADE</span>
+                    <span style={{ fontSize: '16px' }}>SEM FIDELIDADE</span>
                   </h4>
                   
-                  <h1 className="text-6xl my-3 font-bold">
+                  <h1 style={{ fontSize: '60px', margin: '10px 0' }}>
                     {planItem.gb}
                   </h1>
-                  <div className="text-lg opacity-80">GB</div>
+                  <div style={{ fontSize: '16px', opacity: 0.8 }}>GB</div>
                   
-                  <div className="text-sm mt-3 text-gray-200 px-2">
+                  <div className="extras" style={{ fontSize: '13px', marginTop: '10px', color: '#ddd' }}>
                     Ligações e SMS ilimitados para qualquer operadora do Brasil.
                   </div>
                   
-                  <small className="text-base mt-4 block">
+                  <small style={{ fontSize: '16px', marginTop: '15px', display: 'block' }}>
                     Por <strong>{formatCurrency(planItem.price)}</strong><br/>/mês
                   </small>
                 </div>
               </motion.div>
             ))}
           </div>
+
+          {/* Dots Indicators */}
+          <div className="dots-wrapper" style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: '8px',
+            marginTop: '10px',
+            pointerEvents: 'auto'
+          }}>
+            {plans.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => scrollToCard(index)}
+                className="dot"
+                style={{
+                  width: '10px',
+                  height: '10px',
+                  background: index === currentPlan ? '#6b00b6' : '#ccc',
+                  borderRadius: '50%',
+                  transition: 'background 0.3s',
+                  border: 'none',
+                  cursor: 'pointer'
+                }}
+              />
+            ))}
+          </div>
         </div>
 
-        {/* Dots Indicators */}
-        <div className="flex justify-center gap-2 mt-3">
-          {plans.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => scrollToCard(index)}
-              className={`w-3 h-3 rounded-full transition-colors duration-300 ${
-                index === currentPlan ? 'bg-primary' : 'bg-gray-300'
-              }`}
-            />
+        {/* Commission Levels Box */}
+        <div className="niveis-box" style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          margin: '30px 0 10px',
+          gap: '10px',
+          padding: '0 20px',
+          width: '100vw',
+          boxSizing: 'border-box'
+        }}>
+          {plan.commissionLevels.map((level, index) => (
+            <div
+              key={level.level}
+              className="nivel"
+              style={{
+                width: '48%',
+                background: 'linear-gradient(135deg, #fff, #f5f2fc)',
+                borderLeft: '8px solid #9c27b0',
+                borderRadius: '15px',
+                padding: '20px',
+                boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+              }}
+            >
+              <h3 style={{ color: '#6b00b6', fontSize: '20px', marginBottom: '10px' }}>
+                {level.title}
+              </h3>
+              
+              <p style={{ margin: '4px 0', fontWeight: '500' }}>
+                {level.indications} indicações
+              </p>
+              <p style={{ margin: '4px 0', fontWeight: '500' }}>
+                <strong>
+                  {formatCurrency(level.commission)}
+                </strong> por indicado
+              </p>
+              
+              <p style={{ margin: '4px 0', fontWeight: '500' }}>
+                Total: {formatCurrency(level.monthlyValue)}/mês
+              </p>
+            </div>
           ))}
         </div>
-      </div>
 
-      {/* Commission Levels Box */}
-      <motion.div 
-        key={`levels-${currentPlan}`}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className="flex flex-wrap justify-between my-8 gap-3"
-      >
-        {plan.commissionLevels.map((level, index) => (
-          <div
-            key={level.level}
-            className="w-full md:w-[48%] bg-white rounded-2xl p-5 pl-6"
-            style={{
-              background: 'linear-gradient(135deg, #fff, #f5f2fc)',
-              borderLeft: '8px solid #9c27b0',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
-            }}
-          >
-            <h3 className="text-primary font-bold text-xl mb-3">
-              {level.title}
-            </h3>
-            
-            <p className="my-1 font-medium text-gray-700">
-              {level.indications} indicações
-            </p>
-            <p className="my-1 font-medium text-gray-700">
-              <strong className="text-gray-900">
-                {formatCurrency(level.commission)}
-              </strong> por indicado
-            </p>
-            
-            <p className="my-1 font-bold text-primary text-lg">
-              Total: {formatCurrency(level.monthlyValue)}/mês
-            </p>
-          </div>
-        ))}
-      </motion.div>
-
-      {/* Consumption Table Box */}
-      <motion.div 
-        key={`table-${currentPlan}`}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.1 }}
-        className="bg-white p-6 rounded-2xl mt-5"
-        style={{
-          boxShadow: '0 6px 16px rgba(0,0,0,0.09)'
-        }}
-      >
-        <h2 className="text-primary font-bold text-xl mb-4">
-          Consumo Inteligente
-        </h2>
-        
-        <div className="overflow-x-auto mt-3">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="bg-purple-50">
-                <th className="border-b border-gray-300 p-3 text-center text-sm font-semibold text-gray-700">Nível</th>
-                <th className="border-b border-gray-300 p-3 text-center text-sm font-semibold text-gray-700">Clientes</th>
-                <th className="border-b border-gray-300 p-3 text-center text-sm font-semibold text-gray-700">Valor por Indicado</th>
-                <th className="border-b border-gray-300 p-3 text-center text-sm font-semibold text-gray-700">Total no Nível</th>
-              </tr>
-            </thead>
-            <tbody>
-              {plan.commissionLevels.map((level) => (
-                <tr key={level.level}>
-                  <td className="border-b border-gray-300 p-3 text-center text-sm">{level.title}</td>
-                  <td className="border-b border-gray-300 p-3 text-center text-sm">{level.indications}</td>
-                  <td className="border-b border-gray-300 p-3 text-center text-sm">{formatCurrency(level.commission)}</td>
-                  <td className="border-b border-gray-300 p-3 text-center text-sm">{formatCurrency(level.monthlyValue)}</td>
+        {/* Consumption Table Box */}
+        <div className="consumo-box" style={{
+          background: '#fff',
+          padding: '25px 20px',
+          borderRadius: '15px',
+          boxShadow: '0 6px 16px rgba(0,0,0,0.09)',
+          marginTop: '20px',
+          maxWidth: '100vw',
+          boxSizing: 'border-box'
+        }}>
+          <h2 style={{ color: '#6b00b6', fontSize: '22px', marginBottom: '15px' }}>
+            Consumo Inteligente
+          </h2>
+          
+          <div style={{ overflowX: 'auto', marginTop: '10px' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '10px' }}>
+              <thead>
+                <tr style={{ background: '#f4f0fa' }}>
+                  <th style={{ borderBottom: '1px solid #ddd', padding: '12px', textAlign: 'center', fontSize: '14px', color: '#333' }}>Nível</th>
+                  <th style={{ borderBottom: '1px solid #ddd', padding: '12px', textAlign: 'center', fontSize: '14px', color: '#333' }}>Clientes</th>
+                  <th style={{ borderBottom: '1px solid #ddd', padding: '12px', textAlign: 'center', fontSize: '14px', color: '#333' }}>Valor por Indicado</th>
+                  <th style={{ borderBottom: '1px solid #ddd', padding: '12px', textAlign: 'center', fontSize: '14px', color: '#333' }}>Total no Nível</th>
                 </tr>
-              ))}
-              <tr>
-                <td className="border-b border-gray-300 p-3 text-center text-sm font-bold" colSpan={3}>
-                  <strong>Total</strong>
-                </td>
-                <td className="border-b border-gray-300 p-3 text-center text-sm font-bold">
-                  <strong>{formatCurrency(calculateTotal(plan.commissionLevels))}</strong>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {plan.commissionLevels.map((level) => (
+                  <tr key={level.level}>
+                    <td style={{ borderBottom: '1px solid #ddd', padding: '12px', textAlign: 'center', fontSize: '14px' }}>{level.title}</td>
+                    <td style={{ borderBottom: '1px solid #ddd', padding: '12px', textAlign: 'center', fontSize: '14px' }}>{level.indications}</td>
+                    <td style={{ borderBottom: '1px solid #ddd', padding: '12px', textAlign: 'center', fontSize: '14px' }}>{formatCurrency(level.commission)}</td>
+                    <td style={{ borderBottom: '1px solid #ddd', padding: '12px', textAlign: 'center', fontSize: '14px' }}>{formatCurrency(level.monthlyValue)}</td>
+                  </tr>
+                ))}
+                <tr>
+                  <td style={{ borderBottom: '1px solid #ddd', padding: '12px', textAlign: 'center', fontSize: '14px', fontWeight: 'bold' }} colSpan={3}>
+                    <strong>Total</strong>
+                  </td>
+                  <td style={{ borderBottom: '1px solid #ddd', padding: '12px', textAlign: 'center', fontSize: '14px', fontWeight: 'bold' }}>
+                    <strong>{formatCurrency(calculateTotal(plan.commissionLevels))}</strong>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </motion.div>
+      </div>
 
       {/* Global style for rotating light animation */}
       <style>{`
@@ -267,6 +352,6 @@ export function InteractivePlanCard() {
           to { transform: rotate(360deg); }
         }
       `}</style>
-    </motion.div>
+    </div>
   );
 }
