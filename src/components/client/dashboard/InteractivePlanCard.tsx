@@ -79,32 +79,35 @@ export function InteractivePlanCard() {
         {/* Left Side - Static Plan Card */}
         <div className="lg:w-1/3 flex justify-center">
           <div className="card-container">
-            <motion.div 
-              key={`card-${currentPlan}`}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4 }}
-              className="plano-card"
-            >
-              <h4>
-                ASSINATURA<br/>
-                SEM FIDELIDADE
-              </h4>
-              
-              <div className="giga-linha">
-                <h1>{plan.gb}</h1>
-                <span className="gb-label">GB</span>
-              </div>
-              
-              <div className="extras">
-                Ligações e SMS ilimitados<br/>
-                para qualquer operadora do Brasil.
-              </div>
-              
-              <small>
-                Por {formatCurrency(plan.price)} /mês
-              </small>
-            </motion.div>
+              <motion.div 
+                key={`card-${currentPlan}`}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4 }}
+                className="plano-card"
+              >
+                <div className="label-topo">
+                  ASSINATURA<br/>
+                  <span>SEM FIDELIDADE</span>
+                </div>
+                
+                <div className="giga-bloco">
+                  <div className="giga-numero">
+                    {plan.gb}<span className="giga-unidade">GB</span>
+                  </div>
+                </div>
+                
+                <div className="beneficios">
+                  <p>Ligações e SMS ilimitados</p>
+                  <p>para qualquer operadora do Brasil.</p>
+                </div>
+                
+                <div className="preco-box">
+                  <span className="preco-label">Por</span>
+                  <span className="preco-destaque">{formatCurrency(plan.price)}</span>
+                  <span className="preco-mes">/mês</span>
+                </div>
+              </motion.div>
           </div>
         </div>
 
@@ -204,66 +207,95 @@ export function InteractivePlanCard() {
         }
 
         .plano-card {
-          width: 320px;
-          height: 360px;
-          background: linear-gradient(145deg, #7f00ff, #e100ff);
-          box-shadow:
-            inset 1px 1px 6px rgba(255,255,255,0.15),
-            inset -2px -2px 8px rgba(0,0,0,0.25),
-            0 10px 20px rgba(0,0,0,0.3);
-          border-radius: 2rem;
-          padding: 2rem 1rem;
-          color: white;
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
-        }
-
-        .plano-card h4 {
-          font-size: 1rem;
-          font-weight: 700;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
-        }
-
-        .giga-linha {
-          display: flex;
-          align-items: baseline;
+          align-items: center;
           justify-content: center;
-          gap: 0.25rem;
-          margin-top: 1rem;
-          margin-bottom: 1rem;
+          background: radial-gradient(circle at top left, #6600ff, #cc00cc);
+          color: white;
+          border-radius: 2rem;
+          box-shadow:
+            0 10px 20px rgba(0,0,0,0.4),
+            inset 4px 4px 10px rgba(255,255,255,0.1),
+            inset -4px -4px 10px rgba(0,0,0,0.2);
+          padding: 2.5rem 2rem;
+          text-align: center;
+          min-height: 420px;
+          max-width: 300px;
+          margin: auto;
+          font-family: 'Segoe UI', sans-serif;
+          position: relative;
         }
 
-        .giga-linha h1 {
-          font-size: 4rem;
-          color: #fff;
-          font-weight: bold;
-          text-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+        .label-topo {
+          font-weight: 700;
+          font-size: 1.1rem;
+          text-transform: uppercase;
+          text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+          transform: translateZ(6px);
+          margin-bottom: 1.5rem;
+          letter-spacing: 0.5px;
+          line-height: 1.3rem;
         }
 
-        .gb-label {
-          font-size: 1.5rem;
+        .label-topo span {
+          font-size: 0.95rem;
+          display: block;
+          opacity: 0.9;
+        }
+
+        .giga-bloco {
+          background: rgba(255,255,255,0.1);
+          border-radius: 1rem;
+          padding: 1rem 2rem;
+          box-shadow: 0 0 0 4px rgba(255,255,255,0.05), 0 8px 16px rgba(0,0,0,0.3);
+          margin-bottom: 1.5rem;
+        }
+
+        .giga-numero {
+          font-size: 5rem;
+          font-weight: 800;
           color: #fff;
-          text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+          text-shadow: 2px 2px 6px rgba(0,0,0,0.5);
+        }
+
+        .giga-unidade {
+          font-size: 1.7rem;
+          margin-left: 0.4rem;
+          vertical-align: middle;
+          text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
           font-weight: 500;
         }
 
-        .plano-card .extras {
-          font-size: 0.85rem;
-          color: #f0f0f0;
-          text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-          margin-top: 1rem;
+        .beneficios {
+          font-size: 1rem;
+          text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+          margin-bottom: 1.8rem;
+          line-height: 1.4rem;
         }
 
-        .plano-card small {
-          margin-top: 1rem;
-          display: block;
-          font-size: 1rem;
-          font-weight: 600;
-          color: #fff;
-          text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        .preco-box {
+          background: #ffffff22;
+          border-radius: 0.7rem;
+          padding: 0.7rem 1rem;
+          box-shadow: inset 1px 1px 2px rgba(255,255,255,0.2), inset -1px -1px 2px rgba(0,0,0,0.2);
+          text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .preco-label {
+          font-size: 0.9rem;
+          margin-right: 0.2rem;
+        }
+
+        .preco-destaque {
+          font-size: 1.6rem;
+          font-weight: 700;
+        }
+
+        .preco-mes {
+          font-size: 0.9rem;
+          opacity: 0.85;
+          margin-left: 0.2rem;
         }
 
         .nav-buttons {
