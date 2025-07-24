@@ -79,7 +79,7 @@ export function InteractivePlanCard() {
       <div className="flex items-center justify-center mb-8 gap-4">
         <button 
           onClick={() => changePlan(-1)}
-          className="text-3xl text-primary hover:text-primary/80 transition-colors p-2"
+          className="text-3xl text-primary hover:text-primary/80 transition-colors p-2 hidden md:block"
         >
           ←
         </button>
@@ -132,7 +132,7 @@ export function InteractivePlanCard() {
         
         <button 
           onClick={() => changePlan(1)}
-          className="text-3xl text-primary hover:text-primary/80 transition-colors p-2"
+          className="text-3xl text-primary hover:text-primary/80 transition-colors p-2 hidden md:block"
         >
           →
         </button>
