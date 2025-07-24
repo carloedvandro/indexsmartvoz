@@ -425,10 +425,24 @@ export function InteractivePlanCard() {
           .tabela-wrapper {
             grid-template-columns: 1fr;
             gap: 1rem;
+            padding: 0.5rem;
           }
           
           .tabela-header {
-            display: none;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+          }
+          
+          .tabela-header .col {
+            background: linear-gradient(45deg, #8a2be2, #da70d6);
+            color: white;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+            padding: 1rem;
+            border-radius: 1rem;
+            text-align: center;
           }
           
           .tabela-row {
@@ -436,16 +450,19 @@ export function InteractivePlanCard() {
             border-radius: 1rem;
             padding: 1rem;
             box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-            display: block !important;
+            margin-bottom: 1rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.5rem;
           }
           
           .tabela-row .col {
+            background: transparent;
+            box-shadow: none;
+            padding: 0.5rem 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.5rem 0;
-            box-shadow: none;
-            background: transparent;
             border-bottom: 1px solid #f0f0f0;
           }
           
@@ -454,13 +471,9 @@ export function InteractivePlanCard() {
           }
           
           .tabela-row .col:before {
-            content: attr(data-label);
+            content: attr(data-label) ":";
             font-weight: bold;
             color: #666;
-          }
-          
-          .total .col {
-            background: transparent !important;
           }
         }
 
