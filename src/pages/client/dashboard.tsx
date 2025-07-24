@@ -47,9 +47,7 @@ export default function ClientDashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Profile Card */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-120 p-4">
-              <ProfileCard profile={profile} />
-            </div>
+            <ProfileCard profile={profile} />
           </div>
           
           {/* Network Card */}
