@@ -108,6 +108,16 @@ export function InteractivePlanCard() {
                   <span className="preco-mes">/mês</span>
                 </div>
               </motion.div>
+              
+              {/* Navigation Buttons */}
+              <div className="nav-buttons">
+                <button onClick={() => changePlan(-1)}>
+                  ← Anterior
+                </button>
+                <button onClick={() => changePlan(1)}>
+                  Próximo →
+                </button>
+              </div>
           </div>
         </div>
 
