@@ -43,16 +43,13 @@ export default function ClientDashboard() {
       <StatsCardsGrid />
 
       <div className="container mb-8 mt-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
-          <div className="bg-white rounded-lg shadow-sm border border-gray-120 p-4">
-            <NetworkCard networkStats={networkStats || {
-            level1Count: 0,
-            level2Count: 0,
-            level3Count: 0,
-            level4Count: 0
-          }} onClick={handleNetworkClick} />
-          </div>
-          <PlansCard />
+        <div className="bg-white rounded-lg shadow-sm border border-gray-120 p-4">
+          <NetworkCard networkStats={networkStats || {
+          level1Count: 0,
+          level2Count: 0,
+          level3Count: 0,
+          level4Count: 0
+        }} onClick={handleNetworkClick} />
         </div>
       </div>
 
