@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { formatCurrency } from "@/utils/format";
 import { motion } from 'framer-motion';
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, CarouselApi } from "@/components/ui/carousel";
 
 interface Plan {
   gb: number;
@@ -51,6 +51,27 @@ const plans: Plan[] = [
 ];
 
 export function InteractivePlanCard() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [api, setApi] = useState<CarouselApi>();
+
+  const onSelect = useCallback(() => {
+    if (!api) return;
+    setCurrentSlide(api.selectedScrollSnap());
+  }, [api]);
+
+  React.useEffect(() => {
+    if (!api) return;
+    onSelect();
+    api.on("select", onSelect);
+    return () => {
+      api.off("select", onSelect);
+    };
+  }, [api, onSelect]);
+
+  const calculateTotal = (commissionLevels: CommissionLevel[]) => {
+    return commissionLevels.reduce((total, level) => total + level.monthlyValue, 0);
+  };
+
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -59,6 +80,7 @@ export function InteractivePlanCard() {
       className="max-w-6xl mx-auto"
     >
       <Carousel 
+        setApi={setApi}
         opts={{
           align: "start",
           loop: true,
@@ -152,7 +174,13 @@ export function InteractivePlanCard() {
         </h2>
         
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
+          <motion.table 
+            key={currentSlide}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3 }}
+            className="w-full border-collapse"
+          >
             <thead>
               <tr className="bg-slate-50">
                 <th className="px-4 py-3 text-center border-b border-gray-200 font-semibold text-gray-700">Nível</th>
@@ -162,38 +190,24 @@ export function InteractivePlanCard() {
               </tr>
             </thead>
             <tbody>
-              <tr className="hover:bg-gray-50 transition-colors">
-                <td className="px-4 py-3 text-center border-b border-gray-100">1º</td>
-                <td className="px-4 py-3 text-center border-b border-gray-100">5</td>
-                <td className="px-4 py-3 text-center border-b border-gray-100">R$ 20,00</td>
-                <td className="px-4 py-3 text-center border-b border-gray-100">R$ 100,00</td>
-              </tr>
-              <tr className="hover:bg-gray-50 transition-colors">
-                <td className="px-4 py-3 text-center border-b border-gray-100">2º</td>
-                <td className="px-4 py-3 text-center border-b border-gray-100">25</td>
-                <td className="px-4 py-3 text-center border-b border-gray-100">R$ 5,00</td>
-                <td className="px-4 py-3 text-center border-b border-gray-100">R$ 125,00</td>
-              </tr>
-              <tr className="hover:bg-gray-50 transition-colors">
-                <td className="px-4 py-3 text-center border-b border-gray-100">3º</td>
-                <td className="px-4 py-3 text-center border-b border-gray-100">125</td>
-                <td className="px-4 py-3 text-center border-b border-gray-100">R$ 5,00</td>
-                <td className="px-4 py-3 text-center border-b border-gray-100">R$ 625,00</td>
-              </tr>
-              <tr className="hover:bg-gray-50 transition-colors">
-                <td className="px-4 py-3 text-center border-b border-gray-100">4º</td>
-                <td className="px-4 py-3 text-center border-b border-gray-100">625</td>
-                <td className="px-4 py-3 text-center border-b border-gray-100">R$ 5,00</td>
-                <td className="px-4 py-3 text-center border-b border-gray-100">R$ 3.125,00</td>
-              </tr>
+              {plans[currentSlide]?.commissionLevels.map((level) => (
+                <tr key={level.level} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-4 py-3 text-center border-b border-gray-100">{level.title}</td>
+                  <td className="px-4 py-3 text-center border-b border-gray-100">{level.indications}</td>
+                  <td className="px-4 py-3 text-center border-b border-gray-100">{formatCurrency(level.commission)}</td>
+                  <td className="px-4 py-3 text-center border-b border-gray-100">{formatCurrency(level.monthlyValue)}</td>
+                </tr>
+              ))}
               <tr className="bg-slate-100 font-bold">
                 <td className="px-4 py-3 text-center border-b border-gray-200">Total</td>
                 <td className="px-4 py-3 text-center border-b border-gray-200">780</td>
                 <td className="px-4 py-3 text-center border-b border-gray-200">-</td>
-                <td className="px-4 py-3 text-center border-b border-gray-200 text-primary font-bold">R$ 3.975,00</td>
+                <td className="px-4 py-3 text-center border-b border-gray-200 text-primary font-bold">
+                  {formatCurrency(calculateTotal(plans[currentSlide]?.commissionLevels || []))}
+                </td>
               </tr>
             </tbody>
-          </table>
+          </motion.table>
         </div>
       </motion.div>
     </motion.div>
