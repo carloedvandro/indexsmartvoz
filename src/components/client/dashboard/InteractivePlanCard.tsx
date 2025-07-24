@@ -252,7 +252,7 @@ export function InteractivePlanCard() {
                     animate={{ scale: 1, y: 0 }}
                     transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.2 }}
                     className="text-lg font-black text-transparent bg-gradient-to-r from-gray-700 via-gray-800 to-black bg-clip-text"
-                    style={{ marginLeft: index > 0 ? '20px' : '0' }}
+                    style={{ marginLeft: index > 0 ? '40px' : '0' }}
                   >
                     {level.level}º
                   </motion.span>
