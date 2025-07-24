@@ -162,11 +162,10 @@ export function InteractivePlanCard() {
         </div>
 
         {/* Dots Indicators */}
-        <div className="flex justify-center gap-2 mt-3">
+        <div className="flex justify-center gap-2 mt-3 pointer-events-none">
           {plans.map((_, index) => (
-            <button
+            <div
               key={index}
-              onClick={() => scrollToCard(index)}
               className={`w-3 h-3 rounded-full transition-colors duration-300 ${
                 index === currentPlan ? 'bg-primary' : 'bg-gray-300'
               }`}
@@ -219,7 +218,7 @@ export function InteractivePlanCard() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: 0.1 }}
-        className="bg-white p-6 rounded-2xl mt-5"
+        className="bg-white p-6 rounded-2xl mt-5 w-full max-w-full"
         style={{
           boxShadow: '0 6px 16px rgba(0,0,0,0.09)'
         }}
