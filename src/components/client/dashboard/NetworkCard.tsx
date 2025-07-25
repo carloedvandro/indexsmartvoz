@@ -38,7 +38,7 @@ export const NetworkCard = ({
         }} transition={{
           duration: 0.5,
           delay: 0 * 0.2
-        }} className="relative rounded-lg px-4 py-4 border-2 border-yellow-200 bg-gradient-to-br from-yellow-100 to-yellow-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500">
+        }} className="relative rounded-lg px-4 py-3 border-2 border-yellow-200 bg-gradient-to-br from-yellow-100 to-yellow-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500">
             <div className="absolute inset-0 rounded-lg border border-white/40 pointer-events-none z-0" />
             <div className="relative z-10">
               <h3 className="text-left text-lg font-bold text-black drop-shadow-md mb-2">Nível 1</h3>
