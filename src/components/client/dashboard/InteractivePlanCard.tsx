@@ -278,7 +278,7 @@ export function InteractivePlanCard() {
         <h2 className="titulo">Consumo inteligente</h2>
         
         {/* Desktop Table */}
-        <div className="responsive-table-container">
+        <div className="hidden md:block responsive-table-container">
           <table className="responsive-table">
             <thead>
               <tr>
@@ -329,6 +329,75 @@ export function InteractivePlanCard() {
               </tr>
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Cards */}
+        <div className="block md:hidden space-y-4 px-4">
+          {/* Header Cards */}
+          <div className="grid grid-cols-5 gap-1">
+            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-3 px-2 rounded-xl text-sm font-bold">
+              Nível
+            </div>
+            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-3 px-2 rounded-xl text-sm font-bold">
+              Clientes
+            </div>
+            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-3 px-2 rounded-xl text-sm font-bold">
+              Usuário
+            </div>
+            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-3 px-2 rounded-xl text-sm font-bold">
+              Por Nível
+            </div>
+            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-3 px-2 rounded-xl text-sm font-bold">
+              Acumulado
+            </div>
+          </div>
+
+          {/* Data Rows */}
+          {plan.commissionLevels.map((level, index) => {
+            const borderColors = ['#FF5E3A', '#A45EFF', '#3B9CFF', '#E94FC6'];
+            return (
+              <div key={level.level} className="grid grid-cols-5 gap-1">
+                <div 
+                  className="bg-white text-center py-4 px-2 rounded-xl text-sm font-bold border-l-4"
+                  style={{ borderLeftColor: borderColors[index] }}
+                >
+                  {level.level}º
+                </div>
+                <div className="bg-white text-center py-4 px-2 rounded-xl text-sm">
+                  {level.indications}
+                </div>
+                <div className="bg-white text-center py-4 px-2 rounded-xl text-xs">
+                  <strong>R${level.commission.toFixed(2)}</strong><br />
+                  <span className="text-gray-600">Por indicado</span>
+                </div>
+                <div className="bg-white text-center py-4 px-2 rounded-xl text-sm">
+                  R${level.commission.toFixed(2)}
+                </div>
+                <div className="bg-white text-center py-4 px-2 rounded-xl text-sm">
+                  R${level.monthlyValue.toFixed(2)}
+                </div>
+              </div>
+            );
+          })}
+
+          {/* Total Row */}
+          <div className="grid grid-cols-5 gap-1">
+            <div className="bg-purple-100 text-center py-4 px-2 rounded-xl text-sm font-bold">
+              Total
+            </div>
+            <div className="bg-purple-100 text-center py-4 px-2 rounded-xl text-sm font-bold">
+              {totalClients}
+            </div>
+            <div className="bg-purple-100 text-center py-4 px-2 rounded-xl text-sm font-bold">
+              R$35,00
+            </div>
+            <div className="bg-purple-100 text-center py-4 px-2 rounded-xl text-sm font-bold">
+              R$35,00
+            </div>
+            <div className="bg-purple-100 text-center py-4 px-2 rounded-xl text-sm font-bold">
+              R${totalValue.toFixed(2)}
+            </div>
+          </div>
         </div>
 
         <div className="footer-box">
