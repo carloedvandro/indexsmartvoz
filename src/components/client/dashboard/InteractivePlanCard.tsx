@@ -416,9 +416,12 @@ export function InteractivePlanCard() {
         </div>
 
         <div className="footer-box">
-          <p className="footer-label">Valor total a receber na recorrência <span className="valor">R${totalValue.toLocaleString('pt-BR', {
+          <p className="footer-label">
+            <span className="block md:inline">Valor total a receber na recorrência</span>
+            <span className="valor block md:inline"> R${totalValue.toLocaleString('pt-BR', {
               minimumFractionDigits: 2
-            })}</span></p>
+            })}</span>
+          </p>
         </div>
       </motion.div>
 
