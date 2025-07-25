@@ -13,7 +13,7 @@ export function MapOverlay({
   setActiveRegion
 }: MapOverlayProps) {
   const isMobile = useIsMobile();
-  return <div className="absolute inset-2 w-full h-full">
+  return <div className="absolute inset-2 w-full h-full -translate-x-[2px]">
       {/* Norte - área verde superior - movida 5px para cima no mobile */}
       <motion.div className="absolute cursor-pointer" style={{
       top: isMobile ? 'calc(8% + 85px)' : 'calc(8% + 90px)',
