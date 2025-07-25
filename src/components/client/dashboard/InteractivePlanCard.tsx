@@ -275,7 +275,7 @@ export function InteractivePlanCard() {
       duration: 0.3,
       delay: 0.1
     }} className="-bottom-6">
-        <h2 className="titulo">Consumo inteligente</h2>
+        <h2 className="text-xl md:text-2xl font-bold mb-4 text-gray-800">Consumo inteligente</h2>
         
         {/* Desktop Table */}
         <div className="hidden md:block responsive-table-container">
