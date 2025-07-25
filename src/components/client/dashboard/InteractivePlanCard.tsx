@@ -243,7 +243,7 @@ export function InteractivePlanCard() {
             ];
             return <div key={level.level} style={{
               borderLeft: `8px solid ${borderColors[index]}`
-            }} className="rounded-2xl p-4 pl-4">
+            }} className="rounded-2xl p-3 pl-4">
                   <h3 className="text-primary font-bold text-xl mb-3">
                     {level.title}
                   </h3>
