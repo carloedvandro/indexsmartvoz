@@ -276,60 +276,59 @@ export function InteractivePlanCard() {
       delay: 0.1
     }} className="-bottom-6">
         <h2 className="titulo">Consumo inteligente</h2>
-        <div className="tabela-wrapper">
-          <div className="tabela-header">
-            <div className="col th">Nível</div>
-            <div className="col th">Clientes</div>
-            <div className="col th">Usuário</div>
-            <div className="col th">Por Nível</div>
-            <div className="col th">Acumulado</div>
-          </div>
-
-          {plan.commissionLevels.map((level, index) => {
-          const nivelClass = ['nivel1', 'nivel2', 'nivel3', 'nivel4'][index];
-          return <div key={level.level} className={`tabela-row ${nivelClass}`}>
-                <div className="col">
-                  <motion.span initial={{
-                scale: 0.95,
-                y: 5
-              }} animate={{
-                scale: 1,
-                y: 0
-              }} transition={{
-                duration: 0.6,
-                ease: "easeOut",
-                delay: index * 0.2
-              }} className="text-lg font-black text-transparent bg-gradient-to-r from-gray-700 via-gray-800 to-black bg-clip-text">
-                    {level.level}º
-                  </motion.span>
-                </div>
-                <div className="col">{level.indications}</div>
-                <div className="col">
-                  <strong>R$<AnimatedNumber value={level.commission} delay={index * 100} />,00</strong><br />
-                  <span>Por indicado</span>
-                </div>
-                <div className="col">
-                  R$<AnimatedNumber value={level.commission} delay={index * 100} />,00
-                </div>
-                <div className="col">
-                  R$<AnimatedNumber value={level.monthlyValue} delay={index * 100} />,00
-                </div>
-              </div>;
-        })}
-
-          <div className="tabela-row total">
-            <div className="col">Total</div>
-            <div className="col">{totalClients}</div>
-            <div className="col">
-              <strong>R$<AnimatedNumber value={35} delay={400} />,00</strong>
-            </div>
-            <div className="col">
-              R$<AnimatedNumber value={35} delay={400} />,00
-            </div>
-            <div className="col">
-              R$<AnimatedNumber value={totalValue} delay={400} />,00
-            </div>
-          </div>
+        
+        {/* Desktop Table */}
+        <div className="responsive-table-container">
+          <table className="responsive-table">
+            <thead>
+              <tr>
+                <th>Nível</th>
+                <th>Clientes</th>
+                <th>Usuário</th>
+                <th>Por Nível</th>
+                <th>Acumulado</th>
+              </tr>
+            </thead>
+            <tbody>
+              {plan.commissionLevels.map((level, index) => {
+                const borderColors = ['#FF5E3A', '#A45EFF', '#3B9CFF', '#E94FC6'];
+                const nivelClasses = ['nivel-1', 'nivel-2', 'nivel-3', 'nivel-4'];
+                return (
+                  <tr key={level.level}>
+                    <td className={`nivel-col ${nivelClasses[index]}`} style={{ borderLeftColor: borderColors[index] }}>
+                      <motion.span initial={{
+                        scale: 0.95,
+                        y: 5
+                      }} animate={{
+                        scale: 1,
+                        y: 0
+                      }} transition={{
+                        duration: 0.6,
+                        ease: "easeOut",
+                        delay: index * 0.2
+                      }} className="font-bold">
+                        {level.level}º
+                      </motion.span>
+                    </td>
+                    <td>{level.indications}</td>
+                    <td>
+                      <strong>R$<AnimatedNumber value={level.commission} delay={index * 100} />,00</strong><br />
+                      <span className="text-sm">Por indicado</span>
+                    </td>
+                    <td>R$<AnimatedNumber value={level.commission} delay={index * 100} />,00</td>
+                    <td>R$<AnimatedNumber value={level.monthlyValue} delay={index * 100} />,00</td>
+                  </tr>
+                );
+              })}
+              <tr className="total-row">
+                <td>Total</td>
+                <td>{totalClients}</td>
+                <td><strong>R$<AnimatedNumber value={35} delay={400} />,00</strong></td>
+                <td>R$<AnimatedNumber value={35} delay={400} />,00</td>
+                <td>R$<AnimatedNumber value={totalValue} delay={400} />,00</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <div className="footer-box">
@@ -587,6 +586,125 @@ export function InteractivePlanCard() {
 
         .numero {
           font-variant-numeric: tabular-nums;
+        }
+
+        /* Responsive Table Styles */
+        .responsive-table-container {
+          overflow-x: auto;
+          max-width: 100%;
+          margin: 2rem auto;
+        }
+
+        .responsive-table {
+          border-collapse: collapse;
+          width: 100%;
+          min-width: 650px;
+          background-color: #f7f7fc;
+          font-family: sans-serif;
+          border-radius: 12px;
+          box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+
+        .responsive-table th {
+          background: linear-gradient(90deg, #a34ddc, #c84ad6);
+          color: white;
+          padding: 14px 10px;
+          font-weight: bold;
+          text-align: center;
+          font-size: 1rem;
+          text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .responsive-table th:first-child {
+          border-top-left-radius: 12px;
+        }
+
+        .responsive-table th:last-child {
+          border-top-right-radius: 12px;
+        }
+
+        .responsive-table td {
+          text-align: center;
+          padding: 12px 10px;
+          background-color: white;
+          border-bottom: 1px solid #eee;
+          font-size: 0.95rem;
+          color: #333;
+        }
+
+        .responsive-table tr:last-child td:first-child {
+          border-bottom-left-radius: 12px;
+        }
+
+        .responsive-table tr:last-child td:last-child {
+          border-bottom-right-radius: 12px;
+        }
+
+        .nivel-col {
+          border-left: 5px solid;
+          font-weight: bold;
+          position: relative;
+        }
+
+        .total-row td {
+          background-color: #ede7ff !important;
+          font-weight: bold;
+          color: #333;
+        }
+
+        .nivel-1 { border-left-color: #FF5E3A; }
+        .nivel-2 { border-left-color: #A45EFF; }
+        .nivel-3 { border-left-color: #3B9CFF; }
+        .nivel-4 { border-left-color: #E94FC6; }
+
+        .responsive-table tr:hover td {
+          background-color: #f8f9ff;
+          transition: background-color 0.2s ease;
+        }
+
+        .total-row:hover td {
+          background-color: #e6dcff !important;
+        }
+
+        @media screen and (max-width: 768px) {
+          .responsive-table-container {
+            margin: 1rem auto;
+          }
+          
+          .responsive-table {
+            min-width: unset;
+            font-size: 14px;
+            display: block;
+            overflow-x: auto;
+            white-space: nowrap;
+          }
+
+          .responsive-table thead {
+            display: block;
+          }
+
+          .responsive-table tbody {
+            display: block;
+          }
+
+          .responsive-table tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+          }
+
+          .responsive-table td, .responsive-table th {
+            padding: 8px 4px;
+            font-size: 12px;
+          }
+
+          .responsive-table td br {
+            display: none;
+          }
+
+          .responsive-table td span.text-sm {
+            display: none;
+          }
         }
       `}</style>
     </motion.div>;
