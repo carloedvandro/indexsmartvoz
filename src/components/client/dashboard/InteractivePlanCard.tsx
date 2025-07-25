@@ -656,6 +656,10 @@ export function InteractivePlanCard() {
           animation: glow-pulse 3s infinite ease-in-out;
         }
 
+        .footer-label {
+          letter-spacing: -1.5px;
+        }
+
         .footer-label .valor {
           font-weight: bold;
           color: #4a148c;
