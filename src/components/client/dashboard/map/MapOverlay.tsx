@@ -89,7 +89,7 @@ export function MapOverlay({
     }} whileHover={{
       scale: 1.02
     }} onClick={() => setActiveRegion(activeRegion === 'sul' ? null : 'sul')}>
-        <div className="w-full h-full rounded-lg transition-all duration-300 flex items-center justify-center">
+        <div className="w-full h-full rounded-lg transition-all duration-300 flex items-center justify-center -translate-y-[5px]">
           {activeRegion === 'sul' && <div className="text-white font-bold text-lg bg-black/50 px-3 py-1 rounded">
               SUL
             </div>}
