@@ -668,7 +668,8 @@ export function InteractivePlanCard() {
         .responsive-table {
           border-collapse: collapse;
           width: 100%;
-          min-width: 650px;
+          min-width: 420px;
+          max-width: 420px;
           background-color: #f7f7fc;
           font-family: sans-serif;
           border-radius: 12px;
