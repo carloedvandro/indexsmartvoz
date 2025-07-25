@@ -660,16 +660,14 @@ export function InteractivePlanCard() {
         /* Responsive Table Styles */
         .responsive-table-container {
           overflow-x: auto;
-          max-width: 420px;
-          width: 420px;
+          max-width: 100%;
           margin: 2rem auto;
         }
 
         .responsive-table {
           border-collapse: collapse;
           width: 100%;
-          min-width: 420px;
-          max-width: 420px;
+          min-width: 650px;
           background-color: #f7f7fc;
           font-family: sans-serif;
           border-radius: 12px;
