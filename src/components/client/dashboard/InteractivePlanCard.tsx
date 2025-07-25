@@ -657,7 +657,7 @@ export function InteractivePlanCard() {
           font-weight: bold;
           color: #4a148c;
           text-shadow: 1px 1px 1px rgba(255,255,255,0.6);
-          letter-spacing: -1px;
+          letter-spacing: -2px;
         }
 
         @keyframes glow-pulse {
