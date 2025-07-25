@@ -332,7 +332,7 @@ export function InteractivePlanCard() {
         </div>
 
         {/* Mobile Cards */}
-        <div className="w-full overflow-x-hidden px-2 sm:px-4">
+        <div className="w-full overflow-x-hidden px-3 sm:px-6">
           {/* Header Cards */}
           <div className="grid grid-cols-5 gap-1 min-w-0">
             <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-2 px-1 rounded-lg text-xs font-bold">
