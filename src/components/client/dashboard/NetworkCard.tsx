@@ -41,7 +41,7 @@ export const NetworkCard = ({
               <p className="text-left text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
                 {networkStats?.level1Count || 0}
               </p>
-              <p className="text-center text-sm font-medium text-black/70 mt-2">Indicados Diretos</p>
+              <p className="text-left text-sm font-medium text-black/70 mt-2">Indicados Diretos</p>
             </div>
           </motion.div>
           
@@ -57,7 +57,7 @@ export const NetworkCard = ({
               <p className="text-left text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
                 {networkStats?.level2Count || 0}
               </p>
-              <p className="text-center text-sm font-medium text-black/70 mt-2">Indicados Indiretos</p>
+              <p className="text-left text-sm font-medium text-black/70 mt-2">Indicados Indiretos</p>
             </div>
           </motion.div>
           
@@ -73,7 +73,7 @@ export const NetworkCard = ({
               <p className="text-left text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
                 {networkStats?.level3Count || 0}
               </p>
-              <p className="text-center text-sm font-medium text-black/70 mt-2">Indicados Indiretos</p>
+              <p className="text-left text-sm font-medium text-black/70 mt-2">Indicados Indiretos</p>
             </div>
           </motion.div>
           
@@ -89,7 +89,7 @@ export const NetworkCard = ({
               <p className="text-left text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
                 {networkStats?.level4Count || 0}
               </p>
-              <p className="text-center text-sm font-medium text-black/70 mt-2">Indicados Indiretos</p>
+              <p className="text-left text-sm font-medium text-black/70 mt-2">Indicados Indiretos</p>
             </div>
           </motion.div>
         </div>
