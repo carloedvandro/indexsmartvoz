@@ -431,7 +431,7 @@ export function InteractivePlanCard() {
           padding: 2.5rem 2rem;
           text-align: center;
           min-height: 420px;
-          max-width: 420px;
+          max-width: 460px;
           width: 100%;
           margin: auto;
           font-family: 'Segoe UI', sans-serif;
