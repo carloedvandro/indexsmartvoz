@@ -660,7 +660,8 @@ export function InteractivePlanCard() {
         /* Responsive Table Styles */
         .responsive-table-container {
           overflow-x: auto;
-          max-width: 100%;
+          max-width: 420px;
+          width: 420px;
           margin: 2rem auto;
         }
 
