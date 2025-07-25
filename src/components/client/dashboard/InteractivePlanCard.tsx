@@ -242,8 +242,7 @@ export function InteractivePlanCard() {
             '#ec4899' // Rosa/Magenta - 4º nível
             ];
             return <div key={level.level} style={{
-              borderLeft: `8px solid ${borderColors[index]}`,
-              boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
+              borderLeft: `8px solid ${borderColors[index]}`
             }} className="rounded-2xl p-6 pl-4">
                   <h3 className="text-primary font-bold text-xl mb-3">
                     {level.title}
