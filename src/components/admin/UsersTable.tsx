@@ -10,7 +10,7 @@ import {
 
 export function UsersTable({ users, onEdit }) {
   return (
-    <div>
+    <div className="overflow-x-auto">
       <Table>
         <TableHeader>
           <TableRow>
