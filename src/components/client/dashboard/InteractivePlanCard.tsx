@@ -160,7 +160,7 @@ export function InteractivePlanCard() {
     duration: 0.5
   }} className="max-w-7xl mx-auto">
       {/* Layout with Plan Card on Left and Levels on Right */}
-      <div className="flex flex-col lg:flex-row gap-6 mb-6">
+      <div className="flex flex-col lg:flex-row gap-5 mb-5">
         {/* Left Side - Static Plan Card */}
         <div className="lg:w-1/3 flex justify-center">
           <div className="-bottom-1/2 ">
