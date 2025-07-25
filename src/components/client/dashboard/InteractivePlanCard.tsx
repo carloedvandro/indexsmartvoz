@@ -662,6 +662,13 @@ export function InteractivePlanCard() {
           text-shadow: 1px 1px 1px rgba(255,255,255,0.6);
         }
 
+        /* Mobile text break for footer */
+        @media screen and (max-width: 768px) {
+          .footer-label {
+            white-space: nowrap;
+          }
+        }
+
         @keyframes glow-pulse {
           0%, 100% {
             box-shadow: inset 2px 2px 6px rgba(255,255,255,0.4), inset -2px -2px 6px rgba(0,0,0,0.04);
