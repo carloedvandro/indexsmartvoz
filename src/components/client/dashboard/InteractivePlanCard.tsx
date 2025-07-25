@@ -332,22 +332,22 @@ export function InteractivePlanCard() {
         </div>
 
         {/* Mobile Cards */}
-        <div className="block md:hidden space-y-4 px-4">
+        <div className="block md:hidden space-y-2 px-2">
           {/* Header Cards */}
           <div className="grid grid-cols-5 gap-1">
-            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-3 px-2 rounded-xl text-sm font-bold">
+            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-2 px-1 rounded-lg text-xs font-bold">
               Nível
             </div>
-            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-3 px-2 rounded-xl text-sm font-bold">
+            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-2 px-1 rounded-lg text-xs font-bold">
               Clientes
             </div>
-            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-3 px-2 rounded-xl text-sm font-bold">
+            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-2 px-1 rounded-lg text-xs font-bold">
               Usuário
             </div>
-            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-3 px-2 rounded-xl text-sm font-bold">
+            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-2 px-1 rounded-lg text-xs font-bold">
               Por Nível
             </div>
-            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-3 px-2 rounded-xl text-sm font-bold">
+            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-2 px-1 rounded-lg text-xs font-bold">
               Acumulado
             </div>
           </div>
@@ -358,22 +358,22 @@ export function InteractivePlanCard() {
             return (
               <div key={level.level} className="grid grid-cols-5 gap-1">
                 <div 
-                  className="bg-white text-center py-4 px-2 rounded-xl text-sm font-bold border-l-4"
+                  className="bg-white text-center py-3 px-1 rounded-lg text-xs font-bold border-l-4 flex items-center justify-center"
                   style={{ borderLeftColor: borderColors[index] }}
                 >
                   {level.level}º
                 </div>
-                <div className="bg-white text-center py-4 px-2 rounded-xl text-sm">
+                <div className="bg-white text-center py-3 px-1 rounded-lg text-xs flex items-center justify-center">
                   {level.indications}
                 </div>
-                <div className="bg-white text-center py-4 px-2 rounded-xl text-xs">
-                  <strong>R${level.commission.toFixed(2)}</strong><br />
-                  <span className="text-gray-600">Por indicado</span>
+                <div className="bg-white text-center py-1 px-1 rounded-lg text-xs flex flex-col items-center justify-center">
+                  <div className="font-bold text-xs">R${level.commission.toFixed(2)}</div>
+                  <div className="text-gray-600 text-xs leading-tight">Por indicado</div>
                 </div>
-                <div className="bg-white text-center py-4 px-2 rounded-xl text-sm">
+                <div className="bg-white text-center py-3 px-1 rounded-lg text-xs flex items-center justify-center">
                   R${level.commission.toFixed(2)}
                 </div>
-                <div className="bg-white text-center py-4 px-2 rounded-xl text-sm">
+                <div className="bg-white text-center py-3 px-1 rounded-lg text-xs flex items-center justify-center">
                   R${level.monthlyValue.toFixed(2)}
                 </div>
               </div>
@@ -382,19 +382,19 @@ export function InteractivePlanCard() {
 
           {/* Total Row */}
           <div className="grid grid-cols-5 gap-1">
-            <div className="bg-purple-100 text-center py-4 px-2 rounded-xl text-sm font-bold">
+            <div className="bg-purple-100 text-center py-3 px-1 rounded-lg text-xs font-bold flex items-center justify-center">
               Total
             </div>
-            <div className="bg-purple-100 text-center py-4 px-2 rounded-xl text-sm font-bold">
+            <div className="bg-purple-100 text-center py-3 px-1 rounded-lg text-xs font-bold flex items-center justify-center">
               {totalClients}
             </div>
-            <div className="bg-purple-100 text-center py-4 px-2 rounded-xl text-sm font-bold">
+            <div className="bg-purple-100 text-center py-3 px-1 rounded-lg text-xs font-bold flex items-center justify-center">
               R$35,00
             </div>
-            <div className="bg-purple-100 text-center py-4 px-2 rounded-xl text-sm font-bold">
+            <div className="bg-purple-100 text-center py-3 px-1 rounded-lg text-xs font-bold flex items-center justify-center">
               R$35,00
             </div>
-            <div className="bg-purple-100 text-center py-4 px-2 rounded-xl text-sm font-bold">
+            <div className="bg-purple-100 text-center py-3 px-1 rounded-lg text-xs font-bold flex items-center justify-center">
               R${totalValue.toFixed(2)}
             </div>
           </div>
