@@ -96,7 +96,7 @@ export function InteractiveBrazilMap() {
             className="relative w-full mx-auto -translate-x-[10px]"
             style={{ 
               height: isMobile ? '600px' : '750px',
-              transform: 'scale(1.25) translateX(-10px)',
+              transform: 'scale(1.22) translateX(-10px)',
               transformOrigin: isMobile ? 'center top' : 'center top',
               marginTop: isMobile ? '-230px' : '0'
             }}
