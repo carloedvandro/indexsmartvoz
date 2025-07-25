@@ -245,7 +245,7 @@ export function InteractivePlanCard() {
               background: 'linear-gradient(135deg, #fff, #f5f2fc)',
               borderLeft: `8px solid ${borderColors[index]}`,
               boxShadow: '0 4px 12px rgba(0,0,0,0.08)'
-            }} className="bg-white rounded-3xl p-5 pl-6">
+            }} className="bg-white rounded-1xl p-5 pl-6">
                   <h3 className="text-primary font-bold text-xl mb-3">
                     {level.title}
                   </h3>
