@@ -277,58 +277,73 @@ export function InteractivePlanCard() {
     }} className="-bottom-6">
         <h2 className="text-xl md:text-2xl font-bold mb-4 text-gray-800" style={{fontSize: 'calc(1.25rem + 1px)'}}>Consumo inteligente</h2>
         
-        {/* Desktop Table */}
-        <div className="hidden md:block responsive-table-container">
-          <table className="responsive-table">
-            <thead>
-              <tr>
-                <th>Nível</th>
-                <th>Clientes</th>
-                <th>Usuário</th>
-                <th>Por Nível</th>
-                <th>Acumulado</th>
-              </tr>
-            </thead>
-            <tbody>
-              {plan.commissionLevels.map((level, index) => {
-                const borderColors = ['#FF5E3A', '#A45EFF', '#3B9CFF', '#E94FC6'];
-                const nivelClasses = ['nivel-1', 'nivel-2', 'nivel-3', 'nivel-4'];
-                return (
-                  <tr key={level.level}>
-                    <td className={`nivel-col ${nivelClasses[index]}`} style={{ borderLeftColor: borderColors[index] }}>
-                      <motion.span initial={{
-                        scale: 0.95,
-                        y: 5
-                      }} animate={{
-                        scale: 1,
-                        y: 0
-                      }} transition={{
-                        duration: 0.6,
-                        ease: "easeOut",
-                        delay: index * 0.2
-                      }} className="font-bold">
-                        {level.level}º
-                      </motion.span>
-                    </td>
-                    <td>{level.indications}</td>
-                    <td>
-                      <strong>R$<AnimatedNumber value={level.commission} delay={index * 100} />,00</strong><br />
-                      <span className="text-sm">Por indicado</span>
-                    </td>
-                    <td>R$<AnimatedNumber value={level.commission} delay={index * 100} />,00</td>
-                    <td>R$<AnimatedNumber value={level.monthlyValue} delay={index * 100} />,00</td>
-                  </tr>
-                );
-              })}
-              <tr className="total-row">
-                <td>Total</td>
-                <td>{totalClients}</td>
-                <td><strong>R$<AnimatedNumber value={35} delay={400} />,00</strong></td>
-                <td>R$<AnimatedNumber value={35} delay={400} />,00</td>
-                <td>R$<AnimatedNumber value={totalValue} delay={400} />,00</td>
-              </tr>
-            </tbody>
-          </table>
+        {/* Desktop Cards Layout */}
+        <div className="hidden md:block">
+          <div className="grid grid-cols-5 gap-4 mb-4">
+            {/* Header Cards */}
+            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-3 px-4 rounded-lg font-bold">
+              Nível
+            </div>
+            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-3 px-4 rounded-lg font-bold">
+              Clientes
+            </div>
+            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-3 px-4 rounded-lg font-bold">
+              Usuário
+            </div>
+            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-3 px-4 rounded-lg font-bold">
+              Por Nível
+            </div>
+            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-3 px-4 rounded-lg font-bold">
+              Acumulado
+            </div>
+          </div>
+
+          {/* Data Rows */}
+          {plan.commissionLevels.map((level, index) => {
+            const borderColors = ['#FF5E3A', '#A45EFF', '#3B9CFF', '#E94FC6'];
+            return (
+              <div key={level.level} className="grid grid-cols-5 gap-4 mb-3">
+                <div 
+                  className="bg-white text-center py-4 px-4 rounded-lg font-bold border-l-4 flex items-center justify-center shadow-sm"
+                  style={{ borderLeftColor: borderColors[index] }}
+                >
+                  {level.level}º
+                </div>
+                <div className="bg-white text-center py-4 px-4 rounded-lg flex items-center justify-center shadow-sm">
+                  {level.indications}
+                </div>
+                <div className="bg-white text-center py-2 px-4 rounded-lg flex flex-col items-center justify-center shadow-sm">
+                  <div className="font-bold">R${level.commission.toFixed(2)}</div>
+                  <div className="text-gray-600 text-sm">Por indicado</div>
+                </div>
+                <div className="bg-white text-center py-4 px-4 rounded-lg flex items-center justify-center shadow-sm">
+                  R${level.commission.toFixed(2)}
+                </div>
+                <div className="bg-white text-center py-4 px-4 rounded-lg flex items-center justify-center shadow-sm">
+                  R${level.monthlyValue.toFixed(2)}
+                </div>
+              </div>
+            );
+          })}
+
+          {/* Total Row */}
+          <div className="grid grid-cols-5 gap-4">
+            <div className="bg-purple-100 text-center py-4 px-4 rounded-lg font-bold flex items-center justify-center">
+              Total
+            </div>
+            <div className="bg-purple-100 text-center py-4 px-4 rounded-lg font-bold flex items-center justify-center">
+              {totalClients}
+            </div>
+            <div className="bg-purple-100 text-center py-4 px-4 rounded-lg font-bold flex items-center justify-center">
+              R$35,00
+            </div>
+            <div className="bg-purple-100 text-center py-4 px-4 rounded-lg font-bold flex items-center justify-center">
+              R$35,00
+            </div>
+            <div className="bg-purple-100 text-center py-4 px-4 rounded-lg font-bold flex items-center justify-center">
+              R${totalValue.toFixed(2)}
+            </div>
+          </div>
         </div>
 
         {/* Mobile Cards */}
