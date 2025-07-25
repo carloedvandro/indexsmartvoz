@@ -210,7 +210,7 @@ export function InteractivePlanCard() {
               </motion.div>
               
               {/* Navigation Buttons */}
-              <div className="nav-buttons">
+              <div className="nav-buttons" style={{ marginTop: '5px' }}>
                 <button onClick={() => changePlan(-1)}>
                   ← Anterior
                 </button>
