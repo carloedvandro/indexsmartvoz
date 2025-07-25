@@ -443,13 +443,12 @@ export function InteractivePlanCard() {
 
         .comissoes {
           background: #00000022;
-          border-radius: 0.7rem;
-          padding: 0.7rem 1rem;
+          border-radius: 0.8rem;
+          padding: 0.8rem 1rem;
           font-size: 0.95rem;
           margin-top: 1rem;
           text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
           text-align: left;
-          box-shadow: inset 1px 1px 2px rgba(255,255,255,0.2), inset -1px -1px 2px rgba(0,0,0,0.2);
         }
 
         .comissoes p {
