@@ -1,7 +1,7 @@
 
 /* Plan card styles */
 .plan-card {
-  width: 320px;
+  width: 340px;
   margin: 0;
   height: 100%;
   border-radius: 16px;
@@ -30,7 +30,7 @@
 /* Responsividade para mobile - largura maior nos dispositivos móveis */
 @media (max-width: 768px) {
   .plan-card {
-    width: 380px;
+    width: 400px;
   }
 }
 
