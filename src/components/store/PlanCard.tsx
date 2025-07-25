@@ -65,7 +65,7 @@ export function PlanCard({ plan, onSelect }: PlanCardProps) {
   };
   
   return (
-    <Card className={`plan-card flex flex-col overflow-hidden transition-all shadow-lg ${getBgColor()} text-white rounded-xl`}>
+    <Card className={`plan-card flex flex-col h-full overflow-hidden transition-all shadow-lg ${getBgColor()} text-white rounded-xl`}>
       <CardHeader className="pb-1 pt-4 flex flex-col items-start justify-start text-left border-b border-white/10">
         <div className="text-sm font-medium opacity-90">
           Plano 100% digital.<br/>
