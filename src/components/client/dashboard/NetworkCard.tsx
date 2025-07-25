@@ -28,7 +28,7 @@ export const NetworkCard = ({
         </p>
       </div>
       <div className="py-2 bg-transparent pt-4">
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 gap-6">
           <motion.div initial={{
           opacity: 0,
           y: 20
