@@ -17,7 +17,7 @@ interface CommissionLevel {
 }
 const plans: Plan[] = [{
   gb: 100,
-  price: 104.99,
+  price: 99.99,
   commissionLevels: [{
     level: 1,
     title: "1º Nível",
@@ -45,7 +45,7 @@ const plans: Plan[] = [{
   }]
 }, {
   gb: 120,
-  price: 124.99,
+  price: 119.99,
   commissionLevels: [{
     level: 1,
     title: "1º Nível",
@@ -73,7 +73,7 @@ const plans: Plan[] = [{
   }]
 }, {
   gb: 140,
-  price: 144.99,
+  price: 139.99,
   commissionLevels: [{
     level: 1,
     title: "1º Nível",
