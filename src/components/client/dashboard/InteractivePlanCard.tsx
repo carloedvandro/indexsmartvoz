@@ -219,7 +219,7 @@ export function InteractivePlanCard() {
             scale: 1
           }} transition={{
             duration: 0.4
-          }} className="plano-card relative overflow-hidden">
+          }} className="bg-purple-800 text-white max-w-sm w-full shadow-2xl rounded-3xl p-6 space-y-4 relative overflow-hidden">
                 {/* 3D Orb Background Effect */}
                 <div className="absolute top-4 right-4 opacity-30">
                   <Orb3D size={80} color="#ffffff" intensity={0.6} speed={0.005} />
@@ -227,32 +227,34 @@ export function InteractivePlanCard() {
                 <div className="absolute bottom-4 left-4 opacity-20">
                   <Orb3D size={60} color="#ff00ff" intensity={0.4} speed={0.008} />
                 </div>
-                <div className="label-topo">
+                
+                <h2 className="text-center text-lg font-semibold tracking-wide text-white">
                   ASSINATURA<br />
                   <span>SEM FIDELIDADE</span>
+                </h2>
+
+                <div className="bg-purple-600 rounded-xl text-center py-4 text-4xl font-extrabold shadow-inner">
+                  {plan.gb}<span className="text-purple-300 text-2xl font-medium">GB</span>
                 </div>
-                
-                <div className="giga-bloco">
-                  <GradientText colors={["#ffffff", "#ffffff", "#ffffff"]} animationSpeed={4} className="text-6xl font-extrabold">
-                    {plan.gb}<span className="giga-unidade">GB</span>
-                  </GradientText>
+
+                <p className="text-center text-sm mt-2">
+                  Você ganha por indicação
+                </p>
+
+                <p className="text-center text-white text-sm">
+                  Ligações e SMS ilimitados para qualquer operadora do Brasil.
+                </p>
+
+                <div className="bg-purple-500 rounded-lg py-3 text-center text-xl font-bold text-white">
+                  Por {formatCurrency(plan.price)} <span className="text-sm font-normal">/mês</span>
                 </div>
-                
-                <div className="beneficios">
-                  <p>Ligações e SMS ilimitados</p>
-                  <p>para qualquer operadora do Brasil.</p>
-                </div>
-                
-                <div className="preco-box">
-                  <span className="preco-label">Por</span>
-                  <span className="preco-destaque">{formatCurrency(plan.price)}</span>
-                  <span className="preco-mes">/mês</span>
-                </div>
-                
-                <div className="comissoes">
-                  {plan.commissionLevels.map((level, index) => <p key={level.level}>
-                      <strong>Nível {level.level}:</strong> {formatCurrency(level.commission)}
-                    </p>)}
+
+                <div className="bg-purple-700 rounded-xl mt-4 p-4 space-y-2">
+                  {plan.commissionLevels.map((level, index) => (
+                    <p key={level.level} className="text-sm font-semibold text-yellow-300">
+                      Nível {level.level}: <span className="text-white font-normal">{formatCurrency(level.commission)}</span>
+                    </p>
+                  ))}
                 </div>
                 
                 {/* Audio Narration Button */}
