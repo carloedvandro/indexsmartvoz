@@ -3,6 +3,7 @@ import { formatCurrency } from "@/utils/format";
 import { motion } from 'framer-motion';
 import { Orb3D } from '@/components/ui/3d-orb';
 import { GradientText } from '@/components/ui/gradient-text';
+import { Volume2, VolumeX } from 'lucide-react';
 interface Plan {
   gb: number;
   price: number;
@@ -136,6 +137,8 @@ function AnimatedNumber({
 }
 export function InteractivePlanCard() {
   const [currentPlan, setCurrentPlan] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+
   const changePlan = (direction: number) => {
     setCurrentPlan(prev => {
       const newIndex = prev + direction;
@@ -143,6 +146,42 @@ export function InteractivePlanCard() {
       if (newIndex >= plans.length) return 0;
       return newIndex;
     });
+  };
+
+  const generateNarrationText = (plan: Plan) => {
+    const firstLevel = plan.commissionLevels[0];
+    const otherLevels = plan.commissionLevels.slice(1);
+    
+    return `No plano de ${plan.gb}GB, você paga ${formatCurrency(plan.price)} e ganha ${formatCurrency(firstLevel.commission)} no primeiro nível e ${formatCurrency(otherLevels[0].commission)} do segundo ao quarto nível.`;
+  };
+
+  const playNarration = () => {
+    if ('speechSynthesis' in window) {
+      // Para a narração atual se estiver tocando
+      if (isPlaying) {
+        window.speechSynthesis.cancel();
+        setIsPlaying(false);
+        return;
+      }
+
+      const text = generateNarrationText(plan);
+      const utterance = new SpeechSynthesisUtterance(text);
+      
+      // Configurações da voz
+      utterance.lang = 'pt-BR';
+      utterance.rate = 0.9; // Velocidade um pouco mais lenta
+      utterance.pitch = 1;
+      utterance.volume = 1;
+
+      // Event listeners
+      utterance.onstart = () => setIsPlaying(true);
+      utterance.onend = () => setIsPlaying(false);
+      utterance.onerror = () => setIsPlaying(false);
+
+      window.speechSynthesis.speak(utterance);
+    } else {
+      alert('Text-to-Speech não é suportado neste navegador');
+    }
   };
   const calculateTotal = (commissionLevels: CommissionLevel[]) => {
     return commissionLevels.reduce((total, level) => total + level.monthlyValue, 0);
@@ -206,6 +245,27 @@ export function InteractivePlanCard() {
                   {plan.commissionLevels.map((level, index) => <p key={level.level}>
                       <strong>Nível {level.level}:</strong> {formatCurrency(level.commission)}
                     </p>)}
+                </div>
+                
+                {/* Audio Narration Button */}
+                <div className="flex justify-center mt-4">
+                  <button
+                    onClick={playNarration}
+                    className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-all duration-300 backdrop-blur-sm border border-white/30"
+                    disabled={!('speechSynthesis' in window)}
+                  >
+                    {isPlaying ? (
+                      <>
+                        <VolumeX size={20} />
+                        <span className="text-sm font-medium">Parar áudio</span>
+                      </>
+                    ) : (
+                      <>
+                        <Volume2 size={20} />
+                        <span className="text-sm font-medium">Ouvir plano</span>
+                      </>
+                    )}
+                  </button>
                 </div>
               </motion.div>
               
