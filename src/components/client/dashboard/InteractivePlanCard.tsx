@@ -219,42 +219,83 @@ export function InteractivePlanCard() {
             scale: 1
           }} transition={{
             duration: 0.4
-          }} className="bg-purple-800 text-white max-w-sm w-full shadow-2xl rounded-3xl p-6 space-y-4 relative overflow-hidden">
-                {/* 3D Orb Background Effect */}
-                <div className="absolute top-4 right-4 opacity-30">
-                  <Orb3D size={80} color="#ffffff" intensity={0.6} speed={0.005} />
-                </div>
-                <div className="absolute bottom-4 left-4 opacity-20">
-                  <Orb3D size={60} color="#ff00ff" intensity={0.4} speed={0.008} />
-                </div>
-                
-                <h2 className="text-center text-lg font-semibold tracking-wide text-white">
-                  ASSINATURA<br />
-                  <span>SEM FIDELIDADE</span>
-                </h2>
-
-                <div className="bg-purple-600 rounded-xl text-center py-4 text-4xl font-extrabold shadow-inner">
-                  {plan.gb}<span className="text-purple-300 text-2xl font-medium">GB</span>
+          }} className="relative w-full max-w-2xl mx-auto bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 text-white rounded-3xl overflow-hidden shadow-2xl">
+                {/* Header with logo */}
+                <div className="p-6 pb-0">
+                  <div className="flex items-center gap-2 text-xl font-bold">
+                    <div className="w-6 h-6 bg-white rounded-full flex items-center justify-center">
+                      <span className="text-purple-800 text-sm">✦</span>
+                    </div>
+                    <span>SmartVoz</span>
+                  </div>
                 </div>
 
-                <p className="text-center text-sm mt-2">
-                  Você ganha por indicação
-                </p>
-
-                <p className="text-center text-white text-sm">
-                  Ligações e SMS ilimitados para qualquer operadora do Brasil.
-                </p>
-
-                <div className="bg-purple-500 rounded-lg py-3 text-center text-xl font-bold text-white">
-                  Por {formatCurrency(plan.price)} <span className="text-sm font-normal">/mês</span>
+                {/* Curved accent line */}
+                <div className="absolute top-20 right-0 w-full h-16">
+                  <svg 
+                    viewBox="0 0 400 100" 
+                    className="w-full h-full"
+                    preserveAspectRatio="none"
+                  >
+                    <path 
+                      d="M0,50 Q200,0 400,30 L400,100 L0,100 Z" 
+                      fill="url(#purpleGradient)"
+                      opacity="0.3"
+                    />
+                    <defs>
+                      <linearGradient id="purpleGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#a855f7" />
+                        <stop offset="100%" stopColor="#ec4899" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
                 </div>
 
-                <div className="bg-purple-700 rounded-xl mt-4 p-4 space-y-2">
-                  {plan.commissionLevels.map((level, index) => (
-                    <p key={level.level} className="text-sm font-semibold text-yellow-300">
-                      Nível {level.level}: <span className="text-white font-normal">{formatCurrency(level.commission)}</span>
-                    </p>
-                  ))}
+                {/* Main content */}
+                <div className="relative z-10 px-6 py-4">
+                  {/* Main text */}
+                  <div className="text-center mb-6">
+                    <h1 className="text-lg font-bold leading-tight mb-4">
+                      Se você quer ganhar dinheiro indicando,<br />
+                      <span className="text-pink-300">vem com o melhor plano para sua rede.</span>
+                    </h1>
+                  </div>
+
+                  {/* Price highlight box */}
+                  <div className="bg-black/20 backdrop-blur-sm border border-white/20 rounded-2xl p-6 mb-6">
+                    <div className="flex items-center justify-center gap-4">
+                      <div className="text-center">
+                        <div className="text-3xl font-bold">
+                          {plan.gb}<span className="text-xl font-medium text-purple-300">GB</span>
+                        </div>
+                      </div>
+                      <div className="h-12 w-px bg-white/30"></div>
+                      <div className="text-center">
+                        <div className="text-xs text-purple-300 mb-1">Por</div>
+                        <div className="text-2xl font-bold">
+                          {formatCurrency(plan.price)}<span className="text-sm text-purple-300">/mês</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Benefits */}
+                  <div className="text-center text-sm text-purple-200 mb-6">
+                    Ligações e SMS ilimitados para qualquer operadora do Brasil.
+                  </div>
+
+                  {/* Commission levels */}
+                  <div className="bg-black/20 backdrop-blur-sm border border-white/20 rounded-2xl p-4 mb-4">
+                    <div className="text-center text-sm font-bold text-yellow-300 mb-3">Ganhe por indicação:</div>
+                    <div className="grid grid-cols-2 gap-2">
+                      {plan.commissionLevels.map((level, index) => (
+                        <div key={level.level} className="text-xs">
+                          <span className="text-yellow-300 font-semibold">Nível {level.level}:</span>{" "}
+                          <span className="text-white font-bold">{formatCurrency(level.commission)}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
                 
                 {/* Audio Narration Button */}
