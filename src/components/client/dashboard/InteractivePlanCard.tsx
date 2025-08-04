@@ -152,6 +152,14 @@ export function InteractivePlanCard() {
     const firstLevel = plan.commissionLevels[0];
     const otherLevels = plan.commissionLevels.slice(1);
     
+    if (plan.gb === 100) {
+      return "No plano de 100GB, você paga R$99,99 e ganha R$20,00 no primeiro nível e R$5,00 do segundo ao quarto nível.";
+    } else if (plan.gb === 120) {
+      return "No plano de 120GB, o valor é R$119,99 com ganho de R$25,00 no primeiro nível e R$5,00 do segundo ao quarto nível.";
+    } else if (plan.gb === 140) {
+      return "No plano de 140GB, você paga R$139,99 e recebe R$30,00 no primeiro nível e R$5,00 do segundo ao quarto nível.";
+    }
+    
     return `No plano de ${plan.gb}GB, você paga ${formatCurrency(plan.price)} e ganha ${formatCurrency(firstLevel.commission)} no primeiro nível e ${formatCurrency(otherLevels[0].commission)} do segundo ao quarto nível.`;
   };
 
