@@ -261,7 +261,7 @@ export function InteractivePlanCard() {
                 <div className="flex justify-center mt-4">
                   <button
                     onClick={playNarration}
-                    className="flex items-center gap-2 px-4 py-2 bg-transparent hover:bg-white/10 text-white rounded-lg transition-all duration-300 border border-white/30"
+                    className="flex items-center gap-2 px-4 py-2 bg-transparent hover:bg-white/10 text-white rounded-lg transition-all duration-300 border border-white/30 shadow-[0_6px_0_rgba(255,255,255,0.2)] hover:-translate-y-0.5 hover:shadow-[0_8px_0_rgba(255,255,255,0.25)] active:translate-y-0 active:shadow-[0_2px_0_rgba(255,255,255,0.2)]"
                     disabled={!('speechSynthesis' in window)}
                   >
                     {isPlaying ? (
