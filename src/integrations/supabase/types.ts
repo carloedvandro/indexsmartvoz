@@ -445,6 +445,7 @@ export type Database = {
         Row: {
           created_at: string
           description: string | null
+          fixed_value: number | null
           id: string
           level: number
           percentage: number
@@ -453,6 +454,7 @@ export type Database = {
         Insert: {
           created_at?: string
           description?: string | null
+          fixed_value?: number | null
           id?: string
           level: number
           percentage: number
@@ -461,6 +463,7 @@ export type Database = {
         Update: {
           created_at?: string
           description?: string | null
+          fixed_value?: number | null
           id?: string
           level?: number
           percentage?: number
