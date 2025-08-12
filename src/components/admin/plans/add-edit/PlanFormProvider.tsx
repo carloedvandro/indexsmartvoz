@@ -71,7 +71,12 @@ export function PlanFormProvider({ children, initialData }: PlanFormProviderProp
   // Métodos para gerenciar cashback levels
   const addCashbackLevel = (level: any) => {
     const newLevel = { ...level, id: level.id || Date.now() + Math.random() };
-    setCashbackLevels(prev => [...prev, newLevel]);
+    console.log('🟢 Adding cashback level:', newLevel);
+    setCashbackLevels(prev => {
+      const newArray = [...prev, newLevel];
+      console.log('🟢 New cashback levels array:', newArray);
+      return newArray;
+    });
   };
 
   const updateCashbackLevel = (id: any, level: any) => {

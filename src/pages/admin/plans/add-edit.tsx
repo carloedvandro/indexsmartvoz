@@ -24,6 +24,10 @@ function AdminPlanAddEditContent() {
   };
 
   const handleSave = async () => {
+    console.log('🔴 HandleSave - Current cashbackLevels:', cashbackLevels);
+    console.log('🔴 HandleSave - Current benefits:', benefits);
+    console.log('🔴 HandleSave - Current basicFormData:', basicFormData);
+    
     if (!basicFormData) {
       toast({
         title: "Erro",

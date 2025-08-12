@@ -17,10 +17,13 @@ export function CashbackLevelsTab() {
   const [editingCashback, setEditingCashback] = useState<any>(null);
 
   const handleCashbackSubmit = (cashbackData: any) => {
+    console.log('🟡 CashbackLevelsTab - handleCashbackSubmit called with:', cashbackData);
     if (editingCashback) {
+      console.log('🟡 Updating existing cashback level');
       updateCashbackLevel(editingCashback.id, cashbackData);
       setEditingCashback(null);
     } else {
+      console.log('🟡 Adding new cashback level');
       addCashbackLevel(cashbackData);
     }
     setCashbackModalOpen(false);
