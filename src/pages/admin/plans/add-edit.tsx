@@ -234,33 +234,16 @@ export default function AdminPlanAddEdit() {
         .from('plans')
         .select(`
           *,
-          cashback_levels:plan_cashback_levels(*),
-          benefits:plan_benefits(*)
+          plan_cashback_levels(*),
+          plan_benefits(*)
         `)
         .eq('id', planId)
         .single();
 
       if (error) throw error;
 
-      // Processar os dados para adicionar valueType aos cashback_levels
-      const processedData = {
-        ...data,
-        firstPurchaseCashback: data.first_purchase_cashback || 0,
-        cashback_levels: data.cashback_levels?.map((level: any) => ({
-          ...level,
-          id: level.id || Date.now() + Math.random(),
-          valueType: level.amount !== null && level.amount !== undefined ? 'fixed' : 'percentage',
-          amount: level.amount || 0,
-          percentage: level.percentage ? level.percentage * 100 : 0
-        })) || [],
-        benefits: data.benefits?.map((benefit: any) => ({
-          ...benefit,
-          id: benefit.id || Date.now() + Math.random()
-        })) || []
-      };
-
-      console.log('Processed plan data:', processedData);
-      return processedData;
+      console.log('Raw plan data from DB:', data);
+      return data;
     },
     enabled: !!planId
   });

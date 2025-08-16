@@ -59,22 +59,27 @@ export function PlanFormProvider({ children, initialData }: PlanFormProviderProp
         description: initialData.description || '',
         value: initialData.value || 0,
         status: initialData.status || 'active',
-        firstPurchaseCashback: initialData.firstPurchaseCashback || initialData.first_purchase_cashback || 0
+        firstPurchaseCashback: initialData.first_purchase_cashback || 0
       };
       
       setBasicFormData(newBasicFormData);
       console.log('🟢 PlanFormProvider: Setting basic form data:', newBasicFormData);
 
-      // Inicializar cashback levels
-      if (initialData.cashback_levels && Array.isArray(initialData.cashback_levels)) {
-        setCashbackLevels(initialData.cashback_levels);
-        console.log('🟢 PlanFormProvider: Setting cashback levels:', initialData.cashback_levels);
+      // Inicializar cashback levels - mapear amount e percentage corretamente
+      if (initialData.plan_cashback_levels && Array.isArray(initialData.plan_cashback_levels)) {
+        const mappedCashbackLevels = initialData.plan_cashback_levels.map((level: any) => ({
+          ...level,
+          valueType: level.amount !== null && level.amount !== undefined ? 'fixed' : 'percentage',
+          percentage: level.percentage ? level.percentage * 100 : 0
+        }));
+        setCashbackLevels(mappedCashbackLevels);
+        console.log('🟢 PlanFormProvider: Setting cashback levels:', mappedCashbackLevels);
       }
 
       // Inicializar benefits
-      if (initialData.benefits && Array.isArray(initialData.benefits)) {
-        setBenefits(initialData.benefits);
-        console.log('🟢 PlanFormProvider: Setting benefits:', initialData.benefits);
+      if (initialData.plan_benefits && Array.isArray(initialData.plan_benefits)) {
+        setBenefits(initialData.plan_benefits);
+        console.log('🟢 PlanFormProvider: Setting benefits:', initialData.plan_benefits);
       }
       
       setInitialized(true);
