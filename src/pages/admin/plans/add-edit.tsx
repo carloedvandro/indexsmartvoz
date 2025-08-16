@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -99,7 +98,7 @@ function AdminPlanAddEditContent() {
           plan_id: savedPlanId,
           level: level.level,
           percentage: level.valueType === 'percentage' ? (level.percentage || 0) / 100 : null,
-          fixed_value: level.valueType === 'fixed' ? level.fixedValue : null,
+          amount: level.valueType === 'fixed' ? level.amount : null,
           description: level.description || null
         }));
 
@@ -157,7 +156,7 @@ function AdminPlanAddEditContent() {
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-              <Button
+            <Button
               variant="ghost"
               size="sm"
               onClick={handleBack}
@@ -173,7 +172,6 @@ function AdminPlanAddEditContent() {
 
           {/* Botão de ação - visível apenas no desktop */}
           <div className="hidden md:block">
-          
             <Button
               onClick={handleSave}
               disabled={isSubmitting}
@@ -201,7 +199,7 @@ function AdminPlanAddEditContent() {
 
           {/* Conteúdo principal */}
           <div className="flex-1">
-                <PlanFormTabs />
+            <PlanFormTabs />
           </div>
         </div>
       </div>
@@ -250,15 +248,14 @@ export default function AdminPlanAddEdit() {
         firstPurchaseCashback: data.first_purchase_cashback || 0,
         cashback_levels: data.cashback_levels?.map((level: any) => ({
           ...level,
-          id: level.id || Date.now() + Math.random(), // Garantir que tem ID
-          valueType: level.fixed_value !== null ? 'fixed' : 'percentage',
-          fixedValue: level.fixed_value || 0,
+          id: level.id || Date.now() + Math.random(),
+          valueType: level.amount !== null && level.amount !== undefined ? 'fixed' : 'percentage',
+          amount: level.amount || 0,
           percentage: level.percentage ? level.percentage * 100 : 0
         })) || [],
         benefits: data.benefits?.map((benefit: any) => ({
           ...benefit,
-          id: benefit.id || Date.now() + Math.random(), // Garantir que tem ID
-          title: benefit.title || benefit.benefit_title // Compatibilidade para benefícios antigos
+          id: benefit.id || Date.now() + Math.random()
         })) || []
       };
 

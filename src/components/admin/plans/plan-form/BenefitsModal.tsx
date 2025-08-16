@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -13,7 +14,7 @@ interface BenefitsModalProps {
 }
 
 interface BenefitFormData {
-  benefit_title: string;
+  title: string;
   display_order: number;
 }
 
@@ -36,12 +37,12 @@ export function BenefitsModal({
     if (open) {
       if (initialData) {
         reset({
-          benefit_title: initialData.benefit_title || '',
+          title: initialData.title || '',
           display_order: initialData.display_order || 1
         });
       } else {
         reset({
-          benefit_title: '',
+          title: '',
           display_order: 1
         });
       }
@@ -66,22 +67,31 @@ export function BenefitsModal({
 
         <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
           <div>
-            <Label htmlFor="benefit_title">Título do Benefício *</Label>
-            <Input id="benefit_title" {...register("benefit_title", {
-            required: "Título é obrigatório"
-          })} placeholder="Ex: Internet ilimitada" />
-            {errors.benefit_title && <span className="text-sm text-red-600">{errors.benefit_title.message}</span>}
+            <Label htmlFor="title">Título do Benefício *</Label>
+            <Input 
+              id="title" 
+              {...register("title", {
+                required: "Título é obrigatório"
+              })} 
+              placeholder="Ex: Internet ilimitada" 
+            />
+            {errors.title && <span className="text-sm text-red-600">{errors.title.message}</span>}
           </div>
 
           <div>
             <Label htmlFor="display_order">Ordem de Exibição</Label>
-            <Input id="display_order" type="number" min="1" {...register("display_order", {
-            valueAsNumber: true,
-            min: {
-              value: 1,
-              message: "Ordem deve ser maior que 0"
-            }
-          })} />
+            <Input 
+              id="display_order" 
+              type="number" 
+              min="1" 
+              {...register("display_order", {
+                valueAsNumber: true,
+                min: {
+                  value: 1,
+                  message: "Ordem deve ser maior que 0"
+                }
+              })} 
+            />
             {errors.display_order && <span className="text-sm text-red-600">{errors.display_order.message}</span>}
           </div>
 
@@ -89,7 +99,7 @@ export function BenefitsModal({
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Cancelar
             </Button>
-            <Button type="button" onClick={handleSubmit(handleFormSubmit)}>
+            <Button type="submit">
               {initialData ? 'Atualizar' : 'Adicionar'}
             </Button>
           </div>
