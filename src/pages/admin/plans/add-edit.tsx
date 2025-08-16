@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -60,6 +61,7 @@ function AdminPlanAddEditContent() {
             description: basicFormData.description,
             value: basicFormData.value,
             status: basicFormData.status,
+            first_purchase_cashback: basicFormData.firstPurchaseCashback,
             updated_at: new Date().toISOString()
           })
           .eq('id', planId);
@@ -73,7 +75,8 @@ function AdminPlanAddEditContent() {
             title: basicFormData.title,
             description: basicFormData.description,
             value: basicFormData.value,
-            status: basicFormData.status
+            status: basicFormData.status,
+            first_purchase_cashback: basicFormData.firstPurchaseCashback
           })
           .select()
           .single();
@@ -119,7 +122,7 @@ function AdminPlanAddEditContent() {
       if (benefits.length > 0) {
         const benefitsData = benefits.map(benefit => ({
           plan_id: savedPlanId,
-          benefit_title: benefit.benefit_title,
+          title: benefit.title,
           display_order: benefit.display_order
         }));
 
@@ -244,7 +247,7 @@ export default function AdminPlanAddEdit() {
       // Processar os dados para adicionar valueType aos cashback_levels
       const processedData = {
         ...data,
-        firstPurchaseCashback: 0, // Valor padrão já que o campo não existe na base de dados ainda
+        firstPurchaseCashback: data.first_purchase_cashback || 0,
         cashback_levels: data.cashback_levels?.map((level: any) => ({
           ...level,
           id: level.id || Date.now() + Math.random(), // Garantir que tem ID
@@ -254,7 +257,8 @@ export default function AdminPlanAddEdit() {
         })) || [],
         benefits: data.benefits?.map((benefit: any) => ({
           ...benefit,
-          id: benefit.id || Date.now() + Math.random() // Garantir que tem ID
+          id: benefit.id || Date.now() + Math.random(), // Garantir que tem ID
+          title: benefit.title || benefit.benefit_title // Compatibilidade para benefícios antigos
         })) || []
       };
 

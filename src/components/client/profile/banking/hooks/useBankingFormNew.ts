@@ -50,7 +50,10 @@ export function useBankingFormNew(profile: ProfileWithSponsor) {
         // Atualizar conta existente
         await updateBankAccount.mutateAsync({
           id: existingAccounts[0].id,
-          data: bankAccountData
+          data: {
+            type_key_pix: bankAccountData.type_key_pix,
+            key_pix: bankAccountData.key_pix,
+          }
         });
       } else {
         // Criar nova conta

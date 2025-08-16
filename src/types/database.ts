@@ -20,9 +20,15 @@ export type CreateProfileDocument = Omit<ProfileDocument, 'id' | 'created_at'>;
 export type CreateProfilePayment = Omit<ProfilePayment, 'id' | 'created_at'>;
 export type CreateProfileReferral = Omit<ProfileReferral, 'id' | 'created_at'>;
 export type CreateReferralCommission = Omit<ReferralCommission, 'id' | 'created_at'>;
+export type CreatePlan = Omit<Plan, 'id' | 'created_at' | 'updated_at'>;
+export type CreatePlanBenefit = Omit<PlanBenefit, 'id' | 'created_at' | 'updated_at'>;
+export type CreatePlanCashbackLevel = Omit<PlanCashbackLevel, 'id' | 'created_at' | 'updated_at'>;
 
 // Tipos para atualização (campos opcionais)
 export type UpdateProfileAddress = Partial<Omit<ProfileAddress, 'id' | 'created_at' | 'profile_id'>>;
 export type UpdateProfileBankAccount = Partial<Omit<ProfileBankAccount, 'id' | 'created_at' | 'profile_id'>>;
 export type UpdateProfileDocument = Partial<Omit<ProfileDocument, 'id' | 'created_at' | 'profile_id'>>;
 export type UpdateProfilePayment = Partial<Omit<ProfilePayment, 'id' | 'created_at' | 'profile_id'>>;
+export type UpdatePlan = Partial<Omit<Plan, 'id' | 'created_at'>>;
+export type UpdatePlanBenefit = Partial<Omit<PlanBenefit, 'id' | 'created_at' | 'plan_id'>>;
+export type UpdatePlanCashbackLevel = Partial<Omit<PlanCashbackLevel, 'id' | 'created_at' | 'plan_id'>>;

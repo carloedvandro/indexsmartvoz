@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface BasicFormData {
@@ -38,70 +39,101 @@ export function PlanFormProvider({ children, initialData }: PlanFormProviderProp
   const [activeTab, setActiveTab] = useState('informacoes');
   const [cashbackLevels, setCashbackLevels] = useState<any[]>([]);
   const [benefits, setBenefits] = useState<any[]>([]);
-  const [basicFormData, setBasicFormData] = useState<BasicFormData | null>(null);
+  const [basicFormData, setBasicFormData] = useState<BasicFormData>({
+    title: '',
+    description: '',
+    value: 0,
+    status: 'active',
+    firstPurchaseCashback: 0
+  });
+  const [initialized, setInitialized] = useState(false);
 
   // Efeito para inicializar os dados quando initialData mudar
   useEffect(() => {
-    if (initialData) {
-      console.log('Initializing form data:', initialData);
+    if (initialData && !initialized) {
+      console.log('🟢 PlanFormProvider: Initializing form data:', initialData);
       
       // Inicializar dados básicos
-      setBasicFormData({
+      const newBasicFormData = {
         title: initialData.title || '',
         description: initialData.description || '',
         value: initialData.value || 0,
         status: initialData.status || 'active',
-        firstPurchaseCashback: initialData.firstPurchaseCashback || 0
-      });
+        firstPurchaseCashback: initialData.firstPurchaseCashback || initialData.first_purchase_cashback || 0
+      };
+      
+      setBasicFormData(newBasicFormData);
+      console.log('🟢 PlanFormProvider: Setting basic form data:', newBasicFormData);
 
       // Inicializar cashback levels
       if (initialData.cashback_levels && Array.isArray(initialData.cashback_levels)) {
         setCashbackLevels(initialData.cashback_levels);
-        console.log('Setting cashback levels:', initialData.cashback_levels);
+        console.log('🟢 PlanFormProvider: Setting cashback levels:', initialData.cashback_levels);
       }
 
       // Inicializar benefits
       if (initialData.benefits && Array.isArray(initialData.benefits)) {
         setBenefits(initialData.benefits);
-        console.log('Setting benefits:', initialData.benefits);
+        console.log('🟢 PlanFormProvider: Setting benefits:', initialData.benefits);
       }
+      
+      setInitialized(true);
+    } else if (!initialData && !initialized) {
+      // Se não há dados iniciais, marcar como inicializado para permitir a edição
+      setInitialized(true);
     }
-  }, [initialData]);
+  }, [initialData, initialized]);
+
+  // Função para atualizar dados básicos preservando valores existentes
+  const updateBasicFormData = (newData: BasicFormData) => {
+    console.log('🟡 PlanFormProvider: Updating basic form data:', newData);
+    setBasicFormData(prev => {
+      const updated = { ...prev, ...newData };
+      console.log('🟡 PlanFormProvider: Previous data:', prev);
+      console.log('🟡 PlanFormProvider: Updated data:', updated);
+      return updated;
+    });
+  };
 
   // Métodos para gerenciar cashback levels
   const addCashbackLevel = (level: any) => {
     const newLevel = { ...level, id: level.id || Date.now() + Math.random() };
-    console.log('🟢 Adding cashback level:', newLevel);
+    console.log('🟢 PlanFormProvider: Adding cashback level:', newLevel);
     setCashbackLevels(prev => {
       const newArray = [...prev, newLevel];
-      console.log('🟢 New cashback levels array:', newArray);
+      console.log('🟢 PlanFormProvider: New cashback levels array:', newArray);
       return newArray;
     });
   };
 
   const updateCashbackLevel = (id: any, level: any) => {
+    console.log('🟡 PlanFormProvider: Updating cashback level:', { id, level });
     setCashbackLevels(prev => prev.map(item => 
       item.id === id ? { ...level, id } : item
     ));
   };
 
   const deleteCashbackLevel = (id: any) => {
+    console.log('🔴 PlanFormProvider: Deleting cashback level:', id);
     setCashbackLevels(prev => prev.filter(item => item.id !== id));
   };
 
   // Métodos para gerenciar benefits
   const addBenefit = (benefit: any) => {
     const newBenefit = { ...benefit, id: benefit.id || Date.now() + Math.random() };
+    console.log('🟢 PlanFormProvider: Adding benefit:', newBenefit);
     setBenefits(prev => [...prev, newBenefit]);
   };
 
   const updateBenefit = (id: any, benefit: any) => {
+    console.log('🟡 PlanFormProvider: Updating benefit:', { id, benefit });
     setBenefits(prev => prev.map(item => 
       item.id === id ? { ...benefit, id } : item
     ));
   };
 
   const deleteBenefit = (id: any) => {
+    console.log('🔴 PlanFormProvider: Deleting benefit:', id);
     setBenefits(prev => prev.filter(item => item.id !== id));
   };
 
@@ -114,7 +146,7 @@ export function PlanFormProvider({ children, initialData }: PlanFormProviderProp
     benefits,
     setBenefits,
     basicFormData,
-    setBasicFormData,
+    setBasicFormData: updateBasicFormData,
     addCashbackLevel,
     updateCashbackLevel,
     deleteCashbackLevel,

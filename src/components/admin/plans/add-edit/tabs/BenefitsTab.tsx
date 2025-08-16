@@ -17,10 +17,13 @@ export function BenefitsTab() {
   const [editingBenefit, setEditingBenefit] = useState<any>(null);
 
   const handleBenefitSubmit = (benefitData: any) => {
+    console.log('🟡 BenefitsTab - handleBenefitSubmit called with:', benefitData);
     if (editingBenefit) {
+      console.log('🟡 Updating existing benefit');
       updateBenefit(editingBenefit.id, benefitData);
       setEditingBenefit(null);
     } else {
+      console.log('🟡 Adding new benefit');
       addBenefit(benefitData);
     }
     setBenefitsModalOpen(false);
