@@ -18,22 +18,21 @@ interface BasicInfoFormData {
 
 export function BasicInfoTab() {
   const { basicFormData, setBasicFormData } = usePlanForm();
-  const hasInitialized = useRef(false);
+  const isInitialized = useRef(false);
 
   const { register, setValue, watch, formState: { errors }, reset } = useForm<BasicInfoFormData>({
     defaultValues: {
-      title: '',
-      description: '',
-      value: 0,
-      status: 'active',
-      firstPurchaseCashback: 0,
+      title: basicFormData?.title || '',
+      description: basicFormData?.description || '',
+      value: basicFormData?.value || 0,
+      status: basicFormData?.status || 'active',
+      firstPurchaseCashback: basicFormData?.firstPurchaseCashback || 0,
     }
   });
 
-  // Inicializar o formulário com os dados do contexto quando disponível
+  // Inicializar o formulário com os dados do contexto apenas uma vez
   useEffect(() => {
-    if (basicFormData && !hasInitialized.current) {
-      console.log('🟡 BasicInfoTab: Initializing form with data:', basicFormData);
+    if (basicFormData && !isInitialized.current) {
       reset({
         title: basicFormData.title || '',
         description: basicFormData.description || '',
@@ -41,7 +40,7 @@ export function BasicInfoTab() {
         status: basicFormData.status || 'active',
         firstPurchaseCashback: basicFormData.firstPurchaseCashback || 0
       });
-      hasInitialized.current = true;
+      isInitialized.current = true;
     }
   }, [basicFormData, reset]);
 
@@ -49,17 +48,15 @@ export function BasicInfoTab() {
   const formValues = watch();
   
   useEffect(() => {
-    // Sincronizar os valores do formulário com o contexto apenas após inicialização
-    if (hasInitialized.current && setBasicFormData) {
-      const updatedData = {
+    // Sincronizar os valores do formulário com o contexto apenas se já foi inicializado
+    if (setBasicFormData && isInitialized.current) {
+      setBasicFormData({
         title: formValues.title || '',
         description: formValues.description || '',
         value: formValues.value || 0,
         status: formValues.status || 'active',
         firstPurchaseCashback: formValues.firstPurchaseCashback || 0
-      };
-      console.log('🟡 BasicInfoTab: Syncing form values to context:', updatedData);
-      setBasicFormData(updatedData);
+      });
     }
   }, [formValues, setBasicFormData]);
 

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -235,17 +234,33 @@ export default function AdminPlanAddEdit() {
         .from('plans')
         .select(`
           *,
-          plan_cashback_levels(*),
-          plan_benefits(*)
+          cashback_levels:plan_cashback_levels(*),
+          benefits:plan_benefits(*)
         `)
         .eq('id', planId)
         .single();
 
       if (error) throw error;
 
-      console.log('🔍 Raw plan data from database:', data);
+      // Processar os dados para adicionar valueType aos cashback_levels
+      const processedData = {
+        ...data,
+        firstPurchaseCashback: data.first_purchase_cashback || 0,
+        cashback_levels: data.cashback_levels?.map((level: any) => ({
+          ...level,
+          id: level.id || Date.now() + Math.random(),
+          valueType: level.amount !== null && level.amount !== undefined ? 'fixed' : 'percentage',
+          amount: level.amount || 0,
+          percentage: level.percentage ? level.percentage * 100 : 0
+        })) || [],
+        benefits: data.benefits?.map((benefit: any) => ({
+          ...benefit,
+          id: benefit.id || Date.now() + Math.random()
+        })) || []
+      };
 
-      return data;
+      console.log('Processed plan data:', processedData);
+      return processedData;
     },
     enabled: !!planId
   });

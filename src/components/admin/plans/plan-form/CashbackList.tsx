@@ -1,83 +1,94 @@
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Edit, Trash2 } from "lucide-react";
 
+interface CashbackLevel {
+  id?: any;
+  level: number;
+  percentage?: number;
+  fixedValue?: number;
+  valueType?: 'percentage' | 'fixed';
+  description: string;
+}
+
 interface CashbackListProps {
-  cashbackLevels: any[];
-  onEdit: (cashback: any) => void;
+  cashbackLevels: CashbackLevel[];
+  onEdit: (cashback: CashbackLevel) => void;
   onDelete: (id: any) => void;
 }
 
 export function CashbackList({ cashbackLevels, onEdit, onDelete }: CashbackListProps) {
-  const formatValue = (level: any) => {
-    if (level.valueType === 'fixed' && level.amount !== null && level.amount !== undefined) {
-      return `R$ ${Number(level.amount).toFixed(2)}`;
-    } else if (level.valueType === 'percentage' && level.percentage !== null && level.percentage !== undefined) {
-      return `${Number(level.percentage).toFixed(2)}%`;
+  if (cashbackLevels.length === 0) {
+    return (
+      <div className="text-center py-8 text-gray-500">
+        Nenhum nível de cashback adicionado
+      </div>
+    );
+  }
+
+  const formatCurrency = (value: number) => {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).format(value);
+  };
+
+  const getValueDisplay = (cashback: CashbackLevel) => {
+    if (cashback.fixedValue !== undefined && cashback.fixedValue !== null) {
+      return formatCurrency(cashback.fixedValue);
+    } else if (cashback.percentage !== undefined && cashback.percentage !== null) {
+      return `${cashback.percentage}%`;
     }
     return 'N/A';
   };
 
-  const getValueType = (level: any) => {
-    if (level.valueType === 'fixed') {
+  const getValueType = (cashback: CashbackLevel) => {
+    if (cashback.fixedValue !== undefined && cashback.fixedValue !== null) {
       return 'Valor Fixo';
-    } else if (level.valueType === 'percentage') {
+    } else if (cashback.percentage !== undefined && cashback.percentage !== null) {
       return 'Percentual';
     }
     return 'N/A';
   };
 
-  if (!cashbackLevels || cashbackLevels.length === 0) {
-    return (
-      <div className="text-center py-8 text-gray-500">
-        <p>Nenhum nível de cashback configurado</p>
-        <p className="text-sm">Adicione pelo menos um nível de cashback</p>
-      </div>
-    );
-  }
-
   return (
     <div className="space-y-3">
-      {cashbackLevels.map((level) => (
-        <Card key={level.id} className="border border-gray-200">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <div className="flex items-center gap-4">
-                  <div className="font-medium text-gray-900">
-                    Nível {level.level}
-                  </div>
-                  <div className="text-sm text-gray-600">
-                    {getValueType(level)}: <span className="font-medium">{formatValue(level)}</span>
-                  </div>
-                </div>
-                {level.description && (
-                  <div className="text-sm text-gray-500 mt-1">
-                    {level.description}
-                  </div>
-                )}
+      {cashbackLevels.map((cashback) => (
+        <div key={cashback.id} className="border rounded-lg p-4">
+          <div className="flex justify-between items-start">
+            <div className="flex-1">
+              <div className="flex items-center gap-3 mb-2">
+                <span className="font-medium">Nível {cashback.level}</span>
+                <span className="font-bold text-green-600">{getValueDisplay(cashback)}</span>
+                <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+                  {getValueType(cashback)}
+                </span>
               </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => onEdit(level)}
-                >
-                  <Edit className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => onDelete(level.id)}
-                  className="text-red-600 hover:text-red-800"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </div>
+              {cashback.description && (
+                <p className="text-sm text-gray-600">{cashback.description}</p>
+              )}
             </div>
-          </CardContent>
-        </Card>
+            <div className="flex gap-2 ml-4">
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => onEdit(cashback)}
+              >
+                <Edit className="h-4 w-4" />
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => onDelete(cashback.id)}
+                className="text-red-600 hover:text-red-800"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
       ))}
     </div>
   );

@@ -19,6 +19,7 @@ interface PlanFormContextType {
   setBenefits: (benefits: any[]) => void;
   basicFormData: BasicFormData | null;
   setBasicFormData: (data: BasicFormData) => void;
+  // Novos métodos para gerenciar dados temporários
   addCashbackLevel: (level: any) => void;
   updateCashbackLevel: (id: any, level: any) => void;
   deleteCashbackLevel: (id: any) => void;
@@ -45,11 +46,12 @@ export function PlanFormProvider({ children, initialData }: PlanFormProviderProp
     status: 'active',
     firstPurchaseCashback: 0
   });
+  const [initialized, setInitialized] = useState(false);
 
   // Efeito para inicializar os dados quando initialData mudar
   useEffect(() => {
-    if (initialData) {
-      console.log('🟢 PlanFormProvider: Initializing with data:', initialData);
+    if (initialData && !initialized) {
+      console.log('🟢 PlanFormProvider: Initializing form data:', initialData);
       
       // Inicializar dados básicos
       const newBasicFormData = {
@@ -57,42 +59,37 @@ export function PlanFormProvider({ children, initialData }: PlanFormProviderProp
         description: initialData.description || '',
         value: initialData.value || 0,
         status: initialData.status || 'active',
-        firstPurchaseCashback: initialData.first_purchase_cashback || 0
+        firstPurchaseCashback: initialData.firstPurchaseCashback || initialData.first_purchase_cashback || 0
       };
       
       setBasicFormData(newBasicFormData);
-      console.log('🟢 PlanFormProvider: Basic form data set:', newBasicFormData);
+      console.log('🟢 PlanFormProvider: Setting basic form data:', newBasicFormData);
 
-      // Inicializar cashback levels com processamento correto
-      if (initialData.plan_cashback_levels && Array.isArray(initialData.plan_cashback_levels)) {
-        const processedLevels = initialData.plan_cashback_levels.map((level: any) => ({
-          ...level,
-          id: level.id || Date.now() + Math.random(),
-          valueType: level.amount !== null && level.amount !== undefined ? 'fixed' : 'percentage',
-          amount: level.amount || 0,
-          percentage: level.percentage ? level.percentage * 100 : 0
-        }));
-        setCashbackLevels(processedLevels);
-        console.log('🟢 PlanFormProvider: Cashback levels set:', processedLevels);
+      // Inicializar cashback levels
+      if (initialData.cashback_levels && Array.isArray(initialData.cashback_levels)) {
+        setCashbackLevels(initialData.cashback_levels);
+        console.log('🟢 PlanFormProvider: Setting cashback levels:', initialData.cashback_levels);
       }
 
       // Inicializar benefits
-      if (initialData.plan_benefits && Array.isArray(initialData.plan_benefits)) {
-        const processedBenefits = initialData.plan_benefits.map((benefit: any) => ({
-          ...benefit,
-          id: benefit.id || Date.now() + Math.random()
-        }));
-        setBenefits(processedBenefits);
-        console.log('🟢 PlanFormProvider: Benefits set:', processedBenefits);
+      if (initialData.benefits && Array.isArray(initialData.benefits)) {
+        setBenefits(initialData.benefits);
+        console.log('🟢 PlanFormProvider: Setting benefits:', initialData.benefits);
       }
+      
+      setInitialized(true);
+    } else if (!initialData && !initialized) {
+      // Se não há dados iniciais, marcar como inicializado para permitir a edição
+      setInitialized(true);
     }
-  }, [initialData]);
+  }, [initialData, initialized]);
 
   // Função para atualizar dados básicos preservando valores existentes
   const updateBasicFormData = (newData: BasicFormData) => {
     console.log('🟡 PlanFormProvider: Updating basic form data:', newData);
     setBasicFormData(prev => {
       const updated = { ...prev, ...newData };
+      console.log('🟡 PlanFormProvider: Previous data:', prev);
       console.log('🟡 PlanFormProvider: Updated data:', updated);
       return updated;
     });
@@ -102,7 +99,11 @@ export function PlanFormProvider({ children, initialData }: PlanFormProviderProp
   const addCashbackLevel = (level: any) => {
     const newLevel = { ...level, id: level.id || Date.now() + Math.random() };
     console.log('🟢 PlanFormProvider: Adding cashback level:', newLevel);
-    setCashbackLevels(prev => [...prev, newLevel]);
+    setCashbackLevels(prev => {
+      const newArray = [...prev, newLevel];
+      console.log('🟢 PlanFormProvider: New cashback levels array:', newArray);
+      return newArray;
+    });
   };
 
   const updateCashbackLevel = (id: any, level: any) => {
