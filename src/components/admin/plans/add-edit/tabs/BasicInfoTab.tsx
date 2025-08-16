@@ -6,7 +6,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CurrencyInput } from "@/components/ui/currency-input";
 import { usePlanForm } from "../PlanFormProvider";
-import { useEffect, useRef } from "react";
+import { useEffect, useCallback, useMemo } from "react";
+import React from "react";
 
 interface BasicInfoFormData {
   title: string;
@@ -16,49 +17,78 @@ interface BasicInfoFormData {
   firstPurchaseCashback: number;
 }
 
-export function BasicInfoTab() {
+const BasicInfoTabComponent = React.memo(() => {
   const { basicFormData, setBasicFormData } = usePlanForm();
-  const isInitialized = useRef(false);
+
+  // Memoizar os valores padrão para evitar recriação desnecessária
+  const defaultValues = useMemo(() => ({
+    title: '',
+    description: '',
+    value: 0,
+    status: 'active',
+    firstPurchaseCashback: 0,
+  }), []);
 
   const { register, setValue, watch, formState: { errors }, reset } = useForm<BasicInfoFormData>({
-    defaultValues: {
-      title: basicFormData?.title || '',
-      description: basicFormData?.description || '',
-      value: basicFormData?.value || 0,
-      status: basicFormData?.status || 'active',
-      firstPurchaseCashback: basicFormData?.firstPurchaseCashback || 0,
-    }
+    defaultValues
   });
 
-  // Inicializar o formulário com os dados do contexto apenas uma vez
+  // Memoizar valores atuais do form
+  const formValues = watch();
+
+  // Verificar se há dados válidos para inicialização
+  const hasValidBasicData = useMemo(() => {
+    return basicFormData && (
+      basicFormData.title || 
+      basicFormData.description || 
+      basicFormData.value > 0 || 
+      basicFormData.firstPurchaseCashback > 0
+    );
+  }, [basicFormData]);
+
+  // Inicializar o formulário apenas quando houver dados válidos
   useEffect(() => {
-    if (basicFormData && !isInitialized.current) {
-      reset({
+    if (hasValidBasicData) {
+      console.log('🔄 BasicInfoTab: Initializing form with data:', basicFormData);
+      
+      const formData = {
         title: basicFormData.title || '',
         description: basicFormData.description || '',
         value: basicFormData.value || 0,
         status: basicFormData.status || 'active',
         firstPurchaseCashback: basicFormData.firstPurchaseCashback || 0
-      });
-      isInitialized.current = true;
+      };
+      
+      reset(formData);
     }
-  }, [basicFormData, reset]);
+  }, [hasValidBasicData, basicFormData, reset]);
 
-  // Observar mudanças no formulário e sincronizar com o contexto
-  const formValues = watch();
-  
-  useEffect(() => {
-    // Sincronizar os valores do formulário com o contexto apenas se já foi inicializado
-    if (setBasicFormData && isInitialized.current) {
-      setBasicFormData({
-        title: formValues.title || '',
-        description: formValues.description || '',
-        value: formValues.value || 0,
-        status: formValues.status || 'active',
-        firstPurchaseCashback: formValues.firstPurchaseCashback || 0
-      });
+  // Callback memoizado para sincronizar dados com o contexto
+  const syncToContext = useCallback((values: BasicInfoFormData) => {
+    if (setBasicFormData) {
+      const newData = {
+        title: values.title || '',
+        description: values.description || '',
+        value: values.value || 0,
+        status: values.status || 'active',
+        firstPurchaseCashback: values.firstPurchaseCashback || 0
+      };
+      
+      setBasicFormData(newData);
     }
-  }, [formValues, setBasicFormData]);
+  }, [setBasicFormData]);
+
+  // Sincronizar mudanças no formulário com o contexto (debounced)
+  useEffect(() => {
+    // Só sincronizar se tiver dados válidos no form
+    if (formValues.title || formValues.value > 0) {
+      const timeoutId = setTimeout(() => {
+        syncToContext(formValues);
+      }, 100); // Pequeno delay para evitar sincronizações excessivas
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [formValues, syncToContext]);
 
   return (
     <div className="space-y-6">
@@ -131,4 +161,8 @@ export function BasicInfoTab() {
       </div>
     </div>
   );
-}
+});
+
+BasicInfoTabComponent.displayName = 'BasicInfoTab';
+
+export { BasicInfoTabComponent as BasicInfoTab };

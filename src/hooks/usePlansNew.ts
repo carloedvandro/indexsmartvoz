@@ -18,10 +18,7 @@ export const usePlansNew = () => {
         .order('created_at');
       
       if (error) throw error;
-      return data as (Plan & {
-        plan_benefits: PlanBenefit[];
-        plan_cashback_levels: PlanCashbackLevel[];
-      })[];
+      return data as any[];
     },
   });
 };
@@ -41,10 +38,7 @@ export const usePlanById = (planId: string) => {
         .single();
       
       if (error) throw error;
-      return data as Plan & {
-        plan_benefits: PlanBenefit[];
-        plan_cashback_levels: PlanCashbackLevel[];
-      };
+      return data as any;
     },
     enabled: !!planId,
   });
