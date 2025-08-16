@@ -2,7 +2,25 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { ProfileBankAccount, CreateProfileBankAccount, UpdateProfileBankAccount } from "@/types/database";
+
+export interface ProfileBankAccount {
+  id: string;
+  profile_id: string;
+  type_key_pix: string | null;
+  key_pix: string | null;
+  created_at: string;
+}
+
+export interface CreateProfileBankAccount {
+  profile_id: string;
+  type_key_pix?: string;
+  key_pix?: string;
+}
+
+export interface UpdateProfileBankAccount {
+  type_key_pix?: string;
+  key_pix?: string;
+}
 
 export function useProfileBankAccounts() {
   const { toast } = useToast();

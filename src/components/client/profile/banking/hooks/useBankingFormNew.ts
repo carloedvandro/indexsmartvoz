@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { bankingSchema, BankingFormData } from "../schemas/bankingSchema";
 import { ProfileWithSponsor } from "@/types/profile";
-import { useProfileBankAccounts } from "@/hooks/useProfileBankAccounts";
+import { useProfileBankAccounts, CreateProfileBankAccount, UpdateProfileBankAccount } from "@/hooks/useProfileBankAccounts";
 import { log, logError } from "@/utils/logging/userLogger";
 
 export function useBankingFormNew(profile: ProfileWithSponsor) {
@@ -39,21 +39,22 @@ export function useBankingFormNew(profile: ProfileWithSponsor) {
       setIsSubmitting(true);
       log("info", "Submitting banking form", data);
       
-      const bankAccountData = {
+      const bankAccountData: CreateProfileBankAccount = {
         profile_id: profile.id,
         type_key_pix: data.person_type === "Pessoa Física" ? "CPF" : "CNPJ",
         key_pix: data.document,
-        // Outros campos podem ser armazenados em JSON ou campos específicos
       };
 
       if (existingAccounts && existingAccounts.length > 0) {
         // Atualizar conta existente
+        const updateData: UpdateProfileBankAccount = {
+          type_key_pix: bankAccountData.type_key_pix,
+          key_pix: bankAccountData.key_pix,
+        };
+        
         await updateBankAccount.mutateAsync({
           id: existingAccounts[0].id,
-          data: {
-            type_key_pix: bankAccountData.type_key_pix,
-            key_pix: bankAccountData.key_pix,
-          }
+          data: updateData
         });
       } else {
         // Criar nova conta
