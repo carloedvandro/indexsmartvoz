@@ -33,7 +33,6 @@ export const DocumentVerification = () => {
         videoReady={videoReady}
         cameraError={cameraError}
       />
-
       <StatusDisplay status={status} />
 
       <ActionButtons
@@ -47,4 +46,3 @@ export const DocumentVerification = () => {
     </div>
   );
 };
-
