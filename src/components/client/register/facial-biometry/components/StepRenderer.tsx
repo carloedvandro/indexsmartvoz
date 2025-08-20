@@ -21,6 +21,7 @@ interface StepRendererProps {
   onFacialCapture: (imageSrc: string) => void;
   onDocumentCapture: (imageSrc: string) => void;
   onComplete: () => void;
+  isReleasingCamera?: boolean;
 }
 
 export const StepRenderer = ({
@@ -35,7 +36,7 @@ export const StepRenderer = ({
   onDocumentCapture,
   onComplete,
   isReleasingCamera
-}: StepRendererProps & { isReleasingCamera?: boolean }) => {
+}: StepRendererProps) => {
   switch (currentStep) {
     case 'cpf-verification':
       return <CpfVerificationStep onNext={() => onContinue('camera-access')} />;
