@@ -1,83 +1,103 @@
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { useQueryClient } from "@tanstack/react-query";
-import { bankingSchema, BankingFormData } from "../schemas/bankingSchema";
-import { ProfileWithSponsor } from "@/types/profile";
-import { useProfileBankAccounts, CreateProfileBankAccount, UpdateProfileBankAccount } from "@/hooks/useProfileBankAccounts";
-import { log, logError } from "@/utils/logging/userLogger";
 
-export function useBankingFormNew(profile: ProfileWithSponsor) {
+const bankingFormSchema = z.object({
+  key_pix: z.string().min(1, "Chave PIX é obrigatória"),
+  type_key_pix: z.enum(["cpf", "email", "phone", "random"], {
+    required_error: "Tipo da chave PIX é obrigatório",
+  }),
+});
+
+export type BankingFormData = z.infer<typeof bankingFormSchema>;
+
+export interface BankAccount {
+  id: string;
+  profile_id: string;
+  key_pix: string;
+  type_key_pix: 'cpf' | 'email' | 'phone' | 'random';
+  created_at: string;
+}
+
+export const useBankingFormNew = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const { useCreate, useUpdate, useGetAll } = useProfileBankAccounts();
-  const createBankAccount = useCreate();
-  const updateBankAccount = useUpdate();
-  const { data: existingAccounts } = useGetAll(profile.id);
 
   const form = useForm<BankingFormData>({
-    resolver: zodResolver(bankingSchema),
+    resolver: zodResolver(bankingFormSchema),
     defaultValues: {
-      bank_name: "",
-      account_type: "",
-      agency: "",
-      agency_digit: "",
-      account_number: "",
-      account_digit: "",
-      person_type: profile?.person_type || "",
-      document: profile?.cpf_cnpj || "",
-      account_holder: profile?.full_name || "",
-      opening_date: profile?.birth_date || ""
+      key_pix: "",
+      type_key_pix: "cpf",
+    },
+  });
+
+  // Query para buscar contas bancárias
+  const { data: bankAccounts, isLoading, error } = useQuery({
+    queryKey: ['bank-accounts'],
+    queryFn: async () => {
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session?.user) {
+        throw new Error('User not authenticated');
+      }
+
+      const { data, error } = await supabase
+        .from('profile_bank_accounts')
+        .select('*')
+        .eq('profile_id', sessionData.session.user.id);
+
+      if (error) throw error;
+      return data as BankAccount[];
+    },
+  });
+
+  // Mutation para criar conta bancária
+  const createBankAccount = useMutation({
+    mutationFn: async (formData: BankingFormData) => {
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (!sessionData.session?.user) {
+        throw new Error('User not authenticated');
+      }
+
+      const { data, error } = await supabase
+        .from('profile_bank_accounts')
+        .insert({
+          profile_id: sessionData.session.user.id,
+          key_pix: formData.key_pix,
+          type_key_pix: formData.type_key_pix
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['bank-accounts'] });
+      form.reset();
+      toast({
+        title: "Sucesso!",
+        description: "Conta bancária cadastrada com sucesso.",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Erro",
+        description: error.message || "Erro ao cadastrar conta bancária.",
+        variant: "destructive",
+      });
     },
   });
 
   const onSubmit = async (data: BankingFormData) => {
+    setIsSubmitting(true);
     try {
-      setIsSubmitting(true);
-      log("info", "Submitting banking form", data);
-      
-      const bankAccountData: CreateProfileBankAccount = {
-        profile_id: profile.id,
-        type_key_pix: data.person_type === "Pessoa Física" ? "CPF" : "CNPJ",
-        key_pix: data.document,
-      };
-
-      if (existingAccounts && existingAccounts.length > 0) {
-        // Atualizar conta existente
-        const updateData: UpdateProfileBankAccount = {
-          type_key_pix: bankAccountData.type_key_pix,
-          key_pix: bankAccountData.key_pix,
-        };
-        
-        await updateBankAccount.mutateAsync({
-          id: existingAccounts[0].id,
-          data: updateData
-        });
-      } else {
-        // Criar nova conta
-        await createBankAccount.mutateAsync(bankAccountData);
-      }
-      
-      // Invalidate queries to refresh data
-      await queryClient.invalidateQueries({ queryKey: ["profile"] });
-      
-      toast({
-        title: "Sucesso",
-        description: "Dados bancários atualizados com sucesso",
-      });
-      
-      log("info", "Banking form submitted successfully", data);
-    } catch (error: any) {
-      logError("Error submitting banking form", error);
-      
-      toast({
-        variant: "destructive",
-        title: "Erro ao salvar",
-        description: error.message || "Não foi possível salvar os dados bancários",
-      });
+      await createBankAccount.mutateAsync(data);
     } finally {
       setIsSubmitting(false);
     }
@@ -85,8 +105,10 @@ export function useBankingFormNew(profile: ProfileWithSponsor) {
 
   return {
     form,
-    isSubmitting,
     onSubmit,
-    existingAccounts
+    isSubmitting,
+    bankAccounts,
+    isLoading,
+    error,
   };
-}
+};
