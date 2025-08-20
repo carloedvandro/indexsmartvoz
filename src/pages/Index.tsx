@@ -17,7 +17,7 @@ export default function Index() {
             <Link to="/client/login">
               <Button variant="outline">Login</Button>
             </Link>
-            <Link to="/client/plan-selection">
+            <Link to="/client/register">
               <Button>Cadastre-se</Button>
             </Link>
           </div>
