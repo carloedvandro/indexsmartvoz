@@ -7,6 +7,7 @@ import { PlanCarousel } from "./PlanCarousel";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { usePlans } from "@/hooks/usePlans";
 import { Skeleton } from "@/components/ui/skeleton";
+import { usePlanSelection } from "@/contexts/PlanSelectionContext";
 
 interface PlansSectionProps {
   storeOwnerCustomId?: string;
@@ -21,6 +22,7 @@ export function PlansSection({
   const isMobile = useIsMobile();
   const [viewMode, setViewMode] = useState<"cards" | "orbital">("cards");
   const { data: plansData, isLoading, error } = usePlans();
+  const { setSelectedPlan } = usePlanSelection();
 
   // Transform database plans to component format
   const transformedPlans = plansData?.map(plan => {
@@ -28,38 +30,41 @@ export function PlansSection({
     const gbMatch = plan.title.match(/(\d+)GB/);
     const gb = gbMatch ? `${gbMatch[1]}GB` : "0GB";
     
-    // Use actual benefits from database if available, otherwise fallback
-    const defaultFeatures = [
-      `${plan.title}`,
-      "Minutos: Ilimitados", 
-      "Chip eSIM ou Sim Card Fisico",
-      "Escolha seu DDD",
-      "Validade: 30 Dias"
-    ];
+    // Use benefits from database
+    const features = plan.benefits && plan.benefits.length > 0 
+      ? plan.benefits
+          .sort((a, b) => (a.display_order || 0) - (b.display_order || 0))
+          .map(benefit => benefit.benefit_title)
+      : [
+          "Minutos: Ilimitados", 
+          "Chip eSIM ou Sim Card Físico",
+          "Escolha seu DDD",
+          "Validade: 30 Dias"
+        ];
 
     return {
       id: plan.id,
       name: plan.title,
       gb: gb,
       price: plan.value,
-      features: plan.benefits && plan.benefits.length > 0 
-        ? plan.benefits
-            .sort((a, b) => (a.display_order || 0) - (b.display_order || 0))
-            .map(benefit => benefit.benefit_title)
-        : defaultFeatures
+      features: features
     };
   }) || [];
 
   const handleSelectPlan = (plan: any) => {
     if (onSelectPlan) {
-      // If onSelectPlan is provided, use it (for plan-selection page)
+      // If onSelectPlan is provided, use it (for other contexts)
       onSelectPlan(plan);
     } else {
-      // Default behavior for other pages
+      // Save selected plan to context
+      setSelectedPlan(plan);
+      
       if (storeOwnerCustomId) {
-        navigate(`/client/products?sponsor=${storeOwnerCustomId}&plan=${plan.id}`);
+        // If there's a sponsor, go to configuration with sponsor info
+        navigate(`/client/plan-configuration?sponsor=${storeOwnerCustomId}`);
       } else {
-        navigate(`/client/products?plan=${plan.id}`);
+        // Go to plan configuration
+        navigate("/client/plan-configuration");
       }
     }
   };

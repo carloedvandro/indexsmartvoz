@@ -1,171 +1,154 @@
 
-import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
-export interface ProfileDocument {
+interface ProfileDocument {
   id: string;
-  profile_id: string;
+  user_id: string;
   document_type: string;
-  image_url: string;
   side: string;
+  image_url: string;
   created_at: string;
 }
 
-export interface CreateProfileDocument {
-  profile_id: string;
+interface CreateProfileDocument {
+  user_id: string;
   document_type: string;
-  image_url: string;
   side: string;
+  image_url: string;
 }
 
-export const useProfileDocuments = () => {
+export const useProfileDocuments = (userId?: string) => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const {
-    data: documents = [],
-    isLoading,
-    error
-  } = useQuery({
-    queryKey: ['profile-documents'],
+  const getDocuments = useQuery({
+    queryKey: ['profileDocuments', userId],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error('User not authenticated');
+      if (!userId) return [];
 
       const { data, error } = await supabase
         .from('document_captures')
         .select('*')
-        .eq('user_id', user.id);
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false });
 
-      if (error) throw error;
-      
-      return data.map(doc => ({
-        id: doc.id,
-        profile_id: doc.user_id,
-        document_type: doc.document_type,
-        image_url: doc.image_url,
-        side: doc.side,
-        created_at: doc.created_at
-      })) as ProfileDocument[];
-    }
+      if (error) {
+        console.error('Error fetching documents:', error);
+        throw error;
+      }
+
+      return data as ProfileDocument[];
+    },
+    enabled: !!userId,
   });
 
   const createDocument = useMutation({
-    mutationFn: async (document: CreateProfileDocument) => {
+    mutationFn: async (documentData: CreateProfileDocument) => {
       const { data, error } = await supabase
         .from('document_captures')
-        .insert({
-          user_id: document.profile_id,
-          document_type: document.document_type,
-          image_url: document.image_url,
-          side: document.side
-        })
+        .insert(documentData)
         .select()
         .single();
 
-      if (error) throw error;
-      
-      return {
-        id: data.id,
-        profile_id: data.user_id,
-        document_type: data.document_type,
-        image_url: data.image_url,
-        side: data.side,
-        created_at: data.created_at
-      } as ProfileDocument;
+      if (error) {
+        console.error('Error creating document:', error);
+        throw error;
+      }
+
+      return data as ProfileDocument;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['profile-documents'] });
+      queryClient.invalidateQueries({ queryKey: ['profileDocuments', userId] });
       toast({
-        title: "Documento salvo",
-        description: "Documento salvo com sucesso!",
+        title: "Sucesso",
+        description: "Documento salvo com sucesso",
       });
     },
     onError: (error: any) => {
+      console.error('Error in createDocument:', error);
       toast({
-        title: "Erro ao salvar documento",
+        title: "Erro",
         description: error.message || "Erro ao salvar documento",
         variant: "destructive",
       });
-    }
+    },
   });
 
   const updateDocument = useMutation({
-    mutationFn: async ({ id, updates }: { id: string; updates: Partial<CreateProfileDocument> }) => {
+    mutationFn: async ({ id, updates }: { id: string; updates: Partial<ProfileDocument> }) => {
       const { data, error } = await supabase
         .from('document_captures')
-        .update({
-          document_type: updates.document_type,
-          image_url: updates.image_url,
-          side: updates.side
-        })
+        .update(updates)
         .eq('id', id)
         .select()
         .single();
 
-      if (error) throw error;
-      
-      return {
-        id: data.id,
-        profile_id: data.user_id,
-        document_type: data.document_type,
-        image_url: data.image_url,
-        side: data.side,
-        created_at: data.created_at
-      } as ProfileDocument;
+      if (error) {
+        console.error('Error updating document:', error);
+        throw error;
+      }
+
+      return data as ProfileDocument;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['profile-documents'] });
+      queryClient.invalidateQueries({ queryKey: ['profileDocuments', userId] });
       toast({
-        title: "Documento atualizado",
-        description: "Documento atualizado com sucesso!",
+        title: "Sucesso",
+        description: "Documento atualizado com sucesso",
       });
     },
     onError: (error: any) => {
+      console.error('Error in updateDocument:', error);
       toast({
-        title: "Erro ao atualizar documento",
+        title: "Erro",
         description: error.message || "Erro ao atualizar documento",
         variant: "destructive",
       });
-    }
+    },
   });
 
   const deleteDocument = useMutation({
-    mutationFn: async (id: string) => {
+    mutationFn: async (documentId: string) => {
       const { error } = await supabase
         .from('document_captures')
         .delete()
-        .eq('id', id);
+        .eq('id', documentId);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error deleting document:', error);
+        throw error;
+      }
+
+      return documentId;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['profile-documents'] });
+      queryClient.invalidateQueries({ queryKey: ['profileDocuments', userId] });
       toast({
-        title: "Documento removido",
-        description: "Documento removido com sucesso!",
+        title: "Sucesso",
+        description: "Documento excluído com sucesso",
       });
     },
     onError: (error: any) => {
+      console.error('Error in deleteDocument:', error);
       toast({
-        title: "Erro ao remover documento",
-        description: error.message || "Erro ao remover documento",
+        title: "Erro",
+        description: error.message || "Erro ao excluir documento",
         variant: "destructive",
       });
-    }
+    },
   });
 
   return {
-    documents,
-    isLoading,
-    error,
+    documents: getDocuments.data || [],
+    isLoading: getDocuments.isLoading,
+    error: getDocuments.error,
     createDocument: createDocument.mutate,
     updateDocument: updateDocument.mutate,
     deleteDocument: deleteDocument.mutate,
     isCreating: createDocument.isPending,
     isUpdating: updateDocument.isPending,
-    isDeleting: deletDocument.isPending
+    isDeleting: deleteDocument.isPending,
   };
 };
