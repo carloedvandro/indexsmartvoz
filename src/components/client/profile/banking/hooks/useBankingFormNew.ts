@@ -6,17 +6,14 @@ import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { bankingSchema, BankingFormData } from "../schemas/bankingSchema";
 import { ProfileWithSponsor } from "@/types/profile";
-import { useProfileBankAccounts, CreateProfileBankAccount, UpdateProfileBankAccount } from "@/hooks/useProfileBankAccounts";
+import { useProfileBankAccounts, CreateProfileBankAccount } from "@/hooks/useProfileBankAccounts";
 import { log, logError } from "@/utils/logging/userLogger";
 
 export function useBankingFormNew(profile: ProfileWithSponsor) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const { useCreate, useUpdate, useGetAll } = useProfileBankAccounts();
-  const createBankAccount = useCreate();
-  const updateBankAccount = useUpdate();
-  const { data: existingAccounts } = useGetAll(profile.id);
+  const { bankAccounts, createBankAccount, updateBankAccount } = useProfileBankAccounts();
 
   const form = useForm<BankingFormData>({
     resolver: zodResolver(bankingSchema),
@@ -41,24 +38,25 @@ export function useBankingFormNew(profile: ProfileWithSponsor) {
       
       const bankAccountData: CreateProfileBankAccount = {
         profile_id: profile.id,
-        type_key_pix: data.person_type === "Pessoa Física" ? "CPF" : "CNPJ",
-        key_pix: data.document,
+        bank_name: data.bank_name,
+        account_type: data.account_type,
+        agency: data.agency,
+        account_number: data.account_number,
+        account_holder_name: data.account_holder,
+        account_holder_cpf: data.document,
+        pix_key: data.document,
+        pix_key_type: data.person_type === "Pessoa Física" ? "CPF" : "CNPJ",
       };
 
-      if (existingAccounts && existingAccounts.length > 0) {
+      if (bankAccounts && bankAccounts.length > 0) {
         // Atualizar conta existente
-        const updateData: UpdateProfileBankAccount = {
-          type_key_pix: bankAccountData.type_key_pix,
-          key_pix: bankAccountData.key_pix,
-        };
-        
-        await updateBankAccount.mutateAsync({
-          id: existingAccounts[0].id,
-          data: updateData
+        updateBankAccount({
+          id: bankAccounts[0].id,
+          updates: bankAccountData
         });
       } else {
         // Criar nova conta
-        await createBankAccount.mutateAsync(bankAccountData);
+        createBankAccount(bankAccountData);
       }
       
       // Invalidate queries to refresh data
@@ -87,6 +85,6 @@ export function useBankingFormNew(profile: ProfileWithSponsor) {
     form,
     isSubmitting,
     onSubmit,
-    existingAccounts
+    existingAccounts: bankAccounts
   };
 }

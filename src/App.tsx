@@ -61,6 +61,9 @@ function App() {
           <Route path="/site" element={<CompanySite />} />
           {/* <Route path="/store/:storeUrl" element={<StorePage />} /> */}
 
+          {/* Public Routes - Accessible without authentication */}
+          <Route path="/client/plan-selection" element={<ClientPlanSelection />} />
+          
           {/* Client Routes */}
           <Route path="/client/login" element={<ClientLogin />} />
           <Route path="/client/register" element={<ClientRegister />} />
@@ -86,7 +89,6 @@ function App() {
               <Route path="notifications" element={<ClientNotifications />} />
               <Route path="esim" element={<ClientEsim />} />
               <Route path="facial-biometry" element={<ClientFacialBiometry />} />
-              <Route path="plan-selection" element={<ClientPlanSelection />} />
               <Route path="navigation" element={<ClientNavigation />} />
               <Route path="inventory-reports" element={<InventoryReports />} />
             </Route>
