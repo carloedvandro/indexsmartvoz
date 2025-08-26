@@ -409,7 +409,7 @@ export type Database = {
       plan_benefits: {
         Row: {
           benefit_description: string | null
-          benefit_title: string
+          title: string
           created_at: string
           display_order: number | null
           id: string
@@ -417,7 +417,7 @@ export type Database = {
         }
         Insert: {
           benefit_description?: string | null
-          benefit_title: string
+          title: string
           created_at?: string
           display_order?: number | null
           id?: string
@@ -425,7 +425,7 @@ export type Database = {
         }
         Update: {
           benefit_description?: string | null
-          benefit_title?: string
+          title?: string
           created_at?: string
           display_order?: number | null
           id?: string

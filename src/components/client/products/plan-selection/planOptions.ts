@@ -48,14 +48,11 @@ export const mapPlanValueToInternet = (value: number) => {
 };
 
 // Função para obter o preço real de um plano do banco de dados
-export const getPlanPriceFromDatabase = (plansData: any[], gb: string): number => {
+export const getPlanPriceFromDatabase = (plansData: any[], idPlan: string): number => {
+
   if (!plansData || plansData.length === 0) return 0;
   
-  const matchingPlan = plansData.find(plan => {
-    const gbMatch = plan.title.match(/(\d+)GB/);
-    const planGb = gbMatch ? `${gbMatch[1]}GB` : plan.title;
-    return planGb === gb;
-  });
+  const matchingPlan = plansData.find(plan => plan.id == idPlan);
   
   return matchingPlan ? matchingPlan.value : 0;
 };

@@ -1,4 +1,3 @@
-
 import {
   Select,
   SelectContent,
@@ -7,10 +6,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-interface InternetOption {
-  value: string;
+export interface InternetOption {
+  value: number;
   label: string;
   price: number;
+  id: string;
 }
 
 interface InternetSelectorProps {
@@ -20,11 +20,11 @@ interface InternetSelectorProps {
   showPrice?: boolean;
 }
 
-export function InternetSelector({ 
-  selectedInternet, 
-  onInternetChange, 
+export function InternetSelector({
+  selectedInternet,
+  onInternetChange,
   internetOptions,
-  showPrice = true
+  showPrice = true,
 }: InternetSelectorProps) {
   return (
     <div className="space-y-1 w-full">
@@ -33,16 +33,16 @@ export function InternetSelector({
         <SelectTrigger className="bg-white h-[40px] border-[#8425af] focus:ring-[#8425af] hover:border-[#8425af] focus:border-[#8425af] text-sm w-[163px]">
           <SelectValue placeholder="Escolher o plano" />
         </SelectTrigger>
-        <SelectContent 
-          position="popper" 
+        <SelectContent
+          position="popper"
           className="bg-white max-h-[179px] overflow-y-auto w-auto min-w-[163px]"
           align="start"
           sideOffset={5}
         >
           {internetOptions.map((option) => (
-            <SelectItem 
-              key={option.value} 
-              value={option.value}
+            <SelectItem
+              key={option.id}
+              value={option.id}
               className="cursor-pointer py-1.5 px-2 bg-white hover:bg-white focus:bg-white focus:text-[#8425af] data-[state=checked]:bg-white data-[state=checked]:text-[#8425af]"
             >
               <span>{option.label}</span>

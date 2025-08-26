@@ -30,6 +30,7 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
   });
 
   try {
+    debugger;
     // Preparar payload para a edge function
     const payload = {
       email: data.email,
@@ -60,7 +61,7 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
       const { data: sponsor, error: sponsorError } = await supabase
         .from('profiles')
         .select('id')
-        .eq('custom_id', data.sponsorCustomId)
+        .eq('referred_code', data.sponsorCustomId)
         .single();
 
       if (sponsorError || !sponsor) {

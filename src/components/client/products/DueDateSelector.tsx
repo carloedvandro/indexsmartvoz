@@ -45,10 +45,10 @@ export function DueDateSelector({
         </h2>
       </div>
 
-      <div className="w-full max-w-[365px] mx-auto">
+      <div className="w-full ">
         <div className="grid grid-cols-5 gap-2 w-full mt-1">
           {dueDates.map((row, rowIndex) => (
-            <React.Fragment key={rowIndex}>
+            <div key={rowIndex} className="contents">
               {row.map((date) => (
                 <Card 
                   key={date}
@@ -74,7 +74,7 @@ export function DueDateSelector({
                   </CardContent>
                 </Card>
               ))}
-            </React.Fragment>
+            </div>
           ))}
         </div>
       </div>

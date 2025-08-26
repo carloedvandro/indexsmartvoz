@@ -1,7 +1,7 @@
 
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { formatCurrencyInput, parseCurrencyInput } from "@/utils/format";
+import { formatCurrencyInput, parseCurrencyInput, formatCurrencyDisplay } from "@/utils/format";
 
 interface CurrencyInputProps extends Omit<React.ComponentProps<"input">, 'onChange' | 'value'> {
   value?: number;
@@ -11,12 +11,12 @@ interface CurrencyInputProps extends Omit<React.ComponentProps<"input">, 'onChan
 const CurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
   ({ className, value = 0, onChange, ...props }, ref) => {
     const [displayValue, setDisplayValue] = React.useState(
-      value > 0 ? formatCurrencyInput(String(value * 100)) : ''
+      value > 0 ? formatCurrencyDisplay(value) : ''
     );
 
     React.useEffect(() => {
       if (value !== undefined) {
-        const formattedValue = value > 0 ? formatCurrencyInput(String(value * 100)) : '';
+        const formattedValue = value > 0 ? formatCurrencyDisplay(value) : '';
         setDisplayValue(formattedValue);
       }
     }, [value]);

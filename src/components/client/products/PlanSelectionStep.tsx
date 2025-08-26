@@ -5,7 +5,6 @@ import { DueDateSelector } from "@/components/client/products/DueDateSelector";
 import { PriceSummary } from "@/components/client/products/PriceSummary";
 import { NavigationButtons } from "@/components/client/products/NavigationButtons";
 import { PlanSelectionHeader } from "@/components/client/products/plan-selection/PlanSelectionHeader";
-import { PlanSelectionForm } from "@/components/client/products/plan-selection/PlanSelectionForm";
 import { getPlanPriceFromDatabase } from "@/components/client/products/plan-selection/planOptions";
 import { usePlans } from "@/hooks/usePlans";
 import { useToast } from "@/hooks/use-toast";
@@ -129,12 +128,7 @@ export function PlanSelectionStep({
         <PlanSelectionHeader />
 
         <div className="space-y-6">
-          <PlanSelectionForm 
-            selectedInternet={selectedInternet}
-            setSelectedInternet={setSelectedInternet}
-            selectedDDD={selectedDDD}
-            setSelectedDDD={setSelectedDDD}
-          />
+        
 
           <div className="w-full max-w-[340px] mx-auto">
             <DueDateSelector

@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CurrencyInput } from "@/components/ui/currency-input";
 import { usePlanForm } from "../PlanFormProvider";
-import { useEffect, useCallback, useMemo } from "react";
+import { useEffect, useCallback, useMemo, useRef } from "react";
 import React from "react";
 
 interface BasicInfoFormData {
@@ -69,7 +69,7 @@ const BasicInfoTabComponent = React.memo(() => {
       const newData = {
         title: values.title || '',
         description: values.description || '',
-        value: values.value || 0,
+        value: values.value || 0.00,
         status: values.status || 'active',
         firstPurchaseCashback: values.firstPurchaseCashback || 0
       };
@@ -78,17 +78,29 @@ const BasicInfoTabComponent = React.memo(() => {
     }
   }, [setBasicFormData]);
 
-  // Sincronizar mudanças no formulário com o contexto (debounced)
+  // Usar useRef para evitar re-renderizações desnecessárias
+  const prevFormValuesRef = useRef<BasicInfoFormData>();
+
+  const shouldSync = useMemo(() => {
+    return formValues.title || formValues.value > 0;
+  }, [formValues.title, formValues.value]);
+
   useEffect(() => {
-    // Só sincronizar se tiver dados válidos no form
-    if (formValues.title || formValues.value > 0) {
+    if (shouldSync) {
       const timeoutId = setTimeout(() => {
-        syncToContext(formValues);
-      }, 100); // Pequeno delay para evitar sincronizações excessivas
+        if (basicFormData?.title !== formValues.title || 
+            basicFormData?.value !== formValues.value ||
+            basicFormData?.description !== formValues.description ||
+            basicFormData?.status !== formValues.status ||
+            basicFormData?.firstPurchaseCashback !== formValues.firstPurchaseCashback) {
+          syncToContext(formValues);
+        }
+      }, 300); 
 
       return () => clearTimeout(timeoutId);
     }
-  }, [formValues, syncToContext]);
+    prevFormValuesRef.current = formValues;
+  }, [formValues, syncToContext, basicFormData, shouldSync]);
 
   return (
     <div className="space-y-6">

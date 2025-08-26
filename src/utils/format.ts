@@ -18,6 +18,7 @@ export const formatDate = (date: string | Date | null | undefined) => {
   }).format(dateObj);
 };
 
+// Função para formatar entrada do usuário (digitação)
 export const formatCurrencyInput = (value: string): string => {
   // Remove tudo que não é dígito
   const digits = value.replace(/\D/g, '');
@@ -34,6 +35,17 @@ export const formatCurrencyInput = (value: string): string => {
     currency: 'BRL',
     minimumFractionDigits: 2,
   }).format(amount);
+};
+
+// Função para formatar valores numéricos para exibição
+export const formatCurrencyDisplay = (value: number): string => {
+  if (value <= 0) return '';
+  
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    minimumFractionDigits: 2,
+  }).format(value);
 };
 
 export const parseCurrencyInput = (formattedValue: string): number => {
