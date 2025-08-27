@@ -9,7 +9,6 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { RegisterFormData, registerFormSchema } from "./RegisterSchema";
 import { StepIndicator } from "./StepIndicator";
 import { PersonalInfoStep } from "./steps/PersonalInfoStep";
-import { ContactInfoStep } from "./steps/ContactInfoStep";
 import { AddressStep } from "./steps/AddressStep";
 import { AccountInfoStep } from "./steps/AccountInfoStep";
 import { PasswordStep } from "./steps/PasswordStep";
@@ -32,29 +31,20 @@ export const StepFormContainer = ({ onBack, onComplete }: FlowProps) => {
     setError,
     handleNext,
     handlePrevious,
-    handleBack,
   } = useStepNavigation();
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
-      fullName: "",
+      full_name: "",
       email: "",
       password: "",
       passwordConfirmation: "",
-      cpf: "",
-      sponsorCustomId: sponsorId || "",
-      customId: "",
+      cpf_cnpj: "",
+      sponsor_Id: sponsorId || "",
+      referred_code: "",
       birthDate: "",
-      whatsapp: "",
-      secondaryWhatsapp: "",
-      cep: "",
-      street: "",
-      neighborhood: "",
-      number: "",
-      city: "",
-      state: "",
-      complement: "",
+      phone: ""
     },
     mode: "onChange",
   });
@@ -77,6 +67,7 @@ export const StepFormContainer = ({ onBack, onComplete }: FlowProps) => {
   };
 
   const handleFormSubmit = async (data: RegisterFormData) => {
+ 
     try {
       setError(null);
       await onSubmit(data);
@@ -94,22 +85,14 @@ export const StepFormContainer = ({ onBack, onComplete }: FlowProps) => {
       case 1:
         return <PersonalInfoStep form={form} />;
       case 2:
-        return <ContactInfoStep form={form} />;
-      case 3:
-        return <AddressStep form={form} />;
-      case 4:
         return <AccountInfoStep form={form} disableSponsor={!!sponsorId} />;
-      case 5:
+      case 3:
         return <PasswordStep form={form} />;
       default:
         console.warn(`⚠️ Step ${currentStep} não reconhecido, usando step 1`);
         return <PersonalInfoStep form={form} />;
     }
   };
-
-  console.log(
-    `🔄 Renderizando StepFormContainer - currentStep: ${currentStep}, isLastStep: ${isLastStep}`
-  );
 
   return (
     <Form {...form}>

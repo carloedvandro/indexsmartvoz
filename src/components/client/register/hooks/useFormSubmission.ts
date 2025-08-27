@@ -13,17 +13,9 @@ export const useFormSubmission = () => {
   const onSubmit = async (data: RegisterFormData) => {
     try {
       setIsSubmitting(true);
+    
       
-      console.log("🚀 Iniciando cadastro completo via edge function:", {
-        email: data.email,
-        fullName: data.fullName,
-        customId: data.customId,
-        sponsorCustomId: data.sponsorCustomId,
-        hasWhatsapp: !!data.whatsapp,
-        hasAddress: !!(data.cep && data.street && data.city),
-        hasCpf: !!data.cpf
-      });
-      
+      debugger;
       const result = await registerUserWithAddress(data);
       
       console.log("✅ Cadastro e login automático realizados com sucesso!", result);

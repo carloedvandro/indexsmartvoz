@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const stepTitles = ["Dados Pessoais", "Contato", "Endereço", "Conta", "Senha"];
+const stepTitles = ["Dados Pessoais", "Conta", "Senha"];
 const totalSteps = stepTitles.length;
 
 export const useStepNavigation = () => {
