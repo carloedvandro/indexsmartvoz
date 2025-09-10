@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Bell } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import { useNotifications } from '@/hooks/useNotifications';
 interface NotificationDropdownProps {
   showNotifications: boolean;
   onToggleNotifications: () => void;
@@ -11,43 +11,19 @@ export function NotificationDropdown({
   onToggleNotifications
 }: NotificationDropdownProps) {
   const navigate = useNavigate();
-  const {
-    toast
-  } = useToast();
-
-  // Estado para controlar se as notificações foram lidas
-  const [notifications, setNotifications] = useState([{
-    id: 1,
-    message: "Nova venda realizada - R$ 45,00",
-    time: "Há 2 minutos",
-    type: "sale",
-    isRead: false
-  }, {
-    id: 2,
-    message: "Bonificação creditada - R$ 12,50",
-    time: "Há 1 hora",
-    type: "bonus",
-    isRead: false
-  }, {
-    id: 3,
-    message: "Novo membro na sua rede",
-    time: "Há 3 horas",
-    type: "network",
-    isRead: false
-  }]);
-  const unreadCount = notifications.filter(n => !n.isRead).length;
+  const { toast } = useToast();
+  const { notifications, unreadCount, markAsRead } = useNotifications();
   const handleToggleNotifications = () => {
     navigate('/client/notifications');
   };
   const handleViewAllNotifications = () => {
     navigate('/client/notifications');
   };
-  const handleNotificationClick = (notification: any) => {
+  const handleNotificationClick = async (notification: any) => {
     // Marcar como lida
-    setNotifications(prev => prev.map(n => n.id === notification.id ? {
-      ...n,
-      isRead: true
-    } : n));
+    if (!notification.read) {
+      await markAsRead(notification.id);
+    }
 
     // Mostrar toast com detalhes
     toast({
@@ -60,15 +36,12 @@ export function NotificationDropdown({
     switch (notification.type) {
       case "sale":
         console.log("Abrindo detalhes da venda");
-        // Poderia navegar para página de vendas
         break;
       case "bonus":
         console.log("Abrindo detalhes da bonificação");
-        // Poderia navegar para página financeira
         break;
       case "network":
         console.log("Abrindo detalhes da rede");
-        // Poderia navegar para página da rede
         break;
     }
 
@@ -96,19 +69,21 @@ export function NotificationDropdown({
             <div className="space-y-3 flex flex-col items-center max-h-80 overflow-y-auto">
               {notifications.map(notification => <div key={notification.id} onClick={() => handleNotificationClick(notification)} className={`
                     w-full px-3 py-3 rounded-lg text-left transition-colors cursor-pointer
-                    ${notification.isRead ? 'bg-gray-50 hover:bg-gray-100' : 'bg-blue-50 hover:bg-blue-100'}
+                    ${notification.read ? 'bg-gray-50 hover:bg-gray-100' : 'bg-blue-50 hover:bg-blue-100'}
                   `}>
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <p className={`
                         text-sm mb-1 
-                        ${notification.isRead ? 'text-gray-700' : 'text-black font-medium'}
+                        ${notification.read ? 'text-gray-700' : 'text-black font-medium'}
                       `}>
                         {notification.message}
                       </p>
-                      <span className="text-xs text-gray-600">{notification.time}</span>
+                      <span className="text-xs text-gray-600">
+                        {new Date(notification.created_at).toLocaleString('pt-BR')}
+                      </span>
                     </div>
-                    {!notification.isRead && <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 ml-2"></div>}
+                    {!notification.read && <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 ml-2"></div>}
                   </div>
                 </div>)}
               
