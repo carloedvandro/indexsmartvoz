@@ -38,44 +38,6 @@ export type Database = {
         }
         Relationships: []
       }
-      network: {
-        Row: {
-          created_at: string | null
-          id: string
-          level: number
-          network_id: string
-          parent_id: string | null
-          updated_at: string | null
-          user_id: string
-        }
-        Insert: {
-          created_at?: string | null
-          id?: string
-          level?: number
-          network_id: string
-          parent_id?: string | null
-          updated_at?: string | null
-          user_id: string
-        }
-        Update: {
-          created_at?: string | null
-          id?: string
-          level?: number
-          network_id?: string
-          parent_id?: string | null
-          updated_at?: string | null
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "network_parent_id_fkey"
-            columns: ["parent_id"]
-            isOneToOne: false
-            referencedRelation: "network"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       notifications: {
         Row: {
           created_at: string
@@ -537,72 +499,51 @@ export type Database = {
       profiles: {
         Row: {
           active: boolean | null
-          address: string | null
           biometria_verified: boolean | null
           birth_date: string | null
-          country: string | null
           cpf_cnpj: string | null
           created_at: string
-          custom_id: string | null
           document_verified: boolean | null
           email: string | null
           email_verified: boolean | null
           full_name: string | null
           id: string
-          mobile: string | null
-          person_type: string | null
           phone: string | null
           phone_verified: boolean | null
           referred_code: string | null
           role: string | null
-          state: string | null
-          status: string | null
         }
         Insert: {
           active?: boolean | null
-          address?: string | null
           biometria_verified?: boolean | null
           birth_date?: string | null
-          country?: string | null
           cpf_cnpj?: string | null
           created_at?: string
-          custom_id?: string | null
           document_verified?: boolean | null
           email?: string | null
           email_verified?: boolean | null
           full_name?: string | null
           id?: string
-          mobile?: string | null
-          person_type?: string | null
           phone?: string | null
           phone_verified?: boolean | null
           referred_code?: string | null
           role?: string | null
-          state?: string | null
-          status?: string | null
         }
         Update: {
           active?: boolean | null
-          address?: string | null
           biometria_verified?: boolean | null
           birth_date?: string | null
-          country?: string | null
           cpf_cnpj?: string | null
           created_at?: string
-          custom_id?: string | null
           document_verified?: boolean | null
           email?: string | null
           email_verified?: boolean | null
           full_name?: string | null
           id?: string
-          mobile?: string | null
-          person_type?: string | null
           phone?: string | null
           phone_verified?: boolean | null
           referred_code?: string | null
           role?: string | null
-          state?: string | null
-          status?: string | null
         }
         Relationships: []
       }

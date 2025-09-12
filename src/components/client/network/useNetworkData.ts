@@ -27,17 +27,24 @@ export const useNetworkData = (userId: string): UseNetworkDataResult => {
     setError(null);
 
     try {
-      // Use profiles table temporarily since network table relationships aren't working yet
+      // Buscar dados da rede do usuário
       const { data, error } = await supabase
-        .from('profiles')
+        .from('network')
         .select(`
           id,
-          email,
-          full_name,
-          custom_id,
-          created_at
+          user_id,
+          parent_id,
+          level,
+          user:profiles!network_user_id_fkey (
+            id,
+            email,
+            full_name,
+            custom_id,
+            graduation_type
+          )
         `)
-        .limit(10);
+        .eq('parent_id', userId)
+        .order('created_at', { ascending: true });
 
       if (error) {
         console.error("Erro ao buscar dados da rede:", error);
@@ -50,18 +57,21 @@ export const useNetworkData = (userId: string): UseNetworkDataResult => {
       } else {
         // Transformar os dados para o formato esperado
         const transformedData: NetworkMember[] = (data || []).map(item => {
+          // Acessar o primeiro elemento do array user, ou usar valores padrão
+          const userProfile = Array.isArray(item.user) ? item.user[0] : item.user;
+          
           return {
             id: item.id,
-            user_id: item.id,
-            parent_id: null, // Temporary until network structure is set up
-            level: 1, // Temporary default level
+            user_id: item.user_id,
+            parent_id: item.parent_id,
+            level: item.level || 1,
             children: [],
             user: {
-              id: item.id,
-              email: item.email || '',
-              full_name: item.full_name || null,
-              custom_id: item.custom_id || null,
-              graduation_type: null, // This field doesn't exist yet
+              id: userProfile?.id || '',
+              email: userProfile?.email || '',
+              full_name: userProfile?.full_name || null,
+              custom_id: userProfile?.custom_id || null,
+              graduation_type: userProfile?.graduation_type || null,
               status: 'active' as const
             }
           };
