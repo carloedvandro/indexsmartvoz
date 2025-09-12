@@ -10,6 +10,12 @@ export type ProfileNew = Tables<"profiles"> & {
   address?: string | null;
   city?: string | null;
   state?: string | null;
+  // Novos campos adicionados na migração
+  custom_id?: string | null;
+  mobile?: string | null;
+  country?: string | null;
+  status?: string | null;
+  person_type?: string | null;
 };
 
 export type Sponsor = {

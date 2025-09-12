@@ -23,13 +23,12 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
-      fullName: "",
+      full_name: "",
       email: "",
       password: "",
       passwordConfirmation: "",
-      cpf: "",
-      sponsorCustomId: sponsorId || "",
-      customId: "",
+      cpf_cnpj: "",
+      referred_code: sponsorId || "",
       birthDate: "",
     },
   });
@@ -37,7 +36,7 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
   useEffect(() => {
     if (sponsorId) {
       console.log("Setting sponsor ID from URL:", sponsorId);
-      form.setValue("sponsorCustomId", sponsorId);
+      form.setValue("referred_code", sponsorId);
     }
   }, [sponsorId, form]);
 
@@ -47,7 +46,7 @@ export function RegisterForm({ onSubmit }: RegisterFormProps) {
         ...data,
         password: "[PROTECTED]",
         passwordConfirmation: "[PROTECTED]",
-        sponsorCustomId: data.sponsorCustomId || "none",
+        referred_code: data.referred_code || "none",
       });
 
       await onSubmit(data);

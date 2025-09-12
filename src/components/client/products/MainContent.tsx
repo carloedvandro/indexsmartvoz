@@ -111,7 +111,6 @@ export function MainContent({
             {currentStep > 1 && (
               <motion.div variants={itemVariants} className="w-full mx-auto mt-6">
                 <NavigationButtons 
-                  currentStep={currentStep}
                   handleBack={handleBack}
                   handleContinue={validateAndContinue}
                   disabled={buttonDisabled}

@@ -118,11 +118,11 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
 
         <div className="space-y-6">
           <PlanSelectionForm 
-            selectedInternet={selectedInternet}
-            setSelectedInternet={setSelectedInternet}
-            selectedDDD={selectedDDD}
-            setSelectedDDD={setSelectedDDD}
-            internetOptions={internetOptionsWithId}
+            onPlanSelect={(planId, planValue) => {
+              const internet = internetOptions.find(opt => opt.price === planValue)?.value || "";
+              setSelectedInternet(internet);
+            }}
+            selectedPlan={selectedInternet}
           />
 
           <div className="w-full max-w-[340px] mx-auto">
@@ -142,7 +142,6 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
         </div>
 
         <NavigationButtons 
-          currentStep={1}
           handleBack={onBack}
           handleContinue={handleContinue}
           disabled={isDisabled}

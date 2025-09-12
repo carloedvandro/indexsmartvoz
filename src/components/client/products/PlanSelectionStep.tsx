@@ -147,7 +147,6 @@ export function PlanSelectionStep({
         </div>
 
         <NavigationButtons 
-          currentStep={1}
           handleBack={onBack}
           handleContinue={handleContinue}
           disabled={isDisabled}
