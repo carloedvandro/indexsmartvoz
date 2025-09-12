@@ -19,6 +19,7 @@ import ClientRegister from "./pages/client/register";
 import ClientProducts from "./pages/client/products";
 import ClientLogin from "./pages/client/login";
 import FacialBiometry from "./pages/client/facial-biometry";
+import Dashboard from "./pages/client/dashboard";
 import { DocumentVerification } from "./pages/client/DocumentVerification";
 
 import AdminLogin from "./pages/admin/login";
@@ -51,6 +52,9 @@ const App = () => (
               <Route
                 path="plan-configuration"
                 element={<ClientPlanConfiguration />}
+              />    <Route
+                path="dashboard"
+                element={<Dashboard />}
               />
               <Route path="register" element={<ClientRegister />} />
               <Route path="login" element={<ClientLogin />} />
