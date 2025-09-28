@@ -18,7 +18,7 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
     <div className="space-y-4">
       <FormField
         control={form.control}
-        name="fullName"
+        name="full_name"
         render={({ field }) => (
           <FormItem>
             <FormControl>
@@ -58,7 +58,7 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
       <div className="grid grid-cols-2 gap-4">
         <FormField
           control={form.control}
-          name="cpf"
+          name="cpf_cnpj"
           render={({ field }) => (
             <FormItem>
               <FormControl>
@@ -98,7 +98,7 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
       {/* Desktop and Mobile layout - Sponsor Custom ID ABOVE User Custom ID */}
       <FormField
         control={form.control}
-        name="sponsorCustomId"
+        name="sponsor_Id"
         render={({ field }) => (
           <FormItem>
             <FormControl>
@@ -118,7 +118,7 @@ export const PersonalInfoFields = ({ form, disableSponsor }: PersonalInfoFieldsP
       
       <FormField
         control={form.control}
-        name="customId"
+        name="referred_code"
         render={({ field }) => (
           <FormItem>
             <FormControl>

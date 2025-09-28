@@ -17,7 +17,17 @@ export const registerFormSchema = z.object({
     .min(3, "ID personalizado deve ter pelo menos 3 caracteres")
     .regex(/^[a-zA-Z0-9]+$/, "ID personalizado deve conter apenas letras e números"),
   birthDate: z.string().min(1, "Data de nascimento é obrigatória"),
-  phone: z.string().min(10, "Telefone deve ser valido")
+  phone: z.string().min(10, "Telefone deve ser valido"),
+  // Additional fields used by the form components
+  whatsapp: z.string().optional(),
+  secondaryWhatsapp: z.string().optional(),
+  cep: z.string().optional(),
+  number: z.string().optional(),
+  street: z.string().optional(),
+  neighborhood: z.string().optional(),
+  city: z.string().optional(),
+  state: z.string().optional(),
+  complement: z.string().optional(),
 }).refine(
   (data) => data.password === data.passwordConfirmation,
   {
