@@ -6,8 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CurrencyInput } from "@/components/ui/currency-input";
 import { usePlanForm } from "../PlanFormProvider";
-import { useEffect, useCallback, useMemo, useRef } from "react";
-import React from "react";
+import { useEffect, useRef } from "react";
 
 interface BasicInfoFormData {
   title: string;
@@ -17,90 +16,49 @@ interface BasicInfoFormData {
   firstPurchaseCashback: number;
 }
 
-const BasicInfoTabComponent = React.memo(() => {
+export function BasicInfoTab() {
   const { basicFormData, setBasicFormData } = usePlanForm();
-
-  // Memoizar os valores padrão para evitar recriação desnecessária
-  const defaultValues = useMemo(() => ({
-    title: '',
-    description: '',
-    value: 0,
-    status: 'active',
-    firstPurchaseCashback: 0,
-  }), []);
+  const isInitialized = useRef(false);
 
   const { register, setValue, watch, formState: { errors }, reset } = useForm<BasicInfoFormData>({
-    defaultValues
+    defaultValues: {
+      title: basicFormData?.title || '',
+      description: basicFormData?.description || '',
+      value: basicFormData?.value || 0,
+      status: basicFormData?.status || 'active',
+      firstPurchaseCashback: basicFormData?.firstPurchaseCashback || 0,
+    }
   });
 
-  // Memoizar valores atuais do form
-  const formValues = watch();
-
-  // Verificar se há dados válidos para inicialização
-  const hasValidBasicData = useMemo(() => {
-    return basicFormData && (
-      basicFormData.title || 
-      basicFormData.description || 
-      basicFormData.value > 0 || 
-      basicFormData.firstPurchaseCashback > 0
-    );
-  }, [basicFormData]);
-
-  // Inicializar o formulário apenas quando houver dados válidos
+  // Inicializar o formulário com os dados do contexto apenas uma vez
   useEffect(() => {
-    if (hasValidBasicData) {
-      console.log('🔄 BasicInfoTab: Initializing form with data:', basicFormData);
-      
-      const formData = {
+    if (basicFormData && !isInitialized.current) {
+      reset({
         title: basicFormData.title || '',
         description: basicFormData.description || '',
         value: basicFormData.value || 0,
         status: basicFormData.status || 'active',
         firstPurchaseCashback: basicFormData.firstPurchaseCashback || 0
-      };
-      
-      reset(formData);
+      });
+      isInitialized.current = true;
     }
-  }, [hasValidBasicData, basicFormData, reset]);
+  }, [basicFormData, reset]);
 
-  // Callback memoizado para sincronizar dados com o contexto
-  const syncToContext = useCallback((values: BasicInfoFormData) => {
-    if (setBasicFormData) {
-      const newData = {
-        title: values.title || '',
-        description: values.description || '',
-        value: values.value || 0.00,
-        status: values.status || 'active',
-        firstPurchaseCashback: values.firstPurchaseCashback || 0
-      };
-      
-      setBasicFormData(newData);
-    }
-  }, [setBasicFormData]);
-
-  // Usar useRef para evitar re-renderizações desnecessárias
-  const prevFormValuesRef = useRef<BasicInfoFormData>();
-
-  const shouldSync = useMemo(() => {
-    return formValues.title || formValues.value > 0;
-  }, [formValues.title, formValues.value]);
-
+  // Observar mudanças no formulário e sincronizar com o contexto
+  const formValues = watch();
+  
   useEffect(() => {
-    if (shouldSync) {
-      const timeoutId = setTimeout(() => {
-        if (basicFormData?.title !== formValues.title || 
-            basicFormData?.value !== formValues.value ||
-            basicFormData?.description !== formValues.description ||
-            basicFormData?.status !== formValues.status ||
-            basicFormData?.firstPurchaseCashback !== formValues.firstPurchaseCashback) {
-          syncToContext(formValues);
-        }
-      }, 300); 
-
-      return () => clearTimeout(timeoutId);
+    // Sincronizar os valores do formulário com o contexto apenas se já foi inicializado
+    if (setBasicFormData && isInitialized.current) {
+      setBasicFormData({
+        title: formValues.title || '',
+        description: formValues.description || '',
+        value: formValues.value || 0,
+        status: formValues.status || 'active',
+        firstPurchaseCashback: formValues.firstPurchaseCashback || 0
+      });
     }
-    prevFormValuesRef.current = formValues;
-  }, [formValues, syncToContext, basicFormData, shouldSync]);
+  }, [formValues, setBasicFormData]);
 
   return (
     <div className="space-y-6">
@@ -173,8 +131,4 @@ const BasicInfoTabComponent = React.memo(() => {
       </div>
     </div>
   );
-});
-
-BasicInfoTabComponent.displayName = 'BasicInfoTab';
-
-export { BasicInfoTabComponent as BasicInfoTab };
+}

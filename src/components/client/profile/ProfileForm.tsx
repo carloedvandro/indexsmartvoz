@@ -40,7 +40,12 @@ interface ProfileFormProps {
 export function ProfileForm({ profile }: ProfileFormProps) {
   const { isLoading, handleProfileUpdate } = useProfileUpdate();
 
+  // Extrair número e bairro do endereço existente se disponível
+  const addressParts = profile.address?.split(',') || [];
+  const existingStreet = addressParts[0]?.trim() || "";
+  const existingNumber = profile.address_number || addressParts[1]?.trim() || "";
 
+  // Construir informações do patrocinador
   const getSponsorInfo = () => {
     if (!profile.sponsor) {
       return "Não possui patrocinador";
@@ -64,21 +69,31 @@ export function ProfileForm({ profile }: ProfileFormProps) {
     resolver: zodResolver(profileSchema),
     defaultValues: {
       sponsor: getSponsorInfo(),
-      custom_id: profile.referred_code || "",
+      custom_id: profile.custom_id || "",
       full_name: profile.full_name || "",
-      person_type: profile.account_type || "",
-      cnpj: profile.cpf_cnpj|| "",
+      person_type: profile.person_type || "",
+      cnpj: profile.cnpj || profile.cpf || "",
       birth_date: profile.birth_date || "",
-      mobile: profile.phone || "",
+      mobile: profile.mobile || "",
+      whatsapp: profile.whatsapp || "",
+      secondary_whatsapp: profile.secondary_whatsapp || "",
       email: profile.email || "",
-      address:"",//verificar
-      address_number: "",//verificar
+      zip_code: profile.zip_code || "",
+      address: existingStreet,
+      address_number: existingNumber,
       neighborhood: profile.neighborhood || "",
       complement: profile.complement || "",
+      state: profile.state || "",
+      city: profile.city || "",
     },
   });
 
-
+  console.log('Profile data loaded:', {
+    state: profile.state,
+    city: profile.city,
+    neighborhood: profile.neighborhood,
+    complement: profile.complement
+  });
 
   const onSubmit = async (data: ProfileFormData) => {
     await handleProfileUpdate(profile.id, data as ProfileUpdateData);
@@ -97,6 +112,7 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       <div className="px-2 sm:px-6 py-6 space-y-6">
         <SponsorUserSection form={form} />
         <PersonalDataSection form={form} />
+        <ContactSection form={form} />
         <AddressSection form={form} />
         
         <div className="flex justify-center pt-6">

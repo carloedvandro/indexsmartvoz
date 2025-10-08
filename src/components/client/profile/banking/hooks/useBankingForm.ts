@@ -22,8 +22,8 @@ export function useBankingForm(profile: ProfileWithSponsor) {
       agency_digit: "",
       account_number: profile?.account_number || "",
       account_digit: "",
-      person_type: profile?.person_type || "individual",
-      document: profile?.cpf_cnpj || "",
+      person_type: profile?.person_type || "",
+      document: profile?.cnpj || "",
       account_holder: profile?.full_name || "",
       opening_date: profile?.birth_date || ""
     },
@@ -34,12 +34,14 @@ export function useBankingForm(profile: ProfileWithSponsor) {
       setIsSubmitting(true);
       log("info", "Submitting banking form", data);
       
-      // Update profile with limited banking information that exists in the profiles table
+      // Update the profile with banking information
       const { error } = await supabase
         .from('profiles')
         .update({
-          // Only update fields that actually exist in the profiles table
-          // Banking specific fields would need to be stored in a separate banking table
+          bank_name: data.bank_name,
+          account_number: `${data.account_number}-${data.account_digit}`,
+          // Other banking fields could be stored in a JSON column or separate table
+          // For now, we'll just use the basic fields that exist in the profile table
         })
         .eq('id', profile.id);
       

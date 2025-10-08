@@ -10,44 +10,57 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
   if (!isValidEmail(data.email)) {
     throw new Error("Email inválido");
   }
-  if (!isValidCPF(data.cpf_cnpj)) {
+  if (!isValidCPF(data.cpf)) {
     throw new Error("CPF inválido");
   }
-  if (!data.referred_code || data.referred_code.length < 3) {
+  if (!data.customId || data.customId.length < 3) {
     throw new Error("ID personalizado deve ter pelo menos 3 caracteres");
   }
-  if (!data.full_name || data.full_name.trim().length < 2) {
+  if (!data.fullName || data.fullName.trim().length < 2) {
     throw new Error("Nome completo é obrigatório");
   }
-  if (!data.phone || data.phone.length < 10) {
+  if (!data.whatsapp || data.whatsapp.length < 10) {
     throw new Error("WhatsApp é obrigatório");
   }
 
   log("info", "Starting user registration via edge function", { 
     email: data.email, 
-    customId: data.referred_code,
-    hasSponsor: !!data.sponsor_Id
+    customId: data.customId,
+    hasSponsor: !!data.sponsorCustomId
   });
 
   try {
+    // Preparar payload para a edge function
     const payload = {
       email: data.email,
       password: data.password,
-      full_name: data.full_name,
-      cpf_cnpj: data.cpf_cnpj,
-      phone: data.phone,
-      birthDate: data.birthDate,
+      full_name: data.fullName,
+      cpf: data.cpf,
+      phone: data.whatsapp,
+      mobile: data.whatsapp,
+      whatsapp: data.whatsapp,
+      secondary_whatsapp: data.secondaryWhatsapp || "",
+      birth_date: data.birthDate,
       person_type: "individual",
-      referred_code: data.referred_code,
+      document_id: data.cpf,
+      address: `${data.street}, ${data.number}`,
+      city: data.city,
+      state: data.state,
+      country: "Brasil",
+      zip_code: data.cep,
+      gender: "not_specified",
+      civil_status: "not_specified",
+      status: "active",
+      custom_id: data.customId
     };
 
     // Se tem patrocinador, buscar o ID do usuário
-    if (data.sponsor_Id) {
-      console.log("🔍 Buscando patrocinador:", data.sponsor_Id);
+    if (data.sponsorCustomId) {
+      console.log("🔍 Buscando patrocinador:", data.sponsorCustomId);
       const { data: sponsor, error: sponsorError } = await supabase
         .from('profiles')
         .select('id')
-        .eq('referred_code', data.sponsor_Id)
+        .eq('custom_id', data.sponsorCustomId)
         .single();
 
       if (sponsorError || !sponsor) {
@@ -62,8 +75,9 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
 
     console.log("🚀 Enviando dados para edge function criar-cliente:", {
       email: payload.email,
-      referred_code: payload.referred_code,
-      hasSponsor: !!(payload as any).sponsor_id
+      custom_id: payload.custom_id,
+      hasSponsor: !!(payload as any).sponsor_id,
+      hasAddress: !!(payload.zip_code && payload.address && payload.city)
     });
 
     // Chamar a edge function criar-cliente
@@ -179,6 +193,11 @@ export const registerUserWithAddress = async (data: RegisterFormData) => {
       throw new Error("Cadastro realizado com sucesso! Faça login com suas credenciais.");
     }
 
+    console.log("✅ Login automático realizado com sucesso:", loginData.user.id);
+    log("info", "User registration and auto-login completed successfully", { 
+      userId: loginData.user.id,
+      customId: data.customId
+    });
 
     return {
       ...result,

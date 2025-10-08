@@ -163,14 +163,10 @@ export function InteractivePlanCard() {
     return `No plano de ${plan.gb}GB, você paga ${formatCurrency(plan.price)} e ganha ${formatCurrency(firstLevel.commission)} no primeiro nível e ${formatCurrency(otherLevels[0].commission)} do segundo ao quarto nível.`;
   };
 
-  const playNarration = async () => {
-    if (!('speechSynthesis' in window)) {
-      alert('Text-to-Speech não é suportado neste navegador');
-      return;
-    }
-
-    try {
-      if (isPlaying || window.speechSynthesis.speaking) {
+  const playNarration = () => {
+    if ('speechSynthesis' in window) {
+      // Para a narração atual se estiver tocando
+      if (isPlaying) {
         window.speechSynthesis.cancel();
         setIsPlaying(false);
         return;
@@ -178,42 +174,21 @@ export function InteractivePlanCard() {
 
       const text = generateNarrationText(plan);
       const utterance = new SpeechSynthesisUtterance(text);
+      
+      // Configurações da voz
       utterance.lang = 'pt-BR';
-      utterance.rate = 0.95;
+      utterance.rate = 0.9; // Velocidade um pouco mais lenta
       utterance.pitch = 1;
       utterance.volume = 1;
 
-      const pickVoice = (voices: SpeechSynthesisVoice[]) =>
-        voices.find(v => v.lang?.toLowerCase().includes('pt-br')) ||
-        voices.find(v => v.lang?.toLowerCase().startsWith('pt')) ||
-        voices[0];
-
-      let voices = window.speechSynthesis.getVoices();
-      if (!voices || voices.length === 0) {
-        await new Promise<void>((resolve) => {
-          const onVoices = () => {
-            window.speechSynthesis.removeEventListener('voiceschanged', onVoices);
-            resolve();
-          };
-          window.speechSynthesis.addEventListener('voiceschanged', onVoices);
-          setTimeout(resolve, 500);
-        });
-        voices = window.speechSynthesis.getVoices();
-      }
-      const voice = pickVoice(voices);
-      if (voice) utterance.voice = voice;
-
+      // Event listeners
       utterance.onstart = () => setIsPlaying(true);
       utterance.onend = () => setIsPlaying(false);
       utterance.onerror = () => setIsPlaying(false);
 
-      window.speechSynthesis.cancel();
-      if (window.speechSynthesis.paused) {
-        window.speechSynthesis.resume();
-      }
       window.speechSynthesis.speak(utterance);
-    } catch (e) {
-      setIsPlaying(false);
+    } else {
+      alert('Text-to-Speech não é suportado neste navegador');
     }
   };
   const calculateTotal = (commissionLevels: CommissionLevel[]) => {
@@ -286,7 +261,7 @@ export function InteractivePlanCard() {
                 <div className="flex justify-center mt-4">
                   <button
                     onClick={playNarration}
-                    className="flex items-center gap-2 px-4 py-2 bg-transparent hover:bg-white/10 text-white rounded-lg transition-all duration-300 border border-white/30 shadow-[0_6px_0_rgba(255,255,255,0.2)] hover:-translate-y-0.5 hover:shadow-[0_8px_0_rgba(255,255,255,0.25)] active:translate-y-0 active:shadow-[0_2px_0_rgba(255,255,255,0.2)]"
+                    className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-all duration-300 backdrop-blur-sm border border-white/30"
                     disabled={!('speechSynthesis' in window)}
                   >
                     {isPlaying ? (

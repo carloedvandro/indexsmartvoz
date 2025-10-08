@@ -1,3 +1,4 @@
+
 import { useSearchParams } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -9,19 +10,19 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { RegisterFormData, registerFormSchema } from "./RegisterSchema";
 import { StepIndicator } from "./StepIndicator";
 import { PersonalInfoStep } from "./steps/PersonalInfoStep";
+import { ContactInfoStep } from "./steps/ContactInfoStep";
 import { AddressStep } from "./steps/AddressStep";
 import { AccountInfoStep } from "./steps/AccountInfoStep";
 import { PasswordStep } from "./steps/PasswordStep";
 import { useStepNavigation } from "./hooks/useStepNavigation";
 import { useStepValidation } from "./hooks/useStepValidation";
 import { useFormSubmission } from "./hooks/useFormSubmission";
-import { FlowProps } from "@/hooks/useFlowRegisterUser";
 
-export const StepFormContainer = ({ onBack, onComplete }: FlowProps) => {
+export const StepFormContainer = () => {
   const [searchParams] = useSearchParams();
   const sponsorId = searchParams.get("sponsor");
   const { toast } = useToast();
-
+  
   const {
     currentStep,
     totalSteps,
@@ -31,22 +32,31 @@ export const StepFormContainer = ({ onBack, onComplete }: FlowProps) => {
     setError,
     handleNext,
     handlePrevious,
+    handleBack
   } = useStepNavigation();
-
+  
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
-      full_name: "",
+      fullName: "",
       email: "",
       password: "",
       passwordConfirmation: "",
-      cpf_cnpj: "",
-      sponsor_Id: sponsorId || "",
-      referred_code: "",
+      cpf: "",
+      sponsorCustomId: sponsorId || "",
+      customId: "",
       birthDate: "",
-      phone: ""
+      whatsapp: "",
+      secondaryWhatsapp: "",
+      cep: "",
+      street: "",
+      neighborhood: "",
+      number: "",
+      city: "",
+      state: "",
+      complement: "",
     },
-    mode: "onChange",
+    mode: "onChange"
   });
 
   const { validateCurrentStep } = useStepValidation(form);
@@ -67,32 +77,36 @@ export const StepFormContainer = ({ onBack, onComplete }: FlowProps) => {
   };
 
   const handleFormSubmit = async (data: RegisterFormData) => {
- 
     try {
       setError(null);
       await onSubmit(data);
     } catch (error: any) {
-      const errorMessage =
-        error.message || "Ocorreu um erro ao criar sua conta.";
+      const errorMessage = error.message || "Ocorreu um erro ao criar sua conta.";
       setError(errorMessage);
     }
   };
 
   const renderCurrentStep = () => {
     console.log(`🎨 Renderizando step ${currentStep}`);
-
+    
     switch (currentStep) {
       case 1:
         return <PersonalInfoStep form={form} />;
       case 2:
-        return <AccountInfoStep form={form} disableSponsor={!!sponsorId} />;
+        return <ContactInfoStep form={form} />;
       case 3:
+        return <AddressStep form={form} />;
+      case 4:
+        return <AccountInfoStep form={form} disableSponsor={!!sponsorId} />;
+      case 5:
         return <PasswordStep form={form} />;
       default:
         console.warn(`⚠️ Step ${currentStep} não reconhecido, usando step 1`);
         return <PersonalInfoStep form={form} />;
     }
   };
+  
+  console.log(`🔄 Renderizando StepFormContainer - currentStep: ${currentStep}, isLastStep: ${isLastStep}`);
 
   return (
     <Form {...form}>
@@ -104,25 +118,22 @@ export const StepFormContainer = ({ onBack, onComplete }: FlowProps) => {
         </Alert>
       )}
 
-      <StepIndicator
-        currentStep={currentStep}
-        totalSteps={totalSteps}
+      <StepIndicator 
+        currentStep={currentStep} 
+        totalSteps={totalSteps} 
         stepTitles={stepTitles}
       />
-
-      <form
-        onSubmit={form.handleSubmit(handleFormSubmit)}
-        className="space-y-6"
-      >
+      
+      <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-6">
         {renderCurrentStep()}
-
+        
         <div className="flex justify-between mt-8 gap-4">
           {currentStep === 1 ? (
             <Button
               type="button"
               variant="outline"
               className="w-full border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white"
-              onClick={onBack}
+              onClick={handleBack}
               disabled={isSubmitting}
             >
               <ChevronLeft className="w-4 h-4 mr-2" />
@@ -140,9 +151,9 @@ export const StepFormContainer = ({ onBack, onComplete }: FlowProps) => {
               Anterior
             </Button>
           )}
-
+          
           {isLastStep ? (
-            <Button
+            <Button 
               type="submit"
               className="w-full bg-[#8425af] hover:bg-[#6c1e8f] text-white"
               disabled={isSubmitting}

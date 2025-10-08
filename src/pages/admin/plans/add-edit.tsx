@@ -24,10 +24,6 @@ function AdminPlanAddEditContent() {
   };
 
   const handleSave = async () => {
-    console.log('🔴 HandleSave - Current cashbackLevels:', cashbackLevels);
-    console.log('🔴 HandleSave - Current benefits:', benefits);
-    console.log('🔴 HandleSave - Current basicFormData:', basicFormData);
-    
     if (!basicFormData) {
       toast({
         title: "Erro",
@@ -60,7 +56,6 @@ function AdminPlanAddEditContent() {
             description: basicFormData.description,
             value: basicFormData.value,
             status: basicFormData.status,
-            first_purchase_cashback: basicFormData.firstPurchaseCashback,
             updated_at: new Date().toISOString()
           })
           .eq('id', planId);
@@ -74,8 +69,7 @@ function AdminPlanAddEditContent() {
             title: basicFormData.title,
             description: basicFormData.description,
             value: basicFormData.value,
-            status: basicFormData.status,
-            first_purchase_cashback: basicFormData.firstPurchaseCashback
+            status: basicFormData.status
           })
           .select()
           .single();
@@ -98,7 +92,7 @@ function AdminPlanAddEditContent() {
           plan_id: savedPlanId,
           level: level.level,
           percentage: level.valueType === 'percentage' ? (level.percentage || 0) / 100 : null,
-          amount: level.valueType === 'fixed' ? level.amount : null,
+          fixed_value: level.valueType === 'fixed' ? level.fixedValue : null,
           description: level.description || null
         }));
 
@@ -121,7 +115,7 @@ function AdminPlanAddEditContent() {
       if (benefits.length > 0) {
         const benefitsData = benefits.map(benefit => ({
           plan_id: savedPlanId,
-          title: benefit.title,
+          benefit_title: benefit.benefit_title,
           display_order: benefit.display_order
         }));
 
@@ -156,7 +150,7 @@ function AdminPlanAddEditContent() {
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Button
+              <Button
               variant="ghost"
               size="sm"
               onClick={handleBack}
@@ -172,6 +166,7 @@ function AdminPlanAddEditContent() {
 
           {/* Botão de ação - visível apenas no desktop */}
           <div className="hidden md:block">
+          
             <Button
               onClick={handleSave}
               disabled={isSubmitting}
@@ -199,7 +194,7 @@ function AdminPlanAddEditContent() {
 
           {/* Conteúdo principal */}
           <div className="flex-1">
-            <PlanFormTabs />
+                <PlanFormTabs />
           </div>
         </div>
       </div>
@@ -234,16 +229,33 @@ export default function AdminPlanAddEdit() {
         .from('plans')
         .select(`
           *,
-          plan_cashback_levels(*),
-          plan_benefits(*)
+          cashback_levels:plan_cashback_levels(*),
+          benefits:plan_benefits(*)
         `)
         .eq('id', planId)
         .single();
 
       if (error) throw error;
 
-      console.log('Raw plan data from DB:', data);
-      return data;
+      // Processar os dados para adicionar valueType aos cashback_levels
+      const processedData = {
+        ...data,
+        firstPurchaseCashback: 0, // Valor padrão já que o campo não existe na base de dados ainda
+        cashback_levels: data.cashback_levels?.map((level: any) => ({
+          ...level,
+          id: level.id || Date.now() + Math.random(), // Garantir que tem ID
+          valueType: level.fixed_value !== null ? 'fixed' : 'percentage',
+          fixedValue: level.fixed_value || 0,
+          percentage: level.percentage ? level.percentage * 100 : 0
+        })) || [],
+        benefits: data.benefits?.map((benefit: any) => ({
+          ...benefit,
+          id: benefit.id || Date.now() + Math.random() // Garantir que tem ID
+        })) || []
+      };
+
+      console.log('Processed plan data:', processedData);
+      return processedData;
     },
     enabled: !!planId
   });

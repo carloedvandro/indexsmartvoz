@@ -13,7 +13,7 @@ export const useStepValidation = (form: UseFormReturn<RegisterFormData>) => {
     
     switch (currentStep) {
       case 1:
-        fieldsToValidate.push("full_name", "email", "cpf_cnpj", "birthDate");
+        fieldsToValidate.push("fullName", "email", "cpf", "birthDate");
         break;
       case 2:
         fieldsToValidate.push("whatsapp");
@@ -22,7 +22,7 @@ export const useStepValidation = (form: UseFormReturn<RegisterFormData>) => {
         fieldsToValidate.push("cep", "street", "neighborhood", "number", "city", "state");
         break;
       case 4:
-        fieldsToValidate.push("referred_code");
+        fieldsToValidate.push("customId");
         break;
       case 5:
         fieldsToValidate.push("password", "passwordConfirmation");
@@ -33,9 +33,9 @@ export const useStepValidation = (form: UseFormReturn<RegisterFormData>) => {
     
     const currentValues = form.getValues();
     console.log(`📋 [STEP ${currentStep}] Valores atuais:`, {
-      referred_code: currentValues.referred_code,
-      sponsor_Id: currentValues.sponsor_Id,
-      full_name: currentValues.full_name ? '[PRESENT]' : '[EMPTY]',
+      customId: currentValues.customId,
+      sponsorCustomId: currentValues.sponsorCustomId,
+      fullName: currentValues.fullName ? '[PRESENT]' : '[EMPTY]',
       email: currentValues.email ? '[PRESENT]' : '[EMPTY]',
       password: currentValues.password ? '[PROTECTED]' : '[EMPTY]',
       passwordConfirmation: currentValues.passwordConfirmation ? '[PROTECTED]' : '[EMPTY]'

@@ -11,11 +11,25 @@ interface CreateClientData {
   email: string;
   password: string;
   full_name: string;
-  cpf_cnpj: string;
+  cpf: string;
   phone: string;
-  birthDate: string;
-  referred_code?: string;
-  sponsor_Id?: string;
+  mobile: string;
+  birth_date: string;
+  person_type: string;
+  document_id: string;
+  cnpj?: string;
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  zip_code: string;
+  gender: string;
+  civil_status: string;
+  status: string;
+  whatsapp?: string;
+  secondary_whatsapp?: string;
+  custom_id?: string;
+  sponsor_id?: string;
 }
 
 serve(async (req) => {
@@ -50,9 +64,9 @@ serve(async (req) => {
     console.log('📋 [CRIAR-CLIENTE] Dados recebidos:', { 
       email: clientData.email, 
       full_name: clientData.full_name,
-      cpf_cnpj: clientData.cpf_cnpj ? 'CPF_CNPJ_PRESENTE' : 'CPF_CNPJ_AUSENTE',
-      referred_code: clientData.referred_code ? 'CUSTOM_ID_PRESENTE' : 'CUSTOM_ID_AUSENTE',
-      sponsor_Id: clientData.sponsor_Id ? 'SPONSOR_PRESENTE' : 'SPONSOR_AUSENTE',
+      cpf: clientData.cpf ? 'CPF_PRESENTE' : 'CPF_AUSENTE',
+      custom_id: clientData.custom_id ? 'CUSTOM_ID_PRESENTE' : 'CUSTOM_ID_AUSENTE',
+      sponsor_id: clientData.sponsor_id ? 'SPONSOR_PRESENTE' : 'SPONSOR_AUSENTE',
     });
 
     // Validações básicas
@@ -101,10 +115,12 @@ serve(async (req) => {
     // Preparar metadata completa do usuário
     const userMetadata = {
       full_name: clientData.full_name,
-      cpf_cnpj: clientData.cpf_cnpj,
-      referred_code: clientData.referred_code,
-      phone: clientData.phone || clientData.phone,
-      sponsor_Id: clientData.sponsor_Id
+      cpf: clientData.cpf,
+      custom_id: clientData.custom_id,
+      phone: clientData.phone || clientData.mobile,
+      whatsapp: clientData.whatsapp,
+      person_type: clientData.person_type,
+      sponsor_id: clientData.sponsor_id
     };
 
     console.log('📋 [CRIAR-CLIENTE] Metadata do usuário preparada');
@@ -130,20 +146,20 @@ serve(async (req) => {
       );
     }
 
-    // Verificar se CPF/CNPJ já existe
-    if (clientData.cpf_cnpj) {
-      const { data: existingCPFCNPJ } = await supabaseAdmin
+    // Verificar se CPF já existe
+    if (clientData.cpf) {
+      const { data: existingCPF } = await supabaseAdmin
         .from('profiles')
         .select('id')
-        .eq('cpf_cnpj', clientData.cpf_cnpj)
+        .eq('cpf', clientData.cpf)
         .single();
 
-      if (existingCPFCNPJ) {
-        console.error('❌ [CRIAR-CLIENTE] CPF/CNPJ já está cadastrado');
+      if (existingCPF) {
+        console.error('❌ [CRIAR-CLIENTE] CPF já está cadastrado');
         return new Response(
           JSON.stringify({ 
             success: false, 
-            error: 'CPF/CNPJ já está cadastrado' 
+            error: 'CPF já está cadastrado' 
           }),
           { 
             status: 422, 
@@ -154,11 +170,11 @@ serve(async (req) => {
     }
 
     // Verificar se custom_id já existe
-    if (clientData.referred_code) {
+    if (clientData.custom_id) {
       const { data: existingCustomId } = await supabaseAdmin
         .from('profiles')
         .select('id')
-        .eq('referred_code', clientData.referred_code)
+        .eq('custom_id', clientData.custom_id)
         .single();
 
       if (existingCustomId) {
@@ -257,7 +273,7 @@ serve(async (req) => {
           email: clientData.email,
           full_name: clientData.full_name,
           role: 'client',
-          active: true
+          status: 'active'
         });
 
       if (insertError) {
@@ -282,12 +298,27 @@ serve(async (req) => {
     console.log('📝 [CRIAR-CLIENTE] Atualizando perfil com dados completos...');
     const profileData = {
       full_name: clientData.full_name,
-      cpf_cnpj: clientData.cpf_cnpj,
-      phone: clientData.phone || clientData.phone,
-      birth_date: clientData.birthDate ? new Date(clientData.birthDate) : null,
-      referred_code: clientData.referred_code,
-      active: true,
-      role: 'client'
+      cpf: clientData.cpf,
+      phone: clientData.phone,
+      mobile: clientData.mobile,
+      whatsapp: clientData.whatsapp,
+      secondary_whatsapp: clientData.secondary_whatsapp,
+      birth_date: clientData.birth_date || null,
+      person_type: clientData.person_type,
+      document_id: clientData.document_id,
+      cnpj: clientData.cnpj || null,
+      address: clientData.address,
+      city: clientData.city,
+      state: clientData.state,
+      country: clientData.country || 'Brasil',
+      zip_code: clientData.zip_code,
+      gender: clientData.gender,
+      civil_status: clientData.civil_status,
+      status: 'active',
+      role: 'client',
+      custom_id: clientData.custom_id,
+      store_url: clientData.custom_id,
+      sponsor_id: clientData.sponsor_id
     };
 
     const { error: profileError } = await supabaseAdmin
@@ -311,15 +342,63 @@ serve(async (req) => {
 
     console.log('✅ [CRIAR-CLIENTE] Perfil atualizado com sucesso');
 
+    // Agora inserir o endereço usando o user_id que sabemos que existe
+    console.log('🏠 [CRIAR-CLIENTE] Inserindo endereço...');
+    const addressData = {
+      user_id: userId,
+      cep: clientData.zip_code,
+      street: clientData.address.split(',')[0]?.trim() || clientData.address,
+      neighborhood: '', // Será necessário ajustar se tiver esse campo
+      number: '', // Será necessário ajustar se tiver esse campo  
+      city: clientData.city,
+      state: clientData.state,
+      complement: null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    console.log('🏠 [CRIAR-CLIENTE] Dados do endereço:', {
+      user_id: addressData.user_id,
+      cep: addressData.cep,
+      city: addressData.city,
+      state: addressData.state
+    });
+
+    const { error: addressError } = await supabaseAdmin
+      .from('user_addresses')
+      .insert(addressData);
+
+    if (addressError) {
+      console.error('❌ [CRIAR-CLIENTE] Erro ao inserir endereço:', addressError);
+      return new Response(
+        JSON.stringify({ 
+          success: false,
+          error: `Erro ao inserir endereço: ${addressError.message}`,
+          debug_info: {
+            user_id: userId,
+            address_data: addressData
+          }
+        }),
+        { 
+          status: 400, 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
+        }
+      );
+    }
+
+    console.log('✅ [CRIAR-CLIENTE] Endereço inserido com sucesso');
+
+    // Retornar sucesso com dados completos
     const successResponse = { 
       success: true,
       user: {
         id: userData.user.id,
         email: userData.user.email,
         full_name: clientData.full_name,
-        referred_code: clientData.referred_code,
-        cpf_cnpj: clientData.cpf_cnpj,
-        phone: clientData.phone 
+        custom_id: clientData.custom_id,
+        cpf: clientData.cpf,
+        phone: clientData.phone || clientData.mobile,
+        whatsapp: clientData.whatsapp
       },
       message: 'Cliente criado com sucesso'
     };

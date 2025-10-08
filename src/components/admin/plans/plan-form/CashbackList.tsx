@@ -6,7 +6,7 @@ interface CashbackLevel {
   id?: any;
   level: number;
   percentage?: number;
-  amount?: number;
+  fixedValue?: number;
   valueType?: 'percentage' | 'fixed';
   description: string;
 }
@@ -34,8 +34,8 @@ export function CashbackList({ cashbackLevels, onEdit, onDelete }: CashbackListP
   };
 
   const getValueDisplay = (cashback: CashbackLevel) => {
-    if (cashback.amount !== undefined && cashback.amount !== null) {
-      return formatCurrency(cashback.amount);
+    if (cashback.fixedValue !== undefined && cashback.fixedValue !== null) {
+      return formatCurrency(cashback.fixedValue);
     } else if (cashback.percentage !== undefined && cashback.percentage !== null) {
       return `${cashback.percentage}%`;
     }
@@ -43,7 +43,7 @@ export function CashbackList({ cashbackLevels, onEdit, onDelete }: CashbackListP
   };
 
   const getValueType = (cashback: CashbackLevel) => {
-    if (cashback.amount !== undefined && cashback.amount !== null) {
+    if (cashback.fixedValue !== undefined && cashback.fixedValue !== null) {
       return 'Valor Fixo';
     } else if (cashback.percentage !== undefined && cashback.percentage !== null) {
       return 'Percentual';

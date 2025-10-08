@@ -1,5 +1,4 @@
-
-import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 interface BasicFormData {
   title: string;
@@ -35,127 +34,73 @@ interface PlanFormProviderProps {
   initialData?: any;
 }
 
-export const PlanFormProvider = React.memo(({ children, initialData }: PlanFormProviderProps) => {
+export function PlanFormProvider({ children, initialData }: PlanFormProviderProps) {
   const [activeTab, setActiveTab] = useState('informacoes');
   const [cashbackLevels, setCashbackLevels] = useState<any[]>([]);
   const [benefits, setBenefits] = useState<any[]>([]);
-  const [basicFormData, setBasicFormData] = useState<BasicFormData>({
-    title: '',
-    description: '',
-    value: 0,
-    status: 'active',
-    firstPurchaseCashback: 0
-  });
-  const [initialized, setInitialized] = useState(false);
-
-  // Memoizar se há dados iniciais válidos
-  const hasInitialData = useMemo(() => {
-    return initialData && (
-      initialData.title ||
-      initialData.description ||
-      initialData.value ||
-      initialData.first_purchase_cashback ||
-      (initialData.plan_cashback_levels && initialData.plan_cashback_levels.length > 0) ||
-      (initialData.plan_benefits && initialData.plan_benefits.length > 0)
-    );
-  }, [initialData]);
+  const [basicFormData, setBasicFormData] = useState<BasicFormData | null>(null);
 
   // Efeito para inicializar os dados quando initialData mudar
   useEffect(() => {
-    if (hasInitialData && !initialized) {
-      console.log('🟢 PlanFormProvider: Initializing form data:', initialData);
+    if (initialData) {
+      console.log('Initializing form data:', initialData);
       
       // Inicializar dados básicos
-      const newBasicFormData = {
+      setBasicFormData({
         title: initialData.title || '',
         description: initialData.description || '',
         value: initialData.value || 0,
         status: initialData.status || 'active',
-        firstPurchaseCashback: initialData.first_purchase_cashback || 0
-      };
-      
-      setBasicFormData(newBasicFormData);
-      console.log('🟢 PlanFormProvider: Setting basic form data:', newBasicFormData);
+        firstPurchaseCashback: initialData.firstPurchaseCashback || 0
+      });
 
-      // Inicializar cashback levels - mapear amount e percentage corretamente
-      if (initialData.plan_cashback_levels && Array.isArray(initialData.plan_cashback_levels)) {
-        const mappedCashbackLevels = initialData.plan_cashback_levels.map((level: any) => ({
-          ...level,
-          valueType: level.amount !== null && level.amount !== undefined ? 'fixed' : 'percentage',
-          percentage: level.percentage ? level.percentage * 100 : 0
-        }));
-        setCashbackLevels(mappedCashbackLevels);
-        console.log('🟢 PlanFormProvider: Setting cashback levels:', mappedCashbackLevels);
+      // Inicializar cashback levels
+      if (initialData.cashback_levels && Array.isArray(initialData.cashback_levels)) {
+        setCashbackLevels(initialData.cashback_levels);
+        console.log('Setting cashback levels:', initialData.cashback_levels);
       }
 
       // Inicializar benefits
-      if (initialData.plan_benefits && Array.isArray(initialData.plan_benefits)) {
-        setBenefits(initialData.plan_benefits);
-        console.log('🟢 PlanFormProvider: Setting benefits:', initialData.plan_benefits);
+      if (initialData.benefits && Array.isArray(initialData.benefits)) {
+        setBenefits(initialData.benefits);
+        console.log('Setting benefits:', initialData.benefits);
       }
-      
-      setInitialized(true);
-    } else if (!hasInitialData && !initialized) {
-      // Se não há dados iniciais, marcar como inicializado para permitir a edição
-      setInitialized(true);
     }
-  }, [hasInitialData, initialized, initialData]);
+  }, [initialData]);
 
-  // Função memoizada para atualizar dados básicos preservando valores existentes
-  const updateBasicFormData = useCallback((newData: BasicFormData) => {
-    console.log('🟡 PlanFormProvider: Updating basic form data:', newData);
-    setBasicFormData(prev => {
-      const updated = { ...prev, ...newData };
-      console.log('🟡 PlanFormProvider: Previous data:', prev);
-      console.log('🟡 PlanFormProvider: Updated data:', updated);
-      return updated;
-    });
-  }, []);
-
-  // Métodos memoizados para gerenciar cashback levels
-  const addCashbackLevel = useCallback((level: any) => {
+  // Métodos para gerenciar cashback levels
+  const addCashbackLevel = (level: any) => {
     const newLevel = { ...level, id: level.id || Date.now() + Math.random() };
-    console.log('🟢 PlanFormProvider: Adding cashback level:', newLevel);
-    setCashbackLevels(prev => {
-      const newArray = [...prev, newLevel];
-      console.log('🟢 PlanFormProvider: New cashback levels array:', newArray);
-      return newArray;
-    });
-  }, []);
+    setCashbackLevels(prev => [...prev, newLevel]);
+  };
 
-  const updateCashbackLevel = useCallback((id: any, level: any) => {
-    console.log('🟡 PlanFormProvider: Updating cashback level:', { id, level });
+  const updateCashbackLevel = (id: any, level: any) => {
     setCashbackLevels(prev => prev.map(item => 
       item.id === id ? { ...level, id } : item
     ));
-  }, []);
+  };
 
-  const deleteCashbackLevel = useCallback((id: any) => {
-    console.log('🔴 PlanFormProvider: Deleting cashback level:', id);
+  const deleteCashbackLevel = (id: any) => {
     setCashbackLevels(prev => prev.filter(item => item.id !== id));
-  }, []);
+  };
 
-  // Métodos memoizados para gerenciar benefits
-  const addBenefit = useCallback((benefit: any) => {
+  // Métodos para gerenciar benefits
+  const addBenefit = (benefit: any) => {
     const newBenefit = { ...benefit, id: benefit.id || Date.now() + Math.random() };
-    console.log('🟢 PlanFormProvider: Adding benefit:', newBenefit);
     setBenefits(prev => [...prev, newBenefit]);
-  }, []);
+  };
 
-  const updateBenefit = useCallback((id: any, benefit: any) => {
-    console.log('🟡 PlanFormProvider: Updating benefit:', { id, benefit });
+  const updateBenefit = (id: any, benefit: any) => {
     setBenefits(prev => prev.map(item => 
       item.id === id ? { ...benefit, id } : item
     ));
-  }, []);
+  };
 
-  const deleteBenefit = useCallback((id: any) => {
-    console.log('🔴 PlanFormProvider: Deleting benefit:', id);
+  const deleteBenefit = (id: any) => {
     setBenefits(prev => prev.filter(item => item.id !== id));
-  }, []);
+  };
 
-  // Memoizar o valor do contexto
-  const contextValue = useMemo(() => ({
+  const value = {
     activeTab,
     setActiveTab,
     planData: initialData,
@@ -164,36 +109,21 @@ export const PlanFormProvider = React.memo(({ children, initialData }: PlanFormP
     benefits,
     setBenefits,
     basicFormData,
-    setBasicFormData: updateBasicFormData,
+    setBasicFormData,
     addCashbackLevel,
     updateCashbackLevel,
     deleteCashbackLevel,
     addBenefit,
     updateBenefit,
     deleteBenefit,
-  }), [
-    activeTab,
-    initialData,
-    cashbackLevels,
-    benefits,
-    basicFormData,
-    updateBasicFormData,
-    addCashbackLevel,
-    updateCashbackLevel,
-    deleteCashbackLevel,
-    addBenefit,
-    updateBenefit,
-    deleteBenefit,
-  ]);
+  };
 
   return (
-    <PlanFormContext.Provider value={contextValue}>
+    <PlanFormContext.Provider value={value}>
       {children}
     </PlanFormContext.Provider>
   );
-});
-
-PlanFormProvider.displayName = 'PlanFormProvider';
+}
 
 export function usePlanForm() {
   const context = useContext(PlanFormContext);

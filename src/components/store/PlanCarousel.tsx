@@ -1,13 +1,8 @@
+
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Check } from "lucide-react";
 
 interface Plan {
@@ -28,29 +23,39 @@ interface PlanCarouselProps {
 export function PlanCarousel({
   plans,
   onSelectPlan,
-  isMobile,
+  isMobile
 }: PlanCarouselProps) {
+  const getPlanColors = (gb: string) => {
+    switch (gb) {
+      case "80GB":
+        return "bg-gradient-to-br from-blue-500 to-blue-600 text-white";
+      case "100GB":
+        return "bg-gradient-to-br from-purple-500 to-purple-600 text-white";
+      case "120GB":
+        return "bg-gradient-to-br from-pink-500 to-pink-600 text-white";
+      case "140GB":
+        return "bg-gradient-to-br from-orange-500 to-orange-600 text-white";
+      default:
+        return "bg-gradient-to-br from-gray-500 to-gray-600 text-white";
+    }
+  };
+
   return (
     <div className="w-full px-4">
       {/* Header */}
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-green-500 mb-2">
-          Conecte-se ao Futuro
-        </h2>
-        <p className="text-gray-600">
-          Escolha o plano ideal para suas necessidades com a melhor relação
-          custo-benefício do mercado digital
-        </p>
+        <h2 className="text-2xl font-bold text-green-500 mb-2">Conecte-se ao Futuro</h2>
+        <p className="text-gray-600">Escolha o plano ideal para suas necessidades com a melhor relação custo-benefício do mercado digital</p>
       </div>
 
       {/* Plans Display */}
       {isMobile ? (
         // Mobile: Carousel
-        <Carousel
+        <Carousel 
           opts={{
             align: "center",
-            loop: true,
-          }}
+            loop: true
+          }} 
           className="w-full max-w-sm mx-auto"
         >
           <CarouselContent className="-ml-1">
@@ -85,39 +90,46 @@ export function PlanCarousel({
 }
 
 // Plan Card Component
-function PlanCard({
-  plan,
-  onSelectPlan,
-}: {
-  plan: Plan;
-  onSelectPlan: (plan: Plan) => void;
-}) {
-  return (
-    <Card
-      className={`
-      relative h-full transition-all duration-300 hover:shadow-xl
-      bg-gradient-to-br from-gray-500 to-gray-600 text-white border-0
-    `}
-    >
-      <CardContent className="p-6 text-center h-full flex flex-col">
+function PlanCard({ plan, onSelectPlan }: { plan: Plan; onSelectPlan: (plan: Plan) => void }) {
+  const getPlanColors = (gb: string) => {
+    switch (gb) {
+      case "80GB":
+        return "bg-gradient-to-br from-blue-500 to-blue-600 text-white";
+      case "100GB":
+        return "bg-gradient-to-br from-purple-500 to-purple-600 text-white";
+      case "120GB":
+        return "bg-gradient-to-br from-pink-500 to-pink-600 text-white";
+      case "140GB":
+        return "bg-gradient-to-br from-orange-500 to-orange-600 text-white";
+      default:
+        return "bg-gradient-to-br from-gray-500 to-gray-600 text-white";
+    }
+  };
 
+  return (
+    <Card className={`
+      relative h-full transition-all duration-300 hover:scale-105 hover:shadow-xl
+      ${getPlanColors(plan.gb)} border-0
+    `}>
+      <CardContent className="p-6 text-center h-full flex flex-col">
+        {/* Plan Title */}
         <div className="text-sm font-medium mb-2 text-white/90">
           {plan.name}
         </div>
 
+        {/* Price */}
         <div className="mb-6">
           <div className="flex items-baseline justify-center">
             <span className="text-sm font-medium">R$</span>
-            <span className="text-4xl font-bold mx-1">
-              {Math.floor(plan.price)}
-            </span>
-            <span className="text-sm">
-              ,{(plan.price % 1).toFixed(2).slice(2)}
-            </span>
+            <span className="text-4xl font-bold mx-1">{Math.floor(plan.price)}</span>
+            <span className="text-sm">,{(plan.price % 1).toFixed(2).slice(2)}</span>
           </div>
-          <div className="text-sm text-white/80">por mês</div>
+          <div className="text-sm text-white/80">
+            por mês
+          </div>
         </div>
 
+        {/* Features */}
         <div className="flex-1 mb-6">
           <ul className="space-y-3">
             {plan.features.map((feature, featureIndex) => (
@@ -130,8 +142,8 @@ function PlanCard({
         </div>
 
         {/* CTA Button */}
-        <Button
-          onClick={() => onSelectPlan(plan)}
+        <Button 
+          onClick={() => onSelectPlan(plan)} 
           className="w-full font-semibold py-3 rounded-lg transition-all duration-200 bg-white text-gray-800 hover:bg-gray-100 hover:text-gray-900"
         >
           Escolher este Plano

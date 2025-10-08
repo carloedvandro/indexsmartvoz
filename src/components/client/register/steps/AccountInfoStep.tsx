@@ -11,10 +11,17 @@ interface AccountInfoStepProps {
 }
 
 export const AccountInfoStep = ({ form, disableSponsor }: AccountInfoStepProps) => {
-
-  const sponsorValue = form.watch("sponsor_Id");
-  const customIdValue = form.watch("referred_code");
+  console.log("🎨 === RENDERIZANDO AccountInfoStep ===", { disableSponsor });
   
+  const sponsorValue = form.watch("sponsorCustomId");
+  const customIdValue = form.watch("customId");
+  
+  console.log("📋 AccountInfoStep valores em tempo real:", { 
+    sponsorCustomId: sponsorValue,
+    customId: customIdValue,
+    customIdLength: customIdValue ? customIdValue.length : 0
+  });
+
   return (
     <div className="space-y-4">
       <div className="text-center mb-6">
@@ -24,12 +31,12 @@ export const AccountInfoStep = ({ form, disableSponsor }: AccountInfoStepProps) 
 
       <FormField
         control={form.control}
-        name="sponsor_Id"
+        name="sponsorCustomId"
         render={({ field }) => (
           <FormItem>
             <FormControl>
               <FloatingLabelInput
-                id="sponsor_Id"
+                id="sponsorCustomId"
                 type="text"
                 value={field.value || ""}
                 onChange={field.onChange}
@@ -46,12 +53,12 @@ export const AccountInfoStep = ({ form, disableSponsor }: AccountInfoStepProps) 
       
       <FormField
         control={form.control}
-        name="referred_code"
+        name="customId"
         render={({ field }) => (
           <FormItem>
             <FormControl>
               <FloatingLabelInput
-                id="referred_code"
+                id="customId"
                 type="text"
                 value={field.value}
                 onChange={field.onChange}
