@@ -32,7 +32,7 @@ export function PlanFormSidebar() {
       {/* Layout responsivo: horizontal no mobile, vertical no desktop */}
       <nav className="flex md:flex-col gap-2">
         {/* Mobile: scroll horizontal se necessário */}
-        <div className="flex md:flex-col gap-2">
+        <div className="flex md:flex-col gap-2 overflow-x-auto md:overflow-x-visible">
           {menuItems.map((item) => (
             <button
               key={item.id}

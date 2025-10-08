@@ -3,7 +3,6 @@ import { formatCurrency } from "@/utils/format";
 import { motion } from 'framer-motion';
 import { Orb3D } from '@/components/ui/3d-orb';
 import { GradientText } from '@/components/ui/gradient-text';
-import { Volume2, VolumeX } from 'lucide-react';
 interface Plan {
   gb: number;
   price: number;
@@ -18,7 +17,7 @@ interface CommissionLevel {
 }
 const plans: Plan[] = [{
   gb: 100,
-  price: 99.99,
+  price: 104.99,
   commissionLevels: [{
     level: 1,
     title: "1º Nível",
@@ -46,7 +45,7 @@ const plans: Plan[] = [{
   }]
 }, {
   gb: 120,
-  price: 119.99,
+  price: 124.99,
   commissionLevels: [{
     level: 1,
     title: "1º Nível",
@@ -74,7 +73,7 @@ const plans: Plan[] = [{
   }]
 }, {
   gb: 140,
-  price: 139.99,
+  price: 144.99,
   commissionLevels: [{
     level: 1,
     title: "1º Nível",
@@ -137,8 +136,6 @@ function AnimatedNumber({
 }
 export function InteractivePlanCard() {
   const [currentPlan, setCurrentPlan] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-
   const changePlan = (direction: number) => {
     setCurrentPlan(prev => {
       const newIndex = prev + direction;
@@ -146,50 +143,6 @@ export function InteractivePlanCard() {
       if (newIndex >= plans.length) return 0;
       return newIndex;
     });
-  };
-
-  const generateNarrationText = (plan: Plan) => {
-    const firstLevel = plan.commissionLevels[0];
-    const otherLevels = plan.commissionLevels.slice(1);
-    
-    if (plan.gb === 100) {
-      return "No plano de 100GB, você paga R$99,99 e ganha R$20,00 no primeiro nível e R$5,00 do segundo ao quarto nível.";
-    } else if (plan.gb === 120) {
-      return "No plano de 120GB, o valor é R$119,99 com ganho de R$25,00 no primeiro nível e R$5,00 do segundo ao quarto nível.";
-    } else if (plan.gb === 140) {
-      return "No plano de 140GB, você paga R$139,99 e recebe R$30,00 no primeiro nível e R$5,00 do segundo ao quarto nível.";
-    }
-    
-    return `No plano de ${plan.gb}GB, você paga ${formatCurrency(plan.price)} e ganha ${formatCurrency(firstLevel.commission)} no primeiro nível e ${formatCurrency(otherLevels[0].commission)} do segundo ao quarto nível.`;
-  };
-
-  const playNarration = () => {
-    if ('speechSynthesis' in window) {
-      // Para a narração atual se estiver tocando
-      if (isPlaying) {
-        window.speechSynthesis.cancel();
-        setIsPlaying(false);
-        return;
-      }
-
-      const text = generateNarrationText(plan);
-      const utterance = new SpeechSynthesisUtterance(text);
-      
-      // Configurações da voz
-      utterance.lang = 'pt-BR';
-      utterance.rate = 0.9; // Velocidade um pouco mais lenta
-      utterance.pitch = 1;
-      utterance.volume = 1;
-
-      // Event listeners
-      utterance.onstart = () => setIsPlaying(true);
-      utterance.onend = () => setIsPlaying(false);
-      utterance.onerror = () => setIsPlaying(false);
-
-      window.speechSynthesis.speak(utterance);
-    } else {
-      alert('Text-to-Speech não é suportado neste navegador');
-    }
   };
   const calculateTotal = (commissionLevels: CommissionLevel[]) => {
     return commissionLevels.reduce((total, level) => total + level.monthlyValue, 0);
@@ -219,7 +172,7 @@ export function InteractivePlanCard() {
             scale: 1
           }} transition={{
             duration: 0.4
-          }} className="bg-purple-800 text-white max-w-sm w-full shadow-2xl rounded-3xl p-6 space-y-4 relative overflow-hidden">
+          }} className="plano-card relative overflow-hidden">
                 {/* 3D Orb Background Effect */}
                 <div className="absolute top-4 right-4 opacity-30">
                   <Orb3D size={80} color="#ffffff" intensity={0.6} speed={0.005} />
@@ -227,55 +180,32 @@ export function InteractivePlanCard() {
                 <div className="absolute bottom-4 left-4 opacity-20">
                   <Orb3D size={60} color="#ff00ff" intensity={0.4} speed={0.008} />
                 </div>
-                
-                <h2 className="text-center text-lg font-semibold tracking-wide text-white">
+                <div className="label-topo">
                   ASSINATURA<br />
                   <span>SEM FIDELIDADE</span>
-                </h2>
-
-                <div className="bg-purple-600 rounded-xl text-center py-4 text-4xl font-extrabold shadow-inner">
-                  {plan.gb}<span className="text-purple-300 text-2xl font-medium">GB</span>
-                </div>
-
-                <p className="text-center text-sm mt-2">
-                  Você ganha por indicação
-                </p>
-
-                <p className="text-center text-white text-sm">
-                  Ligações e SMS ilimitados para qualquer operadora do Brasil.
-                </p>
-
-                <div className="bg-purple-500 rounded-lg py-3 text-center text-xl font-bold text-white">
-                  Por {formatCurrency(plan.price)} <span className="text-sm font-normal">/mês</span>
-                </div>
-
-                <div className="bg-purple-700 rounded-xl mt-4 p-4 space-y-2">
-                  {plan.commissionLevels.map((level, index) => (
-                    <p key={level.level} className="text-sm font-semibold text-yellow-300">
-                      Nível {level.level}: <span className="text-white font-normal">{formatCurrency(level.commission)}</span>
-                    </p>
-                  ))}
                 </div>
                 
-                {/* Audio Narration Button */}
-                <div className="flex justify-center mt-4">
-                  <button
-                    onClick={playNarration}
-                    className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-all duration-300 backdrop-blur-sm border border-white/30"
-                    disabled={!('speechSynthesis' in window)}
-                  >
-                    {isPlaying ? (
-                      <>
-                        <VolumeX size={20} />
-                        <span className="text-sm font-medium">Parar áudio</span>
-                      </>
-                    ) : (
-                      <>
-                        <Volume2 size={20} />
-                        <span className="text-sm font-medium">Ouvir plano</span>
-                      </>
-                    )}
-                  </button>
+                <div className="giga-bloco">
+                  <GradientText colors={["#ffffff", "#ffffff", "#ffffff"]} animationSpeed={4} className="text-6xl font-extrabold">
+                    {plan.gb}<span className="giga-unidade">GB</span>
+                  </GradientText>
+                </div>
+                
+                <div className="beneficios">
+                  <p>Ligações e SMS ilimitados</p>
+                  <p>para qualquer operadora do Brasil.</p>
+                </div>
+                
+                <div className="preco-box">
+                  <span className="preco-label">Por</span>
+                  <span className="preco-destaque">{formatCurrency(plan.price)}</span>
+                  <span className="preco-mes">/mês</span>
+                </div>
+                
+                <div className="comissoes">
+                  {plan.commissionLevels.map((level, index) => <p key={level.level}>
+                      <strong>Nível {level.level}:</strong> {formatCurrency(level.commission)}
+                    </p>)}
                 </div>
               </motion.div>
               
@@ -313,7 +243,7 @@ export function InteractivePlanCard() {
             ];
             return <div key={level.level} style={{
               borderLeft: `8px solid ${borderColors[index]}`
-            }} className="rounded-2xl p-3 pl-4">
+            }} className="rounded-2xl p-6 pl-4">
                   <h3 className="text-primary font-bold text-xl mb-3">
                     {level.title}
                   </h3>
@@ -347,77 +277,62 @@ export function InteractivePlanCard() {
     }} className="-bottom-6">
         <h2 className="text-xl md:text-2xl font-bold mb-4 text-gray-800" style={{fontSize: 'calc(1.25rem + 1px)'}}>Consumo inteligente</h2>
         
-        {/* Desktop Cards Layout */}
-        <div className="hidden md:block">
-          <div className="grid grid-cols-5 gap-4 mb-4">
-            {/* Header Cards */}
-            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-4 px-4 rounded-2xl font-bold">
-              Nível
-            </div>
-            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-4 px-4 rounded-2xl font-bold">
-              Clientes
-            </div>
-            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-4 px-4 rounded-2xl font-bold">
-              Usuário
-            </div>
-            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-4 px-4 rounded-2xl font-bold">
-              Por Nível
-            </div>
-            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-4 px-4 rounded-2xl font-bold">
-              Acumulado
-            </div>
-          </div>
-
-          {/* Data Rows */}
-          {plan.commissionLevels.map((level, index) => {
-            const borderColors = ['#FF5E3A', '#A45EFF', '#3B9CFF', '#E94FC6'];
-            return (
-              <div key={level.level} className="grid grid-cols-5 gap-4 mb-4">
-                <div 
-                  className="bg-white text-center py-6 px-4 rounded-2xl font-bold border-l-8 flex items-center justify-center shadow-sm text-lg"
-                  style={{ borderLeftColor: borderColors[index] }}
-                >
-                  {level.level}º
-                </div>
-                <div className="bg-white text-center py-6 px-4 rounded-2xl flex items-center justify-center shadow-sm text-lg font-medium">
-                  {level.indications}
-                </div>
-                <div className="bg-white text-center py-4 px-4 rounded-2xl flex flex-col items-center justify-center shadow-sm">
-                  <div className="font-bold text-lg">R${level.commission.toFixed(2)}</div>
-                  <div className="text-gray-600 text-sm">Por indicado</div>
-                </div>
-                <div className="bg-white text-center py-6 px-4 rounded-2xl flex items-center justify-center shadow-sm text-lg font-medium">
-                  R${level.commission.toFixed(2)}
-                </div>
-                <div className="bg-white text-center py-6 px-4 rounded-2xl flex items-center justify-center shadow-sm text-lg font-medium">
-                  R${level.monthlyValue.toFixed(2)}
-                </div>
-              </div>
-            );
-          })}
-
-          {/* Total Row */}
-          <div className="grid grid-cols-5 gap-4">
-            <div className="bg-purple-100 text-center py-6 px-4 rounded-2xl font-bold flex items-center justify-center text-lg">
-              Total
-            </div>
-            <div className="bg-purple-100 text-center py-6 px-4 rounded-2xl font-bold flex items-center justify-center text-lg">
-              {totalClients}
-            </div>
-            <div className="bg-purple-100 text-center py-6 px-4 rounded-2xl font-bold flex items-center justify-center text-lg">
-              R$35,00
-            </div>
-            <div className="bg-purple-100 text-center py-6 px-4 rounded-2xl font-bold flex items-center justify-center text-lg">
-              R$35,00
-            </div>
-            <div className="bg-purple-100 text-center py-6 px-4 rounded-2xl font-bold flex items-center justify-center text-lg">
-              R${totalValue.toFixed(2)}
-            </div>
-          </div>
+        {/* Desktop Table */}
+        <div className="hidden md:block responsive-table-container">
+          <table className="responsive-table">
+            <thead>
+              <tr>
+                <th>Nível</th>
+                <th>Clientes</th>
+                <th>Usuário</th>
+                <th>Por Nível</th>
+                <th>Acumulado</th>
+              </tr>
+            </thead>
+            <tbody>
+              {plan.commissionLevels.map((level, index) => {
+                const borderColors = ['#FF5E3A', '#A45EFF', '#3B9CFF', '#E94FC6'];
+                const nivelClasses = ['nivel-1', 'nivel-2', 'nivel-3', 'nivel-4'];
+                return (
+                  <tr key={level.level}>
+                    <td className={`nivel-col ${nivelClasses[index]}`} style={{ borderLeftColor: borderColors[index] }}>
+                      <motion.span initial={{
+                        scale: 0.95,
+                        y: 5
+                      }} animate={{
+                        scale: 1,
+                        y: 0
+                      }} transition={{
+                        duration: 0.6,
+                        ease: "easeOut",
+                        delay: index * 0.2
+                      }} className="font-bold">
+                        {level.level}º
+                      </motion.span>
+                    </td>
+                    <td>{level.indications}</td>
+                    <td>
+                      <strong>R$<AnimatedNumber value={level.commission} delay={index * 100} />,00</strong><br />
+                      <span className="text-sm">Por indicado</span>
+                    </td>
+                    <td>R$<AnimatedNumber value={level.commission} delay={index * 100} />,00</td>
+                    <td>R$<AnimatedNumber value={level.monthlyValue} delay={index * 100} />,00</td>
+                  </tr>
+                );
+              })}
+              <tr className="total-row">
+                <td>Total</td>
+                <td>{totalClients}</td>
+                <td><strong>R$<AnimatedNumber value={35} delay={400} />,00</strong></td>
+                <td>R$<AnimatedNumber value={35} delay={400} />,00</td>
+                <td>R$<AnimatedNumber value={totalValue} delay={400} />,00</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         {/* Mobile Cards */}
-        <div className="block md:hidden space-y-2 w-full overflow-x-hidden px-0">
+        <div className="w-full overflow-x-hidden px-3 sm:px-6">
           {/* Header Cards */}
           <div className="grid grid-cols-5 gap-1 min-w-0">
             <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white text-center py-2 px-1 rounded-lg text-xs font-bold">
@@ -486,12 +401,9 @@ export function InteractivePlanCard() {
         </div>
 
         <div className="footer-box">
-          <p className="footer-label">
-            <span className="block md:inline">Valor total a receber na recorrência</span>
-            <span className="valor block md:inline"> R${totalValue.toLocaleString('pt-BR', {
+          <p className="footer-label">Valor total a receber na recorrência <span className="valor">R${totalValue.toLocaleString('pt-BR', {
               minimumFractionDigits: 2
-            })}</span>
-          </p>
+            })}</span></p>
         </div>
       </motion.div>
 
@@ -519,7 +431,7 @@ export function InteractivePlanCard() {
           padding: 2.5rem 2rem;
           text-align: center;
           min-height: 420px;
-          max-width: 460px;
+          max-width: 420px;
           width: 100%;
           margin: auto;
           font-family: 'Segoe UI', sans-serif;
@@ -715,7 +627,7 @@ export function InteractivePlanCard() {
 
         .footer-box {
           margin-top: 2rem;
-          padding: 1rem 3rem;
+          padding: 1rem;
           border-radius: 1rem;
           background: linear-gradient(90deg, #d1c4e9, #ede7f6);
           box-shadow: inset 2px 2px 6px rgba(255,255,255,0.5), inset -2px -2px 6px rgba(0,0,0,0.05);
@@ -726,21 +638,10 @@ export function InteractivePlanCard() {
           animation: glow-pulse 3s infinite ease-in-out;
         }
 
-        .footer-label {
-          letter-spacing: -1.5px;
-        }
-
         .footer-label .valor {
           font-weight: bold;
           color: #4a148c;
           text-shadow: 1px 1px 1px rgba(255,255,255,0.6);
-        }
-
-        /* Mobile text break for footer */
-        @media screen and (max-width: 768px) {
-          .footer-label {
-            white-space: nowrap;
-          }
         }
 
         @keyframes glow-pulse {
