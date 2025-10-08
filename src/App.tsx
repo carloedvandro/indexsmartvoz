@@ -73,7 +73,7 @@ function App() {
           <Route path="/client/verification-rejected" element={<VerificationRejected />} />
           <Route path="/client/user-dashboard" element={<UserDashboard />} />
 
-          <Route path="/client" element={<ProtectedRoute />}>
+          <Route path="/client" >
             <Route path="" element={<DynamicLayout />}>
               <Route path="payment-return" element={<PaymentReturn />} />
               <Route path="dashboard" element={<ClientDashboard />} />
@@ -92,7 +92,7 @@ function App() {
             </Route>
           </Route>
 
-          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/login" />
           <Route path="/admin" element={<ProtectedRoute />}>
             <Route path="" element={<RoleBasedRoute allowedRoles={['admin']} />}>
               <Route
