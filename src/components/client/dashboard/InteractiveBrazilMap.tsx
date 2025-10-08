@@ -93,10 +93,10 @@ export function InteractiveBrazilMap() {
         {/* Mapa 3D do Brasil */}
         <div className="relative">
           <div 
-            className="relative w-full mx-auto"
+            className="relative w-full mx-auto -translate-x-[5px]"
             style={{ 
               height: isMobile ? '600px' : '750px',
-              transform: 'scale(1.25)',
+              transform: 'scale(1.16) translateX(-5px)',
               transformOrigin: isMobile ? 'center top' : 'center top',
               marginTop: isMobile ? '-230px' : '0'
             }}
