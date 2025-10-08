@@ -3,7 +3,6 @@ import { formatCurrency } from "@/utils/format";
 import { motion } from 'framer-motion';
 import { Orb3D } from '@/components/ui/3d-orb';
 import { GradientText } from '@/components/ui/gradient-text';
-import { Volume2, VolumeX } from 'lucide-react';
 interface Plan {
   gb: number;
   price: number;
@@ -18,7 +17,7 @@ interface CommissionLevel {
 }
 const plans: Plan[] = [{
   gb: 100,
-  price: 99.99,
+  price: 104.99,
   commissionLevels: [{
     level: 1,
     title: "1º Nível",
@@ -46,7 +45,7 @@ const plans: Plan[] = [{
   }]
 }, {
   gb: 120,
-  price: 119.99,
+  price: 124.99,
   commissionLevels: [{
     level: 1,
     title: "1º Nível",
@@ -74,7 +73,7 @@ const plans: Plan[] = [{
   }]
 }, {
   gb: 140,
-  price: 139.99,
+  price: 144.99,
   commissionLevels: [{
     level: 1,
     title: "1º Nível",
@@ -137,8 +136,6 @@ function AnimatedNumber({
 }
 export function InteractivePlanCard() {
   const [currentPlan, setCurrentPlan] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-
   const changePlan = (direction: number) => {
     setCurrentPlan(prev => {
       const newIndex = prev + direction;
@@ -146,50 +143,6 @@ export function InteractivePlanCard() {
       if (newIndex >= plans.length) return 0;
       return newIndex;
     });
-  };
-
-  const generateNarrationText = (plan: Plan) => {
-    const firstLevel = plan.commissionLevels[0];
-    const otherLevels = plan.commissionLevels.slice(1);
-    
-    if (plan.gb === 100) {
-      return "No plano de 100GB, você paga R$99,99 e ganha R$20,00 no primeiro nível e R$5,00 do segundo ao quarto nível.";
-    } else if (plan.gb === 120) {
-      return "No plano de 120GB, o valor é R$119,99 com ganho de R$25,00 no primeiro nível e R$5,00 do segundo ao quarto nível.";
-    } else if (plan.gb === 140) {
-      return "No plano de 140GB, você paga R$139,99 e recebe R$30,00 no primeiro nível e R$5,00 do segundo ao quarto nível.";
-    }
-    
-    return `No plano de ${plan.gb}GB, você paga ${formatCurrency(plan.price)} e ganha ${formatCurrency(firstLevel.commission)} no primeiro nível e ${formatCurrency(otherLevels[0].commission)} do segundo ao quarto nível.`;
-  };
-
-  const playNarration = () => {
-    if ('speechSynthesis' in window) {
-      // Para a narração atual se estiver tocando
-      if (isPlaying) {
-        window.speechSynthesis.cancel();
-        setIsPlaying(false);
-        return;
-      }
-
-      const text = generateNarrationText(plan);
-      const utterance = new SpeechSynthesisUtterance(text);
-      
-      // Configurações da voz
-      utterance.lang = 'pt-BR';
-      utterance.rate = 0.9; // Velocidade um pouco mais lenta
-      utterance.pitch = 1;
-      utterance.volume = 1;
-
-      // Event listeners
-      utterance.onstart = () => setIsPlaying(true);
-      utterance.onend = () => setIsPlaying(false);
-      utterance.onerror = () => setIsPlaying(false);
-
-      window.speechSynthesis.speak(utterance);
-    } else {
-      alert('Text-to-Speech não é suportado neste navegador');
-    }
   };
   const calculateTotal = (commissionLevels: CommissionLevel[]) => {
     return commissionLevels.reduce((total, level) => total + level.monthlyValue, 0);
@@ -253,27 +206,6 @@ export function InteractivePlanCard() {
                   {plan.commissionLevels.map((level, index) => <p key={level.level}>
                       <strong>Nível {level.level}:</strong> {formatCurrency(level.commission)}
                     </p>)}
-                </div>
-                
-                {/* Audio Narration Button */}
-                <div className="flex justify-center mt-4">
-                  <button
-                    onClick={playNarration}
-                    className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg transition-all duration-300 backdrop-blur-sm border border-white/30"
-                    disabled={!('speechSynthesis' in window)}
-                  >
-                    {isPlaying ? (
-                      <>
-                        <VolumeX size={20} />
-                        <span className="text-sm font-medium">Parar áudio</span>
-                      </>
-                    ) : (
-                      <>
-                        <Volume2 size={20} />
-                        <span className="text-sm font-medium">Ouvir plano</span>
-                      </>
-                    )}
-                  </button>
                 </div>
               </motion.div>
               
@@ -484,12 +416,9 @@ export function InteractivePlanCard() {
         </div>
 
         <div className="footer-box">
-          <p className="footer-label">
-            <span className="block md:inline">Valor total a receber na recorrência</span>
-            <span className="valor block md:inline"> R${totalValue.toLocaleString('pt-BR', {
+          <p className="footer-label">Valor total a receber na recorrência <span className="valor">R${totalValue.toLocaleString('pt-BR', {
               minimumFractionDigits: 2
-            })}</span>
-          </p>
+            })}</span></p>
         </div>
       </motion.div>
 
@@ -724,21 +653,11 @@ export function InteractivePlanCard() {
           animation: glow-pulse 3s infinite ease-in-out;
         }
 
-        .footer-label {
-          letter-spacing: -1.5px;
-        }
-
         .footer-label .valor {
           font-weight: bold;
           color: #4a148c;
           text-shadow: 1px 1px 1px rgba(255,255,255,0.6);
-        }
-
-        /* Mobile text break for footer */
-        @media screen and (max-width: 768px) {
-          .footer-label {
-            white-space: nowrap;
-          }
+          letter-spacing: -1px;
         }
 
         @keyframes glow-pulse {
