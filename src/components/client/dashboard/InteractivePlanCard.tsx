@@ -642,7 +642,7 @@ export function InteractivePlanCard() {
 
         .footer-box {
           margin-top: 2rem;
-          padding: 1rem 3rem;
+          padding: 1rem 2rem;
           border-radius: 1rem;
           background: linear-gradient(90deg, #d1c4e9, #ede7f6);
           box-shadow: inset 2px 2px 6px rgba(255,255,255,0.5), inset -2px -2px 6px rgba(0,0,0,0.05);
@@ -657,7 +657,6 @@ export function InteractivePlanCard() {
           font-weight: bold;
           color: #4a148c;
           text-shadow: 1px 1px 1px rgba(255,255,255,0.6);
-          letter-spacing: -1px;
         }
 
         @keyframes glow-pulse {
