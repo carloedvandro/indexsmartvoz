@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -73,8 +72,8 @@ function App() {
           <Route path="/client/verification-rejected" element={<VerificationRejected />} />
           <Route path="/client/user-dashboard" element={<UserDashboard />} />
 
-          <Route path="/client" >
-            <Route path="" element={<DynamicLayout />}>
+          <Route path="/client">
+            <Route path="" element={}>
               <Route path="payment-return" element={<PaymentReturn />} />
               <Route path="dashboard" element={<ClientDashboard />} />
               <Route path="financial" element={<ClientFinancial />} />
@@ -94,11 +93,8 @@ function App() {
 
           <Route path="/admin/login" />
           <Route path="/admin" element={<ProtectedRoute />}>
-            <Route path="" element={<RoleBasedRoute allowedRoles={['admin']} />}>
-              <Route
-                path="plans/add-edit"
-                element={<AdminPlanAddEdit />}
-              />
+            <Route path="" element={<RoleBasedRoute allowedRoles={["admin"]} />}>
+              <Route path="plans/add-edit" element={<AdminPlanAddEdit />} />
 
               {/* Outras rotas admin com sidebar */}
               <Route path="" element={<DynamicLayout forceRole="admin" />}>
