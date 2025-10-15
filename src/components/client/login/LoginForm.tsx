@@ -9,6 +9,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { AuthError } from "@supabase/supabase-js";
 import { User, Lock, Eye, EyeOff } from "lucide-react";
 import { motion } from "framer-motion";
+import { QuickUserCreate } from "./QuickUserCreate";
 
 interface LoginFormProps {
   containerVariants: any;
@@ -121,6 +122,10 @@ export function LoginForm({
         >
           {isLoading ? "Entrando..." : "ENTRAR"}
         </Button>
+      </motion.div>
+
+      <motion.div variants={itemVariants}>
+        <QuickUserCreate />
       </motion.div>
     </motion.form>
   );
