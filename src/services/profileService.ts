@@ -9,15 +9,7 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
     
     const { data: profileData, error: profileError } = await supabase
       .from("profiles")
-      .select(`
-        *,
-        sponsor:sponsor_id (
-          id,
-          full_name,
-          email,
-          custom_id
-        )
-      `)
+      .select("*")
       .eq("id", userId)
       .single();
 
@@ -33,16 +25,11 @@ export const fetchProfile = async (userId: string): Promise<ProfileWithSponsor |
 
     console.log("Fetched profile data:", profileData);
 
-    // Create a copy of the profile data
+    // Return profile data with sponsor as null since there's no sponsor relationship
     const profile: ProfileWithSponsor = {
       ...profileData,
-      sponsor: null // Initialize as null, will be updated if sponsor exists
+      sponsor: null
     };
-    
-    // Handle the sponsor separately to ensure proper typing
-    if (profileData.sponsor) {
-      profile.sponsor = mapSponsor(profileData.sponsor);
-    }
 
     return profile;
   } catch (error) {
