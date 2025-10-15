@@ -1,15 +1,12 @@
 
 import { useState, useEffect } from "react";
-import { SlideButton } from "@/components/ui/slide-button";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
-import { ProtocolGenerator } from "@/services/protocolGenerator";
 import { supabase } from "@/integrations/supabase/client";
-import { CheckCircle, AlertCircle, Clock, ArrowRight, Download } from "lucide-react";
+import { CheckCircle, AlertCircle, Clock, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { ReceiptGenerator } from "@/services/receiptGenerator";
 
 /**
  * Purpose: Página de retorno após pagamento no Asaas
@@ -24,7 +21,6 @@ export default function PaymentReturn() {
   const [searchParams] = useSearchParams();
   const [paymentStatus, setPaymentStatus] = useState<PaymentStatus>('checking');
   const [paymentDetails, setPaymentDetails] = useState<any>(null);
-  const [generatedProtocol, setGeneratedProtocol] = useState<string>('Carregando...');
   const [checkAttempts, setCheckAttempts] = useState(0);
 
   // Obter parâmetros da URL
@@ -65,21 +61,9 @@ export default function PaymentReturn() {
     checkPaymentStatus();
   }, []);
 
-  // Gerar protocolo ao carregar a página (simula o fetch do JavaScript)
-  useEffect(() => {
-    // Aguardar um pouco antes de gerar o protocolo para simular a requisição
-    const timer = setTimeout(() => {
-      const protocol = ProtocolGenerator.generateProtocol();
-      setGeneratedProtocol(protocol);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   const checkPaymentStatus = async () => {
     console.log('🔍 [PAYMENT-RETURN] Verificando status do pagamento...');
     console.log('🔍 [PAYMENT-RETURN] Parâmetros da URL:', { sessionId, paymentId, status });
-    console.log('🔍 [PAYMENT-RETURN] Tentativa:', checkAttempts + 1);
     
     try {
       const { data: { user }, error: userError } = await supabase.auth.getUser();
@@ -87,8 +71,8 @@ export default function PaymentReturn() {
       if (userError || !user) {
         console.error('❌ [PAYMENT-RETURN] Erro de autenticação:', userError);
         toast({
-          title: "Erro de autenticação",
-          description: "Faça login novamente para continuar.",
+          title: "Erro",
+          description: "Usuário não autenticado. Redirecionando...",
           variant: "destructive"
         });
         navigate("/client/login");
@@ -97,13 +81,19 @@ export default function PaymentReturn() {
 
       console.log('👤 [PAYMENT-RETURN] Usuário autenticado:', user.id);
 
-      // Buscar pedidos do usuário ordenados por data de atualização
-      const { data: orders, error: orderError } = await supabase
+      // Buscar pedido do usuário mais recente ou por payment_id se disponível
+      let query = supabase
         .from('orders')
         .select('*')
-        .eq('user_id', user.id)
-        .order('updated_at', { ascending: false })
-        .limit(5);
+        .eq('user_id', user.id);
+
+      if (paymentId) {
+        query = query.eq('asaas_payment_id', paymentId);
+      } else {
+        query = query.order('created_at', { ascending: false }).limit(1);
+      }
+
+      const { data: orders, error: orderError } = await query;
 
       if (orderError) {
         console.error('❌ [PAYMENT-RETURN] Erro ao buscar orders:', orderError);
@@ -111,81 +101,48 @@ export default function PaymentReturn() {
         return;
       }
 
-      console.log('📋 [PAYMENT-RETURN] Orders encontradas:', orders?.length || 0);
-      if (orders && orders.length > 0) {
-        orders.forEach((order, index) => {
-          console.log(`📋 [PAYMENT-RETURN] Order ${index + 1}:`, {
-            id: order.id,
-            status: order.status,
-            amount: order.total_amount,
-            asaas_payment_id: order.asaas_payment_id,
-            created_at: order.created_at,
-            updated_at: order.updated_at
-          });
-        });
-      }
+      console.log('📋 [PAYMENT-RETURN] Orders encontradas:', orders);
 
       if (orders && orders.length > 0) {
-        // Procurar por order paga primeiro
-        let targetOrder = orders.find(order => order.status === 'paid');
-        
-        // Se não encontrou paga, pegar a mais recente
-        if (!targetOrder) {
-          targetOrder = orders[0];
-        }
+        const latestOrder = orders[0];
+        setPaymentDetails(latestOrder);
 
-        setPaymentDetails(targetOrder);
-
-        console.log('📋 [PAYMENT-RETURN] Order selecionada:', {
-          id: targetOrder.id,
-          status: targetOrder.status,
-          amount: targetOrder.total_amount,
-          asaas_payment_id: targetOrder.asaas_payment_id,
-          created_at: targetOrder.created_at,
-          updated_at: targetOrder.updated_at
+        console.log('📋 [PAYMENT-RETURN] Order encontrada:', {
+          id: latestOrder.id,
+          status: latestOrder.status,
+          amount: latestOrder.total_amount,
+          asaas_payment_id: latestOrder.asaas_payment_id,
+          created_at: latestOrder.created_at,
+          updated_at: latestOrder.updated_at
         });
 
-        if (targetOrder.status === 'paid') {
-          console.log('✅ [PAYMENT-RETURN] Pagamento confirmado!');
+        if (latestOrder.status === 'paid') {
           setPaymentStatus('confirmed');
-          
-          // Gerar protocolo quando confirmado
-          const protocol = ProtocolGenerator.generateProtocol();
-          setGeneratedProtocol(protocol);
-          
-          // Limpar navegação bloqueada
-          window.removeEventListener('beforeunload', () => {});
-          window.removeEventListener('popstate', () => {});
-          
           toast({
             title: "Pagamento Confirmado!",
             description: "Seu pagamento foi processado com sucesso."
           });
-        } else if (targetOrder.status === 'pending' || targetOrder.status === 'payment_pending') {
+        } else if (latestOrder.status === 'pending') {
           setPaymentStatus('pending');
-          console.log(`🔄 [PAYMENT-RETURN] Tentativa ${checkAttempts + 1} - Status ainda pendente: ${targetOrder.status}`);
+          console.log(`🔄 [PAYMENT-RETURN] Tentativa ${checkAttempts + 1} - Status ainda pendente`);
           
-          // Tentar verificar novamente em alguns segundos, mas com limite menor
-          if (checkAttempts < 12) {
+          // Tentar verificar novamente em alguns segundos
+          if (checkAttempts < 20) { // Aumentei para 20 tentativas
             setTimeout(() => {
               setCheckAttempts(prev => prev + 1);
               checkPaymentStatus();
-            }, 3000); // Reduzido para 3 segundos
+            }, 3000);
           } else {
             console.warn('⚠️ [PAYMENT-RETURN] Máximo de tentativas atingido');
-            setPaymentStatus('confirmed'); // Assumir confirmado após muitas tentativas
-            
-            // Gerar protocolo quando assumir confirmado
-            const protocol = ProtocolGenerator.generateProtocol();
-            setGeneratedProtocol(protocol);
-            
+            setPaymentStatus('failed');
             toast({
-              title: "Pagamento Processado",
-              description: "Seu pedido foi processado. Você pode continuar para a próxima etapa.",
+              title: "Timeout",
+              description: "Não foi possível confirmar o pagamento. Entre em contato com o suporte.",
+              variant: "destructive"
             });
           }
         } else {
-          console.log('❌ [PAYMENT-RETURN] Status não reconhecido:', targetOrder.status);
+          console.log('❌ [PAYMENT-RETURN] Status não reconhecido:', latestOrder.status);
           setPaymentStatus('failed');
         }
       } else {
@@ -193,23 +150,13 @@ export default function PaymentReturn() {
         setPaymentStatus('pending');
         
         // Tentar verificar novamente se não encontrou o pedido
-        if (checkAttempts < 8) {
+        if (checkAttempts < 10) {
           setTimeout(() => {
             setCheckAttempts(prev => prev + 1);
             checkPaymentStatus();
           }, 2000);
         } else {
-          console.warn('⚠️ [PAYMENT-RETURN] Máximo de tentativas sem pedido - assumindo confirmado');
-          setPaymentStatus('confirmed');
-          
-          // Gerar protocolo quando assumir confirmado sem pedido
-          const protocol = ProtocolGenerator.generateProtocol();
-          setGeneratedProtocol(protocol);
-          
-          toast({
-            title: "Processamento Concluído",
-            description: "Continuando para a próxima etapa...",
-          });
+          setPaymentStatus('failed');
         }
       }
     } catch (error) {
@@ -222,24 +169,25 @@ export default function PaymentReturn() {
     if (paymentStatus === 'confirmed') {
       // Salvar dados necessários para próxima etapa
       if (paymentDetails) {
-        // Gerar protocolo sequencial
-        const protocol = ProtocolGenerator.generateProtocol();
-        
         const orderData = {
           orderId: paymentDetails.id,
           status: 'paid',
           total: paymentDetails.total_amount,
-          protocol: protocol,
-          paymentMethod: paymentDetails.payment_method || 'pix'
+          protocol: paymentDetails.id,
+          paymentMethod: 'pix'
         };
         localStorage.setItem('orderData', JSON.stringify(orderData));
         console.log('💾 [PAYMENT-RETURN] Dados salvos para próxima etapa:', orderData);
       }
       
-      // Ir para seleção do tipo de ativação
+      // Permitir navegação e ir para ativação do chip
+      window.removeEventListener('beforeunload', () => {});
+      window.removeEventListener('popstate', () => {});
       navigate("/client/chip-activation", { replace: true });
     } else {
-      // Voltar para produtos
+      // Permitir navegação e voltar para produtos
+      window.removeEventListener('beforeunload', () => {});
+      window.removeEventListener('popstate', () => {});
       navigate("/client/products", { replace: true });
     }
   };
@@ -275,7 +223,7 @@ export default function PaymentReturn() {
       case 'confirmed':
         return 'Seu pagamento foi processado com sucesso. Você pode prosseguir para a ativação do chip.';
       case 'pending':
-        return `Estamos aguardando a confirmação do seu pagamento. Isso pode levar alguns minutos. (Tentativa ${checkAttempts + 1}/12)`;
+        return `Estamos aguardando a confirmação do seu pagamento. Isso pode levar alguns minutos. (Tentativa ${checkAttempts + 1}/20)`;
       case 'failed':
         return 'Não foi possível confirmar seu pagamento. Tente novamente ou entre em contato com o suporte.';
       default:
@@ -283,161 +231,117 @@ export default function PaymentReturn() {
     }
   };
 
-  const handleDownloadReceipt = () => {
-    if (paymentStatus === 'confirmed' && generatedProtocol !== 'Carregando...') {
-      const now = new Date();
-      const formattedDate = `${now.getDate().toString().padStart(2, '0')}/${(now.getMonth() + 1).toString().padStart(2, '0')}/${now.getFullYear()} às ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
-      
-      const receiptData = {
-        transactionId: `E19540550202507152100VHMQEV3D1HO`, // ID gerado automaticamente
-        amount: `R$ ${paymentDetails?.total_amount?.toFixed(2).replace('.', ',') || '119,99'}`,
-        date: formattedDate,
-        protocol: generatedProtocol,
-        recipientName: 'SmartVoz Telecom',
-        recipientDoc: '***.988.112-**',
-        recipientBank: 'Banco Inter S.A.',
-        payerDoc: '***.817.710-**',
-        payerBank: 'Asaas I.P S.A.',
-        asaasPaymentId: paymentDetails?.asaas_payment_id
-      };
-
-      ReceiptGenerator.generatePaymentReceipt(receiptData);
-      
-      toast({
-        title: "Comprovante baixado!",
-        description: "O comprovante de pagamento foi gerado e baixado com sucesso."
-      });
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+      {/* Logo fixada no topo */}
+      <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50 shadow-sm">
+        <div className="flex items-center justify-center">
+          <img
+            src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png"
+            alt="Smartvoz"
+            className="h-16 object-contain"
+          />
+        </div>
+      </div>
 
-      <div className="pt-20 flex items-center justify-center min-h-screen bg-[#5f0889]">
-        <div className="w-full max-w-[500px] mx-auto p-4">
+      <div className="pt-20 flex items-center justify-center min-h-screen">
+        <div className="w-full max-w-md mx-auto p-4">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
-            className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4"
           >
-            {/* Ícone e título */}
-            <div className="text-center mb-6">
-              {paymentStatus === 'confirmed' ? (
-                <img 
-                  src="https://cdn-icons-png.flaticon.com/512/845/845646.png" 
-                  alt="Check" 
-                  className="w-[60px] h-[60px] mx-auto mb-4"
-                />
-              ) : (
+            <Card className="text-center">
+              <CardHeader className="pb-4">
                 <div className="mb-4">
                   {getStatusIcon()}
                 </div>
-              )}
-              <h2 className="text-white text-2xl font-normal mb-2">
-                {getStatusTitle()}
-              </h2>
-              <p className="text-white text-base leading-relaxed">
-                {getStatusDescription()}
-              </p>
-            </div>
-
-            {/* Tabela de detalhes */}
-            <table className="w-full text-base text-white mb-8">
-              <tbody>
-                <tr>
-                  <td className="py-1">
-                    <strong>Protocolo:</strong>
-                  </td>
-                  <td className="text-right py-1">
-                    {generatedProtocol}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-1">
-                    <strong>Valor:</strong>
-                  </td>
-                  <td className="text-right py-1">
-                    R$ {paymentDetails?.total_amount?.toFixed(2) || '119,99'}
-                  </td>
-                </tr>
-                <tr>
-                  <td className="py-1">
-                    <strong>Status:</strong>
-                  </td>
-                  <td className="text-right py-1">
-                    <strong className="text-green-600">
-                      {paymentDetails?.status === 'paid' ? 'Pago' : 
-                       paymentDetails?.status === 'pending' ? 'Pendente' : 
-                       paymentStatus === 'confirmed' ? 'Pago' : 'Processando'}
-                    </strong>
-                  </td>
-                </tr>
-                {paymentDetails?.asaas_payment_id && (
-                  <tr>
-                    <td className="py-1">
-                      <strong>ID Asaas:</strong>
-                    </td>
-                    <td className="text-right py-1 text-sm">
-                      {paymentDetails.asaas_payment_id}
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-
-            {/* Botões de ação */}
-            <div className="text-center space-y-3">
-              {paymentStatus === 'confirmed' && (
-                <>
-                  <SlideButton
-                    onClick={handleContinue}
-                    className="w-full"
-                  >
-                    Continuar para Ativação →
-                  </SlideButton>
-                  <button
-                    onClick={handleDownloadReceipt}
-                    className="px-4 py-4 bg-transparent backdrop-blur-sm rounded-lg border border-white/30 shadow-lg mb-4 inline-flex items-center text-white font-medium no-underline transition-colors hover:bg-white/10"
-                  >
-                    <Download className="w-4 h-4 mr-2" />
-                    Baixar Comprovante
-                  </button>
-                </>
-              )}
-
-              {paymentStatus === 'pending' && (
-                <button
-                  onClick={checkPaymentStatus}
-                  className="inline-block px-6 py-3 border border-[#4a148c] text-[#4a148c] font-bold no-underline rounded-md hover:bg-[#4a148c] hover:text-white transition-colors"
-                >
-                  Verificar Novamente
-                </button>
-              )}
-
-              {paymentStatus === 'failed' && (
-                <div className="space-y-3">
-                  <button
-                    onClick={() => navigate("/client/products", { replace: true })}
-                    className="block w-full px-6 py-3 bg-[#4a148c] text-white font-bold no-underline rounded-md hover:bg-[#6a1b9a] transition-colors"
-                  >
-                    Tentar Novamente
-                  </button>
-                  <button
-                    onClick={() => navigate("/client/dashboard", { replace: true })}
-                    className="block w-full px-6 py-3 border border-[#4a148c] text-[#4a148c] font-bold no-underline rounded-md hover:bg-[#4a148c] hover:text-white transition-colors"
-                  >
-                    Voltar ao Dashboard
-                  </button>
-                </div>
-              )}
-
-              {paymentStatus === 'checking' && (
-                <p className="text-sm text-gray-500 mt-4">
-                  Tentativa {checkAttempts + 1} de verificação...
+                <CardTitle className="text-2xl font-bold text-gray-800">
+                  {getStatusTitle()}
+                </CardTitle>
+              </CardHeader>
+              
+              <CardContent className="space-y-6">
+                <p className="text-gray-600">
+                  {getStatusDescription()}
                 </p>
-              )}
-            </div>
+
+                {paymentDetails && (
+                  <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Protocolo:</span>
+                      <span className="font-medium">{paymentDetails.id}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Valor:</span>
+                      <span className="font-medium">R$ {paymentDetails.total_amount?.toFixed(2)}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Status:</span>
+                      <span className={`font-medium ${
+                        paymentDetails.status === 'paid' ? 'text-green-600' : 
+                        paymentDetails.status === 'pending' ? 'text-yellow-600' : 'text-red-600'
+                      }`}>
+                        {paymentDetails.status === 'paid' ? 'Pago' : 
+                         paymentDetails.status === 'pending' ? 'Pendente' : 'Falhou'}
+                      </span>
+                    </div>
+                    {paymentDetails.asaas_payment_id && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">ID Asaas:</span>
+                        <span className="font-medium text-xs">{paymentDetails.asaas_payment_id}</span>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                <div className="space-y-3">
+                  {paymentStatus === 'confirmed' && (
+                    <Button 
+                      onClick={handleContinue} 
+                      className="w-full h-12 text-lg"
+                    >
+                      Continuar para Ativação
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                  )}
+
+                  {paymentStatus === 'pending' && (
+                    <Button 
+                      onClick={checkPaymentStatus} 
+                      variant="outline" 
+                      className="w-full"
+                    >
+                      Verificar Novamente
+                    </Button>
+                  )}
+
+                  {paymentStatus === 'failed' && (
+                    <div className="space-y-2">
+                      <Button 
+                        onClick={() => navigate("/client/products", { replace: true })} 
+                        className="w-full"
+                      >
+                        Tentar Novamente
+                      </Button>
+                      <Button 
+                        onClick={() => navigate("/client/dashboard", { replace: true })} 
+                        variant="outline" 
+                        className="w-full"
+                      >
+                        Voltar ao Dashboard
+                      </Button>
+                    </div>
+                  )}
+                </div>
+
+                {paymentStatus === 'checking' && (
+                  <p className="text-sm text-gray-500">
+                    Tentativa {checkAttempts + 1} de verificação...
+                  </p>
+                )}
+              </CardContent>
+            </Card>
           </motion.div>
         </div>
       </div>

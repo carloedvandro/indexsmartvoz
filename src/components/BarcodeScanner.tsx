@@ -1,7 +1,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useZxing } from "react-zxing";
-import { toast } from "@/hooks/use-toast";
 
 interface BarcodeScannerProps {
   onResult: (result: string) => void;
@@ -43,8 +42,8 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
     onDecodeResult(result) {
       const barcode = result.getText();
       
-      // Validação específica: deve ter 20 dígitos e começar com 8955
-      if (barcode.length === 20 && /^8955\d{16}$/.test(barcode)) {
+      // Relaxando a validação para aceitar códigos de 20 dígitos que começam com 8955
+      if (barcode.length === 20 && /^8955\d+$/.test(barcode)) {
         // Toca o som de beep com volume máximo
         const beepSound = audioRef.current;
         if (beepSound) {
@@ -60,7 +59,7 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         }
         
         // Captura a posição atual da linha de scan
-        const scanLine = document.querySelector('.laser-line, [data-laser-line]');
+        const scanLine = document.querySelector('.scan-line');
         if (scanLine) {
           const rect = scanLine.getBoundingClientRect();
           setLastScanPosition(rect.top);
@@ -74,14 +73,6 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
         setTimeout(() => {
           onClose();
         }, 1500); // 1.5 segundos para dar tempo de ver e ouvir o feedback
-      } else {
-        // Mostra aviso para ICCID inválido
-        console.warn("ICCID inválido:", barcode);
-        toast({
-          title: "ICCID inválido",
-          description: "O código deve ter 20 dígitos e começar com 8955.",
-          variant: "destructive",
-        });
       }
     },
     timeBetweenDecodingAttempts: 100, // Aumento na frequência de tentativas
@@ -150,9 +141,9 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   }, []);
 
   return (
-    <div className="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-50">
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
       <audio ref={audioRef} src="/beep.mp3" preload="auto" />
-      <div ref={overlayRef} className="relative">
+      <div ref={overlayRef} className="relative p-4">
         <button
           onClick={onClose}
           className="absolute -top-2 -right-2 bg-white rounded-full p-1 shadow-lg z-10"
@@ -173,40 +164,25 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
           </svg>
         </button>
 
-        <div className="relative bg-white rounded-lg p-2">
-          <div className="relative">
-            <video
-              ref={videoRef}
-              className="w-[360px] h-[90px] object-cover rounded-lg overflow-hidden"
-            />
-            
-            {/* Área de escaneamento otimizada para código de barras */}
-            <div className="absolute inset-0 rounded-lg overflow-hidden">
-              {/* Título do modal */}
-              <div className="absolute top-0 left-0 right-0 bg-[#8425af] text-white text-center py-2 rounded-t-lg font-medium text-sm z-20">
-                Posicione o código de barras do chip
-              </div>
-              
-              {/* Área de escaneamento do código de barras */}
-              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[320px] h-[45px] border-2 border-[#8425af] bg-transparent rounded z-10">
-                {/* Linha laser vermelha animada */}
-                <div 
-                  data-laser-line
-                  className={`absolute left-0 right-0 h-0.5 bg-red-600 z-30 ${!hasScanned ? 'animate-laser-scan' : ''}`}
-                  style={{ 
-                    boxShadow: '0 0 8px rgba(255, 0, 0, 0.8)',
-                    top: hasScanned && lastScanPosition ? `${lastScanPosition}px` : '0%',
-                    animation: !hasScanned ? 'laser-scan 1.2s linear infinite' : 'none'
-                  }}
-                />
-              </div>
-              
-              {/* Overlay escuro nas bordas */}
-              <div className="absolute inset-0 bg-black/30 rounded-lg pointer-events-none" style={{
-                mask: 'radial-gradient(ellipse 320px 45px at center, transparent 50%, black 52%)'
-              }} />
+        <div className="relative">
+          <video
+            ref={videoRef}
+            className="w-[354px] h-[120px] object-cover rounded-lg"
+          />
+          <div className="absolute inset-0 border-2 border-[#8425af] rounded-lg">
+            <div className="absolute top-0 left-0 right-0 bg-white/80 text-center py-2 rounded-t-lg font-medium text-sm">
+              Posicione o código de barras do chip
             </div>
           </div>
+          <div 
+            className={`absolute left-0 right-0 h-1 bg-red-600 scan-line ${!hasScanned ? 'animate-scan-line' : ''}`}
+            style={{ 
+              boxShadow: '0 0 8px rgba(255, 0, 0, 0.8)',
+              top: hasScanned && lastScanPosition ? `${lastScanPosition}px` : '45%',
+              animation: !hasScanned ? 'scan-line 1.5s ease-in-out infinite' : 'none',
+              transform: 'translateY(-50%)'
+            }}
+          />
         </div>
       </div>
     </div>

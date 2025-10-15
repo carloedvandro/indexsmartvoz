@@ -1,3 +1,4 @@
+
 import { useState, RefObject, useEffect, useCallback } from "react";
 import Webcam from "react-webcam";
 import { useToast } from "@/hooks/use-toast";
@@ -5,7 +6,6 @@ import { useCaptureValidation } from "./hooks/useCaptureValidation";
 import { useCaptureProgress } from "./hooks/useCaptureProgress";
 import { useFaceStability } from "./hooks/useFaceStability";
 import { uploadFacialImage } from "./utils/imageUpload";
-import { cleanupMediaPipe } from "./utils/mediaPipeDetection";
 import { CAPTURE_CONFIG } from "./config/captureConfig";
 
 interface UseFacialCaptureProps {
@@ -59,92 +59,6 @@ export const useFacialCapture = ({
     faceDetected,
     faceProximity
   });
-
-  // Função COMPLETA para limpar todos os recursos
-  const cleanupAllResources = useCallback(async () => {
-    console.log("🧹 INICIANDO limpeza COMPLETA de TODOS os recursos...");
-    
-    try {
-      // 1. Parar webcam primeiro
-      if (webcamRef.current?.video) {
-        const video = webcamRef.current.video;
-        console.log("📹 Pausando e limpando vídeo...");
-        video.pause();
-        
-        if (video.srcObject) {
-          const stream = video.srcObject as MediaStream;
-          console.log(`📡 Stream encontrado com ${stream.getTracks().length} tracks`);
-          
-          stream.getTracks().forEach((track, index) => {
-            console.log(`🛑 Parando track ${index + 1}: ${track.kind} - ${track.label} - Estado: ${track.readyState}`);
-            track.stop();
-          });
-          
-          video.srcObject = null;
-          console.log("🧽 srcObject limpo");
-        }
-        
-        // Forçar reload do vídeo
-        video.load();
-      }
-      
-      // 2. Limpar MediaPipe COMPLETAMENTE
-      console.log("🧹 Limpando MediaPipe...");
-      await cleanupMediaPipe();
-      
-      // 3. Parar síntese de voz
-      if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        console.log("🔇 Síntese de voz cancelada");
-      }
-      
-      // 4. Forçar limpeza de todos os streams de mídia ativos globalmente
-      console.log("🔍 Verificando streams ativos globalmente...");
-      
-      try {
-        const devices = await navigator.mediaDevices.enumerateDevices();
-        console.log(`📱 ${devices.length} dispositivos encontrados`);
-        
-        // Aguardar tempo suficiente para garantir liberação
-        console.log("⏳ Aguardando 3 segundos para liberação completa...");
-        await new Promise(resolve => setTimeout(resolve, 3000));
-        
-        // Verificar se a câmera traseira está disponível
-        console.log("🔍 Verificando disponibilidade da câmera traseira...");
-        try {
-          const testStream = await navigator.mediaDevices.getUserMedia({ 
-            video: { facingMode: 'environment' } 
-          });
-          console.log("✅ Câmera traseira disponível - recursos liberados!");
-          testStream.getTracks().forEach(track => track.stop());
-          return true;
-        } catch (error) {
-          console.warn("⚠️ Câmera traseira ainda não disponível:", error);
-          
-          // Segunda tentativa após mais tempo
-          await new Promise(resolve => setTimeout(resolve, 2000));
-          try {
-            const testStream2 = await navigator.mediaDevices.getUserMedia({ 
-              video: { facingMode: 'environment' } 
-            });
-            console.log("✅ Câmera traseira disponível na segunda tentativa!");
-            testStream2.getTracks().forEach(track => track.stop());
-            return true;
-          } catch (error2) {
-            console.error("❌ Câmera ainda ocupada após tentativas:", error2);
-            return false;
-          }
-        }
-      } catch (error) {
-        console.log("⚠️ Erro ao enumerar dispositivos:", error);
-        return false;
-      }
-      
-    } catch (error) {
-      console.error("❌ Erro durante limpeza completa:", error);
-      return false;
-    }
-  }, [webcamRef]);
 
   // Iniciar captura quando condições ideais forem atendidas
   useEffect(() => {
@@ -224,43 +138,17 @@ export const useFacialCapture = ({
       console.log("💾 Fazendo upload da imagem...");
       await uploadFacialImage(imageSrc);
       
-      console.log("💾 Salvando imagem no localStorage...");
-      localStorage.setItem('selfieBase64', imageSrc);
-      
       toast({
-        title: "Captura Concluída", 
+        title: "Captura Concluída",
         description: "Selfie capturada com sucesso!",
       });
       
+      // Reset completo
       resetProgress();
       resetStability();
       
-      // LIMPEZA COMPLETA DE TODOS OS RECURSOS
-      console.log("🧹 Iniciando limpeza COMPLETA de todos os recursos...");
-      const resourcesReleased = await cleanupAllResources();
-      
-      if (resourcesReleased) {
-        console.log("✅ Todos os recursos liberados - redirecionando...");
-        toast({
-          title: "Recursos Liberados",
-          description: "Redirecionando para verificação de documento...",
-        });
-      } else {
-        console.warn("⚠️ Alguns recursos podem ainda estar ocupados");
-        toast({
-          title: "Aviso",
-          description: "Alguns recursos podem ainda estar ocupados, mas prosseguindo...",
-          variant: "destructive",
-        });
-      }
-      
-      // Tempo adicional de segurança
-      console.log("⏳ Tempo de segurança adicional...");
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      console.log("🔄 Redirecionando para verificação de documento...");
-      window.location.href = '/client/document-verification';
-      
+      // Delay para melhor UX
+      await new Promise(resolve => setTimeout(resolve, 1500));
       onComplete(imageSrc);
     } catch (error) {
       console.error('❌ Erro durante upload da imagem:', error);
@@ -276,10 +164,7 @@ export const useFacialCapture = ({
     }
   }
 
-  const toggleCamera = useCallback(async () => {
-    if (cameraActive) {
-      await cleanupAllResources();
-    }
+  const toggleCamera = useCallback(() => {
     setCameraActive(prev => !prev);
     resetProgress();
     resetStability();
@@ -287,15 +172,7 @@ export const useFacialCapture = ({
       title: "Câmera",
       description: cameraActive ? "Câmera desativada" : "Câmera ativada",
     });
-  }, [resetProgress, resetStability, toast, cameraActive, cleanupAllResources]);
-
-  // Cleanup aprimorado ao desmontar o componente
-  useEffect(() => {
-    return () => {
-      console.log("🧹 Componente useFacialCapture desmontado - limpeza final");
-      cleanupAllResources();
-    };
-  }, [cleanupAllResources]);
+  }, [resetProgress, resetStability, toast, cameraActive]);
 
   return {
     isProcessing,

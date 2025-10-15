@@ -9,36 +9,38 @@ interface ContactSectionProps {
 }
 
 export function ContactSection({ form }: ContactSectionProps) {
-  const [whatsappValue, setWhatsappValue] = useState(form.getValues("whatsapp") || "");
-  const [secondaryWhatsappValue, setSecondaryWhatsappValue] = useState(form.getValues("secondary_whatsapp") || "");
+  const [whatsapp1Value, setWhatsapp1Value] = useState(form.getValues("mobile") || "");
+  const [whatsapp2Value, setWhatsapp2Value] = useState(form.getValues("whatsapp") || "");
 
-  const handleWhatsappChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleWhatsapp1Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const maskedValue = phoneMask(value);
     const cleanValue = removeMask(value);
     
-    setWhatsappValue(maskedValue);
+    setWhatsapp1Value(maskedValue);
+    form.setValue("mobile", cleanValue);
+    
+    // Validar se tem pelo menos 10 dígitos
+    if (cleanValue.length >= 10 && cleanValue.length <= 11) {
+      form.clearErrors("mobile");
+    } else if (cleanValue.length > 0) {
+      form.setError("mobile", { message: "Número do WhatsApp inválido" });
+    }
+  };
+
+  const handleWhatsapp2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const maskedValue = phoneMask(value);
+    const cleanValue = removeMask(value);
+    
+    setWhatsapp2Value(maskedValue);
     form.setValue("whatsapp", cleanValue);
     
+    // Validar se tem pelo menos 10 dígitos
     if (cleanValue.length >= 10 && cleanValue.length <= 11) {
       form.clearErrors("whatsapp");
     } else if (cleanValue.length > 0) {
       form.setError("whatsapp", { message: "Número do WhatsApp inválido" });
-    }
-  };
-
-  const handleSecondaryWhatsappChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const maskedValue = phoneMask(value);
-    const cleanValue = removeMask(value);
-    
-    setSecondaryWhatsappValue(maskedValue);
-    form.setValue("secondary_whatsapp", cleanValue);
-    
-    if (cleanValue.length > 0 && (cleanValue.length < 10 || cleanValue.length > 11)) {
-      form.setError("secondary_whatsapp", { message: "Número do WhatsApp inválido" });
-    } else {
-      form.clearErrors("secondary_whatsapp");
     }
   };
 
@@ -49,14 +51,32 @@ export function ContactSection({ form }: ContactSectionProps) {
         <h3 className="text-base font-medium text-gray-700">Contato</h3>
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-2 lg:gap-4">
         <div className="w-full">
           <label className="block text-xs font-medium text-gray-700 mb-2">
-            WhatsApp Principal <span className="text-red-500">*</span>
+            WhatsApp <span className="text-red-500">*</span>
           </label>
           <input
-            value={whatsappValue}
-            onChange={handleWhatsappChange}
+            value={whatsapp1Value}
+            onChange={handleWhatsapp1Change}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
+            placeholder="(11) 99999-9999"
+            maxLength={15}
+          />
+          {form.formState.errors.mobile && (
+            <p className="text-red-500 text-xs mt-1">
+              {String(form.formState.errors.mobile.message || "Campo obrigatório")}
+            </p>
+          )}
+        </div>
+
+        <div className="w-full">
+          <label className="block text-xs font-medium text-gray-700 mb-2">
+            WhatsApp <span className="text-red-500">*</span>
+          </label>
+          <input
+            value={whatsapp2Value}
+            onChange={handleWhatsapp2Change}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
             placeholder="(11) 99999-9999"
             maxLength={15}
@@ -67,41 +87,6 @@ export function ContactSection({ form }: ContactSectionProps) {
             </p>
           )}
         </div>
-
-        <div className="w-full">
-          <label className="block text-xs font-medium text-gray-700 mb-2">
-            WhatsApp Secundário
-          </label>
-          <input
-            value={secondaryWhatsappValue}
-            onChange={handleSecondaryWhatsappChange}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
-            placeholder="(11) 99999-9999"
-            maxLength={15}
-          />
-          {form.formState.errors.secondary_whatsapp && (
-            <p className="text-red-500 text-xs mt-1">
-              {String(form.formState.errors.secondary_whatsapp.message)}
-            </p>
-          )}
-        </div>
-      </div>
-      
-      <div className="w-full">
-        <label className="block text-xs font-medium text-gray-700 mb-2">
-          Email <span className="text-red-500">*</span>
-        </label>
-        <input
-          {...form.register("email")}
-          type="email"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 text-sm"
-          placeholder="seu@email.com"
-        />
-        {form.formState.errors.email && (
-          <p className="text-red-500 text-xs mt-1">
-            {String(form.formState.errors.email.message || "Campo obrigatório")}
-          </p>
-        )}
       </div>
     </div>
   );

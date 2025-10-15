@@ -53,7 +53,6 @@ export function LoginForm({
           data: profile,
           error: profileError
         } = await supabase.from("profiles").select("role").eq("id", data.user.id).single();
-        debugger;
         if (profileError) {
           console.error("Profile fetch error:", profileError);
           throw new Error("Erro ao carregar perfil do usuário");

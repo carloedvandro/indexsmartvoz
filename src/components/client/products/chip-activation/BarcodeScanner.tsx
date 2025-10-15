@@ -1,7 +1,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useZxing } from "react-zxing";
-import { X } from "lucide-react";
 
 interface BarcodeScannerProps {
   onResult: (result: string) => void;
@@ -13,87 +12,45 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
   const audioRef = useRef<HTMLAudioElement>(null);
   const [hasScanned, setHasScanned] = useState(false);
   const [isScanning, setIsScanning] = useState(true);
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [iccidDisplay, setIccidDisplay] = useState("ICCID: Aguardando leitura...");
-  
 
   const {
     ref: videoRef,
   } = useZxing({
     onDecodeResult(result) {
       const barcode = result.getText();
+      console.log("🔍 [BARCODE-SCANNER] Código detectado:", barcode);
       
-      // Remove todos os caracteres não numéricos
-      const iccidRaw = barcode.replace(/[^\d]/g, '');
-      console.log("🔍 [BARCODE-SCANNER] ICCID detectado:", iccidRaw);
-      
-      // Validar ICCID: deve ter 19 ou 20 dígitos
-      if (/^\d{19,20}$/.test(iccidRaw)) {
-        console.log("✅ [BARCODE-SCANNER] ICCID válido aceito:", iccidRaw);
-        
-        // Atualiza o display do ICCID
-        setIccidDisplay(`ICCID: ${iccidRaw}`);
+      // Aceitar códigos de barras com diferentes formatos - relaxar validação
+      if (barcode.length >= 8 && /^\d+$/.test(barcode)) {
+        console.log("✅ [BARCODE-SCANNER] Código válido aceito:", barcode);
         
         // Toca o som de beep com volume máximo
-        try {
-          const beepSound = audioRef.current;
-          if (beepSound) {
-            beepSound.volume = 1.0;
-            beepSound.currentTime = 0;
-            
-            console.log("🔊 [BARCODE-SCANNER] Tentando tocar o beep...");
-            
-            const playPromise = beepSound.play();
-            playPromise.then(() => {
-              console.log("✅ [BARCODE-SCANNER] Beep tocado com sucesso!");
-            }).catch(error => {
-              console.error("❌ [BARCODE-SCANNER] Erro ao tocar o beep:", error);
-              
-              // Fallback: criar novo áudio e tocar
-              const fallbackBeep = new Audio('/beep.mp3');
-              fallbackBeep.volume = 1.0;
-              fallbackBeep.play().catch(e => {
-                console.error("❌ [BARCODE-SCANNER] Fallback beep também falhou:", e);
-              });
-            });
-          } else {
-            console.error("❌ [BARCODE-SCANNER] Referência do áudio não encontrada");
-            
-            // Fallback: criar novo áudio
-            const fallbackBeep = new Audio('/beep.mp3');
-            fallbackBeep.volume = 1.0;
-            fallbackBeep.play().catch(e => {
-              console.error("❌ [BARCODE-SCANNER] Fallback beep falhou:", e);
+        const beepSound = audioRef.current;
+        if (beepSound) {
+          beepSound.volume = 1.0;
+          beepSound.currentTime = 0;
+          const playPromise = beepSound.play();
+          
+          if (playPromise !== undefined) {
+            playPromise.catch(error => {
+              console.error("Erro ao tocar o som:", error);
             });
           }
-        } catch (error) {
-          console.error("❌ [BARCODE-SCANNER] Erro geral no áudio:", error);
         }
         
         setHasScanned(true);
         setIsScanning(false);
-        setErrorMessage('');
-        onResult(iccidRaw);
+        onResult(barcode);
         
-        // Delay maior para mostrar o ICCID capturado
+        // Pequeno delay antes de fechar
         setTimeout(() => {
           onClose();
-        }, 2000);
+        }, 1000);
       } else {
-        console.log("❌ [BARCODE-SCANNER] ICCID rejeitado:", { iccid: iccidRaw, length: iccidRaw.length });
-        
-        // Mostrar mensagem de erro mais específica
-        setErrorMessage("Código inválido. Tente novamente.");
-        setIccidDisplay("ICCID: Código inválido");
-        
-        // Limpar mensagem de erro após 3 segundos
-        setTimeout(() => {
-          setErrorMessage('');
-          setIccidDisplay("ICCID: Aguardando leitura...");
-        }, 3000);
+        console.log("❌ [BARCODE-SCANNER] Código rejeitado:", { barcode, length: barcode.length, isNumeric: /^\d+$/.test(barcode) });
       }
     },
-    timeBetweenDecodingAttempts: 50,
+    timeBetweenDecodingAttempts: 100,
     constraints: {
       video: {
         width: { ideal: 1280 },
@@ -121,87 +78,57 @@ export function BarcodeScanner({ onResult, onClose }: BarcodeScannerProps) {
     }
   }, []);
 
-
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" style={{ paddingTop: '80px' }}>
+    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50">
       <audio ref={audioRef} src="/beep.mp3" preload="auto" />
-      
-        {/* Modal do scanner */}
-        <div 
-          ref={overlayRef} 
-          className="relative w-full max-w-[344px] rounded-xl border-2 border-[#9b30d9] overflow-hidden bg-black"
-          style={{ 
-            boxShadow: '0 0 10px rgba(0, 0, 0, 0.25)'
-          }}
-        >
-        {/* Header do scanner */}
-        <div className="absolute top-0 w-full text-center py-2.5 font-bold z-20 text-sm text-white" style={{ backgroundColor: '#5f0889' }}>
-          Posicione o código de barras do chip
-        </div>
-
-        {/* Botão de fechar */}
+      <div ref={overlayRef} className="relative p-4">
         <button
           onClick={onClose}
-          className="absolute top-2 right-2.5 bg-white rounded-full border-none w-7 h-7 text-lg cursor-pointer z-20 flex items-center justify-center"
+          className="absolute -top-2 -right-2 bg-white rounded-full p-1 shadow-lg z-10"
         >
-          <X className="w-4 h-4" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-5 h-5"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
         </button>
 
-        {/* Container da câmera */}
-        <div className="relative w-full h-[95px] overflow-hidden">
+        <div className="relative">
           <video
             ref={videoRef}
-            className="w-full h-full object-cover"
+            className="w-[354px] h-[200px] object-cover rounded-lg"
           />
-          
-          {/* Linha laser */}
-          {isScanning && (
-            <div 
-              className="absolute left-0 w-full h-[2px] bg-red-500 z-10 opacity-90"
-              style={{ 
-                top: '50%',
-                transform: 'translateY(-50%)',
-                animation: 'laser-scan 1.5s infinite alternate ease-in-out'
-              }}
-            />
-          )}
-
-          {/* Overlay de sucesso quando escaneado */}
-          {hasScanned && (
-            <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center z-20">
-              <div className="bg-green-500 text-white px-4 py-2 rounded-lg font-medium shadow-lg text-sm">
-                ✓ Código Capturado
-              </div>
+          <div className="absolute inset-0 border-2 border-[#8425af] rounded-lg">
+            <div className="absolute top-0 left-0 right-0 bg-white/90 text-center py-2 rounded-t-lg font-medium text-sm">
+              {isScanning ? "Posicione o código de barras na área" : "Código detectado!"}
             </div>
+          </div>
+          {isScanning && (
+            <div className="absolute left-0 right-0 h-1 bg-red-600 top-1/2 transform -translate-y-1/2 animate-pulse" 
+                 style={{ boxShadow: '0 0 8px rgba(255, 0, 0, 0.8)' }} />
           )}
-          
-          {/* Overlay de erro quando código inválido */}
-          {errorMessage && (
-            <div className="absolute inset-0 bg-red-500/20 flex items-center justify-center z-20">
-              <div className="bg-red-500 text-white px-4 py-2 rounded-lg font-medium shadow-lg text-sm text-center">
-                {errorMessage}
+          {hasScanned && (
+            <div className="absolute inset-0 bg-green-500/20 flex items-center justify-center">
+              <div className="bg-green-500 text-white px-4 py-2 rounded font-medium">
+                ✓ Código Capturado
               </div>
             </div>
           )}
         </div>
         
-        {/* Display do ICCID */}
-        <div className="text-white text-center py-3 px-4" style={{ backgroundColor: '#5f0889' }}>
-          <div className="text-lg font-bold">
-            {iccidDisplay}
-          </div>
-          {hasScanned && (
-            <button
-              onClick={() => {
-                setHasScanned(false);
-                setIsScanning(true);
-                setIccidDisplay("ICCID: Aguardando leitura...");
-              }}
-              className="mt-2 bg-[#7f3cff] hover:bg-[#985bff] text-white px-4 py-2 rounded-lg font-medium transition-colors"
-            >
-              Escanear novamente
-            </button>
-          )}
+        <div className="mt-4 text-center text-white text-sm space-y-1">
+          <p>Mantenha o código de barras bem iluminado</p>
+          <p>e dentro da área de escaneamento</p>
+          <p className="text-yellow-200">Aceita códigos com 8+ dígitos numéricos</p>
         </div>
       </div>
     </div>

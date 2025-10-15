@@ -1,73 +1,80 @@
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useProfile } from "@/hooks/useProfile";
 
-interface Product {
+export type Product = {
   id: string;
   name: string;
-  description: string;
+  description: string | null;
   price: number;
-  image_url?: string;
-  active: boolean;
-  order?: number;
-}
+  image_url: string | null;
+  currency: string;
+  order: number;
+};
 
-export const useStoreProducts = (storeUrl?: string) => {
+export function useStoreProducts() {
   const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
+  const { data: profile } = useProfile();
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-        
-        if (!storeUrl) {
+  const loadProducts = async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        setProducts([]);
+        setIsLoading(false);
+        return;
+      }
+
+      if (profile?.role === 'admin') {
+        const { data, error } = await supabase
+          .from("store_products")
+          .select("*")
+          .eq("user_id", user.id)
+          .order("order", { ascending: true });
+
+        if (error) throw error;
+        setProducts(data || []);
+      } else {
+        const { data: adminData, error: adminError } = await supabase
+          .from("profiles")
+          .select("id")
+          .eq("role", "admin")
+          .single();
+
+        if (adminError) {
           setProducts([]);
           return;
         }
 
-        // Mock products since store_products table doesn't exist yet
-        const mockProducts: Product[] = [
-          {
-            id: '1',
-            name: 'Produto 1',
-            description: 'Descrição do produto 1',
-            price: 99.99,
-            active: true,
-            order: 1
-          },
-          {
-            id: '2',
-            name: 'Produto 2', 
-            description: 'Descrição do produto 2',
-            price: 149.99,
-            active: true,
-            order: 2
-          }
-        ];
+        const { data, error } = await supabase
+          .from("store_products")
+          .select("*")
+          .eq("user_id", adminData.id)
+          .order("order", { ascending: true });
 
-        console.log('✅ Produtos da loja carregados (mock):', mockProducts.length);
-        setProducts(mockProducts);
-      } catch (err) {
-        console.error('❌ Erro ao buscar produtos da loja:', err);
-        setError('Erro ao carregar produtos');
-        setProducts([]);
-      } finally {
-        setIsLoading(false);
+        if (error) throw error;
+        setProducts(data || []);
       }
-    };
-
-    fetchProducts();
-  }, [storeUrl]);
+    } catch (error) {
+      console.error("Error loading products:", error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível carregar os produtos",
+        variant: "destructive",
+      });
+      setProducts([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return {
     products,
     isLoading,
-    error,
-    refetch: () => {
-      // Trigger re-fetch
-      setIsLoading(true);
-    }
+    loadProducts,
   };
-};
+}

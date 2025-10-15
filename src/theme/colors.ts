@@ -6,7 +6,7 @@ export const colors = {
   background: "hsl(var(--background))",
   foreground: "hsl(var(--foreground))",
   primary: {
-    DEFAULT: "#5f0889",
+    DEFAULT: "#8425af",
     foreground: "#ffffff",
   },
   secondary: {

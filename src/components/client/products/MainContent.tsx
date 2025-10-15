@@ -6,7 +6,6 @@ import { PlanSelectionStep } from "./PlanSelectionStep";
 import { NavigationButtons } from "./NavigationButtons";
 import { useStepValidator } from "./StepValidator";
 import { motion } from "framer-motion";
-import { containerVariants, itemVariants } from "@/utils/animations";
 
 interface MainContentProps {
   currentStep: number;
@@ -69,6 +68,27 @@ export function MainContent({
     setAcceptedTerms(accepted);
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.5, ease: "easeOut" }
+    }
+  };
 
   const buttonDisabled = isContinueDisabled();
   console.log('🔧 Botão vai ser renderizado com disabled:', buttonDisabled);

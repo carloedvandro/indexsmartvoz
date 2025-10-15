@@ -1,4 +1,4 @@
-
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -7,9 +7,11 @@ import { ProfileImageSection } from "./ProfileImageSection";
 import { PersonalDataSection } from "./personal-data/PersonalDataSection";
 import { ContactSection } from "./ContactSection";
 import { AddressSection } from "./AddressSection";
-import { SponsorUserSection } from "./SponsorUserSection";
 import { ProfileWithSponsor } from "@/types/profile";
-import { useProfileUpdate, ProfileUpdateData } from "@/hooks/useProfileUpdate";
+import { updateProfile } from "@/components/admin/UserFormUtils";
+import { useToast } from "@/hooks/use-toast";
+import { useQueryClient } from "@tanstack/react-query";
+import { removeMask } from "@/utils/masks";
 
 const profileSchema = z.object({
   sponsor: z.string().optional(),
@@ -20,7 +22,6 @@ const profileSchema = z.object({
   birth_date: z.string().min(1, "Data é obrigatória"),
   mobile: z.string().min(1, "Celular é obrigatório"),
   whatsapp: z.string().min(1, "WhatsApp é obrigatório"),
-  secondary_whatsapp: z.string().optional(),
   email: z.string().email("Email inválido"),
   zip_code: z.string().min(1, "CEP é obrigatório"),
   address: z.string().min(1, "Endereço é obrigatório"),
@@ -38,12 +39,14 @@ interface ProfileFormProps {
 }
 
 export function ProfileForm({ profile }: ProfileFormProps) {
-  const { isLoading, handleProfileUpdate } = useProfileUpdate();
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
 
-  // Extrair número e bairro do endereço existente se disponível
+  // Extrair número e bairro do endereço existente
   const addressParts = profile.address?.split(',') || [];
   const existingStreet = addressParts[0]?.trim() || "";
-  const existingNumber = profile.address_number || addressParts[1]?.trim() || "";
+  const existingNumber = addressParts[1]?.trim() || "";
 
   // Construir informações do patrocinador
   const getSponsorInfo = () => {
@@ -72,45 +75,92 @@ export function ProfileForm({ profile }: ProfileFormProps) {
       custom_id: profile.custom_id || "",
       full_name: profile.full_name || "",
       person_type: profile.person_type || "",
-      cnpj: profile.cnpj || profile.cpf || "",
+      cnpj: profile.cnpj || "",
       birth_date: profile.birth_date || "",
       mobile: profile.mobile || "",
       whatsapp: profile.whatsapp || "",
-      secondary_whatsapp: profile.secondary_whatsapp || "",
       email: profile.email || "",
       zip_code: profile.zip_code || "",
       address: existingStreet,
       address_number: existingNumber,
-      neighborhood: profile.neighborhood || "",
-      complement: profile.complement || "",
+      neighborhood: "",
+      complement: "",
       state: profile.state || "",
       city: profile.city || "",
     },
   });
 
-  console.log('Profile data loaded:', {
-    state: profile.state,
-    city: profile.city,
-    neighborhood: profile.neighborhood,
-    complement: profile.complement
-  });
-
   const onSubmit = async (data: ProfileFormData) => {
-    await handleProfileUpdate(profile.id, data as ProfileUpdateData);
-  };
+    try {
+      setIsLoading(true);
+      
+      const updateData = {
+        custom_id: data.custom_id,
+        full_name: data.full_name,
+        person_type: data.person_type,
+        cnpj: removeMask(data.cnpj), // Remove máscara antes de salvar
+        birth_date: data.birth_date,
+        mobile: removeMask(data.mobile), // Remove máscara antes de salvar
+        whatsapp: removeMask(data.whatsapp), // Remove máscara antes de salvar
+        email: data.email,
+        zip_code: removeMask(data.zip_code), // Remove máscara antes de salvar
+        address: `${data.address}, ${data.address_number}`,
+        state: data.state,
+        city: data.city,
+      };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    console.log("Form submission triggered");
-    e.preventDefault();
-    form.handleSubmit(onSubmit)(e);
+      await updateProfile(profile.id, updateData);
+      await queryClient.invalidateQueries({ queryKey: ["profile"] });
+      
+      toast({
+        title: "Sucesso",
+        description: "Perfil atualizado com sucesso!",
+      });
+    } catch (error: any) {
+      toast({
+        title: "Erro",
+        description: error.message || "Erro ao atualizar perfil",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <form onSubmit={handleFormSubmit} className="space-y-6">
+    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
       <ProfileImageSection profile={profile} />
       
       <div className="px-2 sm:px-6 py-6 space-y-6">
-        <SponsorUserSection form={form} />
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Patrocinador
+              </label>
+              <input
+                {...form.register("sponsor")}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+              />
+            </div>
+            
+            <div className="w-full">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Usuário <span className="text-red-500">*</span>
+              </label>
+              <input
+                {...form.register("custom_id")}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+              />
+              {form.formState.errors.custom_id && (
+                <p className="text-red-500 text-sm mt-1">
+                  {form.formState.errors.custom_id.message}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+
         <PersonalDataSection form={form} />
         <ContactSection form={form} />
         <AddressSection form={form} />
@@ -120,9 +170,8 @@ export function ProfileForm({ profile }: ProfileFormProps) {
             type="submit"
             disabled={isLoading}
             className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-2 rounded-md w-full sm:w-auto"
-            onClick={() => console.log("Button clicked, isLoading:", isLoading)}
           >
-            {isLoading ? "Salvando..." : "Atualizar"}
+            {isLoading ? "Salvando..." : "Solicitar alteração"}
           </Button>
         </div>
       </div>

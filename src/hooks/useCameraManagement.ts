@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 interface VideoConstraints {
   width: number;
   height: number;
-  facingMode: string;
+  facingMode: string; // Mudando para string para compatibilidade
 }
 
 export const useCameraManagement = (forceEnvironment?: boolean) => {
@@ -13,90 +13,57 @@ export const useCameraManagement = (forceEnvironment?: boolean) => {
   const [hasBackCamera, setHasBackCamera] = useState(false);
 
   useEffect(() => {
-    const checkCameraDevices = async () => {
+    const getDevices = async () => {
       try {
-        console.log("🔍 Verificando dispositivos de câmera...");
+        // First try to get access with environment camera
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            facingMode: { ideal: "environment" }
+          }
+        });
         
-        // Primeiro, tentar obter permissão básica
-        let permissionGranted = false;
-        try {
-          const testStream = await navigator.mediaDevices.getUserMedia({ 
-            video: { width: 320, height: 240 } 
-          });
-          testStream.getTracks().forEach(track => track.stop());
-          permissionGranted = true;
-          console.log("✅ Permissão de câmera obtida");
-        } catch (permissionError) {
-          console.log("⚠️ Permissão de câmera não obtida ainda:", permissionError);
-        }
+        // Stop the stream immediately after checking
+        stream.getTracks().forEach(track => track.stop());
         
-        // Listar dispositivos disponíveis
         const devices = await navigator.mediaDevices.enumerateDevices();
         const videoDevices = devices.filter(device => device.kind === 'videoinput');
         
-        console.log("📹 Dispositivos de vídeo encontrados:", videoDevices.length);
-        videoDevices.forEach((device, index) => {
-          console.log(`📹 Dispositivo ${index + 1}:`, {
-            deviceId: device.deviceId,
-            label: device.label || 'Câmera sem nome',
-            kind: device.kind
-          });
-        });
+        // Check if we have a back camera
+        const hasBack = videoDevices.some(device => 
+          device.label.toLowerCase().includes('back') ||
+          device.label.toLowerCase().includes('traseira') ||
+          device.label.toLowerCase().includes('environment')
+        );
         
-        // Detectar câmera traseira de forma mais robusta
-        const hasBackCameraDetected = videoDevices.some(device => {
-          const label = device.label.toLowerCase();
-          return (
-            label.includes('back') ||
-            label.includes('traseira') ||
-            label.includes('environment') ||
-            label.includes('rear') ||
-            label.includes('facing back') ||
-            label.includes('camera2 0') || // Padrão Android
-            label.includes('0x0') // Outro padrão comum
-          );
-        }) || videoDevices.length > 1; // Se tem mais de 1, assume que uma é traseira
-        
-        setHasBackCamera(hasBackCameraDetected);
+        setHasBackCamera(hasBack);
         setAvailableDevices(videoDevices);
         
-        console.log("📱 Resultado da detecção:", {
-          totalCameras: videoDevices.length,
-          hasBackCamera: hasBackCameraDetected,
-          permissionGranted
-        });
-        
-        // Se foi forçado environment e tem câmera traseira, usar ela
-        if (forceEnvironment && hasBackCameraDetected) {
+        if (hasBack) {
           setFacingMode("environment");
-          console.log("🔄 Câmera definida para environment (traseira)");
         }
-        
       } catch (error) {
-        console.error('❌ Erro ao verificar dispositivos de câmera:', error);
-        // Em caso de erro, assumir que pelo menos uma câmera existe
-        setHasBackCamera(true);
+        console.error('Error getting video devices:', error);
+        // Fallback to any camera if environment fails
+        try {
+          const fallbackStream = await navigator.mediaDevices.getUserMedia({ video: true });
+          fallbackStream.getTracks().forEach(track => track.stop());
+        } catch (fallbackError) {
+          console.error('Fallback camera access failed:', fallbackError);
+        }
       }
     };
 
-    // Só executar se navigator.mediaDevices existir
-    if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
-      checkCameraDevices();
-    } else {
-      console.warn("⚠️ navigator.mediaDevices não disponível");
-    }
-  }, [forceEnvironment]);
+    getDevices();
+  }, []);
 
   const toggleCamera = () => {
-    const newMode = facingMode === "user" ? "environment" : "user";
-    setFacingMode(newMode);
-    console.log("🔄 Câmera alterada para:", newMode);
+    setFacingMode(prev => prev === "user" ? "environment" : "user");
   };
 
   const videoConstraints: VideoConstraints = {
     width: 1280,
     height: 720,
-    facingMode: facingMode
+    facingMode: hasBackCamera ? "environment" : facingMode // Usando string diretamente ao invés de objeto
   };
 
   return {

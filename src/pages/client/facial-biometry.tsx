@@ -1,9 +1,11 @@
 
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FacialBiometryFlow } from "@/components/client/register/facial-biometry/FacialBiometryFlow";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
 
 export default function FacialBiometry() {
   const navigate = useNavigate();
@@ -32,11 +34,12 @@ export default function FacialBiometry() {
 
       const userId = sessionData.session.user.id;
       
-      // Update user's profile with verification status
+      // Update user's profile with verification status - using only existing columns
       const { error } = await supabase
         .from('profiles')
         .update({
           facial_verification_status: verificationData.facialVerification ? 'verified' : 'failed',
+          document_verification_status: verificationData.documentVerification ? 'verified' : 'failed',
           facial_biometry_status: 'completed',
           facial_biometry_date: new Date().toISOString()
         })
@@ -48,17 +51,17 @@ export default function FacialBiometry() {
       }
 
       toast({
-        title: "Biometria Facial Concluída",
-        description: "Agora vamos verificar seus documentos!",
+        title: "Verificação Concluída",
+        description: "Agora vamos selecionar seu plano!",
       });
       
-      // Navigate to document verification
-      navigate("/client/document-verification");
+      // Navigate to plan selection instead of dashboard
+      navigate("/client/plan-selection");
     } catch (error: any) {
       console.error("Verification completion error:", error);
       toast({
-        title: "Erro ao finalizar biometria",
-        description: error.message || "Ocorreu um erro ao salvar os dados de biometria.",
+        title: "Erro ao finalizar verificação",
+        description: error.message || "Ocorreu um erro ao salvar os dados de verificação.",
         variant: "destructive",
       });
     } finally {
@@ -72,7 +75,14 @@ export default function FacialBiometry() {
 
   return (
     <div className="min-h-screen w-full bg-white">
-      <div className="flex flex-col justify-center items-center min-h-screen text-white" style={{ backgroundColor: '#5f0889' }}>
+      {/* Header com Logo - completamente branco sem sombra */}
+      <div className="fixed top-0 left-0 right-0 bg-white px-4 py-2 z-50" style={{ boxShadow: 'none', border: 'none' }}>
+        <div className="flex justify-center">
+          <img src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" alt="Smartvoz Logo" className="h-[85px] object-contain mix-blend-multiply opacity-90 contrast-125" />
+        </div>
+      </div>
+
+      <div className="flex flex-col justify-center items-center min-h-screen">
         <div className="w-full h-full max-w-md">
           <FacialBiometryFlow 
             onComplete={handleVerificationComplete} 
@@ -82,4 +92,5 @@ export default function FacialBiometry() {
       </div>
     </div>
   );
-}
+};
+

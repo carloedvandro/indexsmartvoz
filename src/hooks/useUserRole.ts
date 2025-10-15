@@ -13,7 +13,7 @@ export const useUserRole = () => {
     const fetchUserRole = async () => {
       try {
         const { data: { session } } = await supabase.auth.getSession();
-
+        
         if (!session?.user) {
           setRole(null);
           setLoading(false);
@@ -25,7 +25,7 @@ export const useUserRole = () => {
           .select('role')
           .eq('id', session.user.id)
           .single();
-        debugger
+
         if (profileError) {
           console.error('Error fetching user role:', profileError);
           setError('Erro ao carregar perfil do usuário');

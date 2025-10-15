@@ -1,10 +1,10 @@
 
 import { z } from "zod";
 import { validatePasswordStrength } from "@/utils/passwordValidation";
-import { validateCPF } from "@/utils/validation/cpfValidation";
+import { validateCPF } from "@/utils/cpfValidation";
 
 export const registerFormSchema = z.object({
-  fullName: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
+  fullName: z.string().min(3, "Nome deve ter pelo menos 3 caracteres"),
   email: z.string().email("Email inválido"),
   password: z.string().refine(
     (password) => validatePasswordStrength(password).isValid,
@@ -12,20 +12,13 @@ export const registerFormSchema = z.object({
   ),
   passwordConfirmation: z.string().min(1, "Confirmação de senha é obrigatória"),
   cpf: z.string().refine(validateCPF, "CPF inválido"),
-  sponsorCustomId: z.string().optional(),
+  sponsorCustomId: z.string().min(1, "ID do patrocinador é obrigatório"),
   customId: z.string()
     .min(3, "ID personalizado deve ter pelo menos 3 caracteres")
     .regex(/^[a-zA-Z0-9]+$/, "ID personalizado deve conter apenas letras e números"),
   birthDate: z.string().min(1, "Data de nascimento é obrigatória"),
-  whatsapp: z.string().min(10, "WhatsApp deve ter pelo menos 10 dígitos"),
+  whatsapp: z.string().min(11, "WhatsApp deve ter pelo menos 11 dígitos"),
   secondaryWhatsapp: z.string().optional(),
-  cep: z.string().min(8, "CEP deve ter 8 dígitos").max(9, "CEP inválido"),
-  street: z.string().min(1, "Rua é obrigatória"),
-  neighborhood: z.string().min(1, "Bairro é obrigatório"),
-  number: z.string().min(1, "Número é obrigatório"),
-  city: z.string().min(1, "Cidade é obrigatória"),
-  state: z.string().min(1, "Estado é obrigatório"),
-  complement: z.string().optional(),
 }).refine(
   (data) => data.password === data.passwordConfirmation,
   {
@@ -34,10 +27,7 @@ export const registerFormSchema = z.object({
   }
 ).refine(
   (data) => {
-    // Validação do segundo WhatsApp apenas se preenchido
-    if (!data.secondaryWhatsapp || data.secondaryWhatsapp.trim() === "") {
-      return true; // Se vazio, não há problema
-    }
+    if (!data.secondaryWhatsapp) return true;
     return data.whatsapp !== data.secondaryWhatsapp;
   },
   {
@@ -47,3 +37,4 @@ export const registerFormSchema = z.object({
 );
 
 export type RegisterFormData = z.infer<typeof registerFormSchema>;
+

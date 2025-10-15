@@ -33,9 +33,8 @@ export const StepRenderer = ({
   onDocumentTypeSelection,
   onFacialCapture,
   onDocumentCapture,
-  onComplete,
-  isReleasingCamera
-}: StepRendererProps & { isReleasingCamera?: boolean }) => {
+  onComplete
+}: StepRendererProps) => {
   switch (currentStep) {
     case 'cpf-verification':
       return <CpfVerificationStep onNext={() => onContinue('camera-access')} />;
@@ -80,14 +79,34 @@ export const StepRenderer = ({
       );
     
     case 'document-type':
+      return <DocumentTypeStep onSelectDocType={onDocumentTypeSelection} step={0} totalSteps={0} />;
+    
+    case 'document-front':
+    case 'document-back':
       return (
-        <DocumentTypeStep 
-          onSelectDocType={onDocumentTypeSelection} 
-          step={0} 
+        <DocumentCaptureStep
+          onNext={onDocumentCapture}
+          selectedDocType={selectedDocType!}
+          isBackSide={currentStep === 'document-back'}
+          videoConstraints={documentVideoConstraints}
+          step={0}
           totalSteps={0}
-          isReleasingCamera={isReleasingCamera}
         />
       );
+    
+    case 'document-analysis':
+      return (
+        <AnalysisStep
+          onNext={() => onContinue('completion')}
+          title="Em análise"
+          description="Aguarde um instante"
+          step={0}
+          totalSteps={0}
+        />
+      );
+    
+    case 'completion':
+      return <CompletionStep onComplete={onComplete} />;
     
     default:
       return null;

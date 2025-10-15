@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { useProfile } from "@/hooks/useProfile";
 import { NetworkTree } from "@/components/client/network/NetworkTree";
-import { ProfileCard } from "@/components/client/dashboard/ProfileCard";
 import "@/styles/network.css";
 
 export default function NetworkPage() {
@@ -83,25 +82,7 @@ export default function NetworkPage() {
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pt-24">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Profile Card */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow p-4 sticky top-24">
-              {profile ? (
-                <ProfileCard profile={profile} />
-              ) : (
-                <div className="text-center p-4">
-                  <p>Carregando perfil...</p>
-                </div>
-              )}
-            </div>
-          </div>
-          
-          {/* Network Tree */}
-          <div className="lg:col-span-3">
-            {profile?.id && <NetworkTree userId={profile.id} />}
-          </div>
-        </div>
+        {profile?.id && <NetworkTree userId={profile.id} />}
       </main>
     </div>
   );

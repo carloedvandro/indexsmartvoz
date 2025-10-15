@@ -14,7 +14,7 @@ export const NetworkStatsGrid = () => {
       {levels.map((level, index) => (
         <motion.div 
           key={index}
-          className="p-6 rounded-lg text-center w-full min-w-[140px]"
+          className="p-4 rounded-lg text-center"
           style={{ backgroundColor: `${level.color}20` }}
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.2 }}

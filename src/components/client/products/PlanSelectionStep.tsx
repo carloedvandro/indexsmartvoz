@@ -6,8 +6,7 @@ import { PriceSummary } from "@/components/client/products/PriceSummary";
 import { NavigationButtons } from "@/components/client/products/NavigationButtons";
 import { PlanSelectionHeader } from "@/components/client/products/plan-selection/PlanSelectionHeader";
 import { PlanSelectionForm } from "@/components/client/products/plan-selection/PlanSelectionForm";
-import { getPlanPriceFromDatabase } from "@/components/client/products/plan-selection/planOptions";
-import { usePlans } from "@/hooks/usePlans";
+import { internetOptions, mapUrlPlanToInternet } from "@/components/client/products/plan-selection/planOptions";
 import { useToast } from "@/hooks/use-toast";
 
 interface PlanSelectionStepProps {
@@ -35,7 +34,6 @@ export function PlanSelectionStep({
   const [selectedInternet, setSelectedInternet] = useState<string>("");
   const [selectedDDD, setSelectedDDD] = useState<string>("");
   const [searchParams] = useSearchParams();
-  const { data: plansData, isLoading } = usePlans();
   const { toast } = useToast();
   
   // Initialize selectedInternet and selectedDDD from selectedLines if available
@@ -45,12 +43,12 @@ export function PlanSelectionStep({
       if (line?.internet && !selectedInternet) setSelectedInternet(line.internet);
       if (line?.ddd && !selectedDDD) setSelectedDDD(line.ddd);
     }
-  }, [selectedLines]);
+  }, [selectedLines, selectedInternet, selectedDDD]);
 
   // Update selected lines when internet or DDD changes
   useEffect(() => {
-    if (selectedInternet && selectedDDD && plansData) {
-      const linePrice = getPlanPriceFromDatabase(plansData, selectedInternet);
+    if (selectedInternet && selectedDDD) {
+      const linePrice = getLinePrice();
       if (selectedLines.length === 0) {
         setSelectedLines([{
           id: 1,
@@ -70,11 +68,10 @@ export function PlanSelectionStep({
         setSelectedLines(updatedLines);
       }
     }
-  }, [selectedInternet, selectedDDD, plansData]);
+  }, [selectedInternet, selectedDDD]);
 
   const getLinePrice = () => {
-    if (!plansData) return 0;
-    return getPlanPriceFromDatabase(plansData, selectedInternet);
+    return internetOptions.find(option => option.value === selectedInternet)?.price || 0;
   };
 
   const handleContinue = () => {
@@ -112,17 +109,6 @@ export function PlanSelectionStep({
   // Fix: The button should only be enabled when all three fields are filled
   const isDisabled = !selectedInternet || !selectedDDD || !selectedDueDate;
 
-  if (isLoading) {
-    return (
-      <div className="max-w-[379px] mx-auto w-full" style={{ marginTop: "24px" }}>
-        <div className="space-y-6">
-          <PlanSelectionHeader />
-          <div className="text-center">Carregando planos...</div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="max-w-[379px] mx-auto w-full" style={{ marginTop: "24px" }}>
       <div className="space-y-6">
@@ -134,6 +120,7 @@ export function PlanSelectionStep({
             setSelectedInternet={setSelectedInternet}
             selectedDDD={selectedDDD}
             setSelectedDDD={setSelectedDDD}
+            internetOptions={internetOptions}
           />
 
           <div className="w-full max-w-[340px] mx-auto">

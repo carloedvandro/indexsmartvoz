@@ -48,6 +48,14 @@ export function NotificationsList() {
       isRead: true
     },
     {
+      id: "5",
+      title: "Promoção especial",
+      message: "Aproveite 30% de desconto em todos os planos até o final do mês!",
+      timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 dias atrás
+      type: "info",
+      isRead: true
+    },
+    {
       id: "6",
       title: "Meta de vendas atingida",
       message: "Parabéns! Você atingiu sua meta mensal de vendas e ganhou um bônus extra.",

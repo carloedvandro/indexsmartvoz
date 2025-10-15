@@ -2,29 +2,30 @@
 import { motion } from 'framer-motion';
 
 export const NetworkStatsGrid = () => {
-  const niveis = [
-    { numero: "1º", cor: "from-orange-500 to-pink-500" },
-    { numero: "2º", cor: "from-purple-500 to-indigo-500" },
-    { numero: "3º", cor: "from-blue-500 to-cyan-500" },
-    { numero: "4º", cor: "from-pink-500 to-red-500" },
+  // Show only 4 levels as requested
+  const levels = [
+    { title: 'Nível 1', value: 1, color: '#FF6B6B', description: 'Indicados Diretos' },
+    { title: 'Nível 2', value: 3, color: '#4ADE80', description: 'Indicados Indiretos' },
+    { title: 'Nível 3', value: 1, color: '#8B5CF6', description: 'Indicados Indiretos' },
+    { title: 'Nível 4', value: 1, color: '#FF9F1C', description: 'Indicados Indiretos' }
   ];
 
   return (
-    <div className="flex flex-col items-center gap-4 py-6">
-      {niveis.map((nivel, index) => (
-        <motion.div
+    <div className="grid grid-cols-2 gap-4">
+      {levels.map((level, index) => (
+        <motion.div 
           key={index}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: index * 0.1 }}
-          className={`relative w-32 h-20 rounded-2xl bg-white shadow-xl flex items-center justify-center overflow-hidden`}
+          className="p-4 rounded-lg text-center"
+          style={{ backgroundColor: `${level.color}20` }}
+          whileHover={{ scale: 1.05 }}
+          transition={{ duration: 0.2 }}
         >
-          <div
-            className={`absolute left-0 top-0 h-full w-2 rounded-l-2xl bg-gradient-to-b ${nivel.cor}`}
-          />
-          <span className="text-3xl font-extrabold text-gray-800 drop-shadow-[2px_2px_2px_rgba(0,0,0,0.25)]">
-            {nivel.numero}
-          </span>
+          <p className="text-sm font-medium" style={{ color: level.color }}>{level.title}</p>
+          <p className="text-2xl font-bold mt-1" style={{ color: level.color }}>{level.value}</p>
+          <div className="flex flex-col items-center mt-1">
+            <p className="text-xs text-black">{level.value} clientes</p>
+            <p className="text-xs text-black">0 cobranças</p>
+          </div>
         </motion.div>
       ))}
     </div>

@@ -17,8 +17,8 @@ export const OvalOverlay = ({ strokeColor }: OvalOverlayProps) => {
           <ellipse 
             cx="128" 
             cy="160" 
-            rx="130" 
-            ry="170" 
+            rx="110" 
+            ry="140" 
             fill="black"
           />
         </mask>
@@ -28,20 +28,20 @@ export const OvalOverlay = ({ strokeColor }: OvalOverlayProps) => {
       <rect 
         width="100%" 
         height="100%" 
-        fill="rgba(0, 0, 0, 0.65)" 
+        fill="rgba(0, 0, 0, 0.7)" 
         mask="url(#ovalMask)"
       />
       
-      {/* Contorno do oval com cor dinâmica */}
+      {/* Contorno branco do oval */}
       <ellipse 
         cx="128" 
         cy="160" 
-        rx="130" 
-        ry="170" 
+        rx="110" 
+        ry="140" 
         fill="none" 
-        stroke={strokeColor}
-        strokeWidth="2" 
-        strokeOpacity="1"
+        stroke="white" 
+        strokeWidth="3" 
+        strokeOpacity="0.9"
       />
     </>
   );

@@ -12,13 +12,17 @@ const TermoContratacaoSmartvoz = ({ acceptedTerms, onTermsChange }: TermoContrat
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { toast } = useToast();
 
+  const handleCheckboxChange = (checked: boolean) => {
+    console.log('📝 Checkbox alterado:', checked);
+    onTermsChange(checked);
+  };
+
   const handleTermsLinkClick = () => {
     setIsModalOpen(true);
   };
 
   const handleModalAccept = (accepted: boolean) => {
     onTermsChange(accepted);
-    setIsModalOpen(false);
     toast({
       title: "Sucesso",
       description: "Termos aceitos com sucesso!",
@@ -45,6 +49,19 @@ const TermoContratacaoSmartvoz = ({ acceptedTerms, onTermsChange }: TermoContrat
             </button>
             :
           </p>
+          
+          <div className="flex items-start space-x-2 text-left ml-[12px] mt-6">
+            <input
+              type="checkbox"
+              id="terms"
+              checked={acceptedTerms}
+              onChange={(e) => handleCheckboxChange(e.target.checked)}
+              className="mt-0.5 h-4 w-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+            />
+            <label htmlFor="terms" className="text-xs text-gray-600 cursor-pointer w-[calc(100%+7px)] pl-1 mt-[1.25px]">
+              Aceito receber comunicações e ofertas da Smartvoz.
+            </label>
+          </div>
         </div>
       </div>
 

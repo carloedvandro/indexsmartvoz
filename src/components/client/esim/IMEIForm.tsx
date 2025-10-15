@@ -31,17 +31,17 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
 
   const validateIMEI = async (value: string) => {
     if (value.length !== 15) return;
-
+    
     setIsValidating(true);
     try {
       console.log('Iniciando validação do IMEI:', value);
       const validation = await validateDeviceIdentifier(deviceType, 'imei', value);
       console.log('Resultado da validação:', validation);
-
+      
       if (validation.isValid && validation.deviceInfo) {
         setIsValidIMEI(true);
         setDeviceInfo(validation.deviceInfo);
-
+        
         toast({
           title: "Dispositivo compatível com eSIM",
           description: validation.deviceInfo.specs?.marketName || validation.deviceInfo.model,
@@ -49,11 +49,11 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
       } else {
         setIsValidIMEI(false);
         setDeviceInfo(null);
-
+        
         toast({
           variant: "destructive",
           title: "IMEI não compatível",
-          description: deviceType === 'android'
+          description: deviceType === 'android' 
             ? "O IMEI informado não corresponde a um dispositivo Android compatível com eSIM."
             : "O IMEI informado não corresponde a um iPhone compatível com eSIM."
         });
@@ -62,7 +62,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
       console.error('Erro na validação:', error);
       setIsValidIMEI(false);
       setDeviceInfo(null);
-
+      
       toast({
         variant: "destructive",
         title: "Erro na validação",
@@ -82,6 +82,16 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
 
   return (
     <div className="w-full max-w-[90%] md:max-w-[400px] mx-auto space-y-6 pt-44">
+      <div className="text-center space-y-2">
+        <img 
+          src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
+          alt="Smartvoz Logo" 
+          className="h-[140px] object-contain mx-auto mix-blend-multiply opacity-90 contrast-125"
+        />
+        <p className="text-black text-[15.7px] text-center mx-auto max-w-[320px]">
+          O número precisa ser idêntico ao que aparece nas configurações do seu celular
+        </p>
+      </div>
 
       <form onSubmit={handleSubmit} className="w-full space-y-6">
         <div className="space-y-2">
@@ -108,6 +118,39 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           </p>
         </div>
 
+        {deviceInfo && (
+          <div className="text-center p-4 bg-green-50 rounded-lg space-y-3">
+            <div className="space-y-1">
+              <h3 className="text-xl font-semibold text-green-800">
+                {deviceInfo.model}
+              </h3>
+              <p className="text-base text-green-700">
+                {deviceInfo.brand} / {deviceInfo.specs?.tac}
+              </p>
+            </div>
+            <div className="space-y-1 mt-2">
+              <p className="text-base text-green-700">
+                Fabricante: {deviceInfo.specs?.manufacturer}
+              </p>
+              <p className="text-base text-green-700">
+                Modelo: {deviceInfo.specs?.modelNumber}
+              </p>
+              <p className="text-base text-green-700">
+                TAC: {deviceInfo.specs?.tac}
+              </p>
+              <p className="text-base text-green-700">
+                Número de Série: {deviceInfo.specs?.serialNumber}
+              </p>
+              <p className="text-base text-green-700">
+                Dígito Verificador: {deviceInfo.specs?.checkDigit}
+              </p>
+            </div>
+            <p className="text-base font-medium text-green-600">
+              Dispositivo compatível com eSIM
+            </p>
+          </div>
+        )}
+
         {!deviceInfo && imei.length === 15 && !isValidating && (
           <div className="text-center p-4 bg-red-50 rounded-lg">
             <p className="text-sm text-red-600">
@@ -117,15 +160,11 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
         )}
 
         <p className="text-black text-sm">
-          <ol className="space-y-1 text-blue-700">
-            <li>1. Ligue para *#06# no seu celular</li>
-            <li>2. Procure pela linha "imei" na tela</li>
-            <li>3. Digite o codigo</li>
-          </ol>
+          É só ir nas configurações do aparelho e digitar IMEI no campo de busca. O número que você precisa vai estar em status como IMEI (eSIM)
         </p>
 
         <div className="flex justify-between items-center w-full mt-8 gap-4">
-          <Button
+          <Button 
             type="button"
             variant="outline"
             className="flex-1 border border-[#8425af] text-[#8425af] hover:bg-[#8425af] hover:text-white rounded-lg py-3"
@@ -133,7 +172,7 @@ export function IMEIForm({ onSubmit, onBack, deviceType }: IMEIFormProps) {
           >
             Voltar
           </Button>
-          <Button
+          <Button 
             type="submit"
             className="flex-1 bg-[#8425af] hover:bg-[#6c1e8f] text-white rounded-lg py-3"
             disabled={!isValidIMEI || isValidating || imei.length !== 15}

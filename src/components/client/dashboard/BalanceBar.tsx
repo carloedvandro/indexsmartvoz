@@ -4,10 +4,8 @@ import { LogoSection } from './balance/LogoSection';
 import { NotificationDropdown } from './balance/NotificationDropdown';
 import { UserMenuDropdown } from './balance/UserMenuDropdown';
 import { useBalanceBarLogic } from './balance/hooks/useBalanceBarLogic';
-import { useLocation } from 'react-router-dom';
 
 export function BalanceBar() {
-  const location = useLocation();
   const {
     isBalanceVisible,
     showNotifications,
@@ -19,21 +17,6 @@ export function BalanceBar() {
     handleLogout,
     closeMenus
   } = useBalanceBarLogic();
-
-  // Hide BalanceBar on registration and payment process pages
-  const hiddenRoutes = [
-    '/client/register',
-    '/client/facial-biometry', 
-    '/client/plan-selection',
-    '/client/products',
-    '/client/esim'
-  ];
-
-  const shouldHide = hiddenRoutes.some(route => location.pathname.startsWith(route));
-
-  if (shouldHide) {
-    return null;
-  }
 
   return (
     <div className="bg-white shadow-sm px-4 py-3 flex-shrink-0 relative z-50">

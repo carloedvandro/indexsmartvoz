@@ -44,8 +44,8 @@ export function PlanCarousel({
     <div className="w-full px-4">
       {/* Header */}
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-green-500 mb-2">Conecte-se ao Futuro</h2>
-        <p className="text-gray-600">Escolha o plano ideal para suas necessidades com a melhor relação custo-benefício do mercado digital</p>
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">Selecione o plano perfeito para suas necessidades</h2>
+        <p className="text-gray-600">Escolha entre nossos planos disponíveis</p>
       </div>
 
       {/* Plans Display */}

@@ -15,6 +15,21 @@ export function DeviceSelector({ onSelect, onBack }: DeviceSelectorProps) {
 
   return (
     <div className="w-full max-w-[calc(85%+19px)] md:max-w-[calc(420px+19px)] mx-auto space-y-6 pt-28 bg-white">
+      <div className="text-center space-y-2">
+        <img 
+          src="/lovable-uploads/d98d0068-66cc-43a4-b5a6-a19db8743dbc.png" 
+          alt="Smartvoz Logo" 
+          className="h-[140px] object-contain mx-auto mix-blend-multiply opacity-90 contrast-125"
+        />
+      </div>
+
+      <div className="bg-[#212529] text-white rounded-lg p-4 flex items-center gap-2">
+        <Info className="w-5 h-5" />
+        <p className="text-sm max-w-[calc(100%-4px)]">
+          O aparelho precisa ter um eSIM pra ter o chip ativado
+        </p>
+      </div>
+
       <div className="flex flex-col md:flex-col gap-4 mt-4 w-full">
         <div 
           className={`p-4 rounded-lg border border-[#8425af] cursor-pointer relative w-full

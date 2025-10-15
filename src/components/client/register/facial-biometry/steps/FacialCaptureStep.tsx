@@ -1,10 +1,13 @@
-
-import { useRef, useEffect, useState } from "react";
+import { useRef } from "react";
 import Webcam from "react-webcam";
+import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Button } from "@/components/ui/button";
-import { initializeMediaPipe, cleanupMediaPipe } from "./facial-capture/utils/mediaPipeDetection";
+import { FaceOvalGuide } from "./facial-capture/FaceOvalGuide";
+import { CameraToggle } from "./facial-capture/CameraToggle";
+import { CameraView } from "./facial-capture/CameraView";
+import { useFaceDetection } from "./facial-capture/useFaceDetection";
+import { useFacialCapture } from "./facial-capture/useFacialCapture";
 
 interface FacialCaptureStepProps {
   onNext: (imageSrc: string) => void;
@@ -17,54 +20,9 @@ interface FacialCaptureStepProps {
 
 export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureStepProps) => {
   const webcamRef = useRef<Webcam>(null);
-  const streamRef = useRef<MediaStream | null>(null);
   const { toast } = useToast();
-  const [etapa, setEtapa] = useState(0);
-  const [statusText, setStatusText] = useState("Carregando câmera...");
 
-  // Speech synthesis function
-  const falar = (texto: string) => {
-    if ('speechSynthesis' in window) {
-      const synth = window.speechSynthesis;
-      const voz = new SpeechSynthesisUtterance(texto);
-      voz.lang = 'pt-BR';
-      voz.pitch = 1;
-      voz.rate = 1;
-      synth.speak(voz);
-    }
-    setStatusText(texto);
-  };
-
-  // Função para limpar recursos da câmera
-  const cleanupCameraResources = () => {
-    console.log("🧹 Limpando recursos da câmera no FacialCaptureStep...");
-    
-    // Parar stream atual
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach(track => {
-        console.log(`🛑 Parando track: ${track.kind} - ${track.label}`);
-        track.stop();
-      });
-      streamRef.current = null;
-    }
-    
-    // Limpar webcam
-    if (webcamRef.current?.video) {
-      const video = webcamRef.current.video;
-      if (video.srcObject) {
-        const stream = video.srcObject as MediaStream;
-        stream.getTracks().forEach(track => track.stop());
-        video.srcObject = null;
-      }
-    }
-    
-    // Cleanup MediaPipe
-    cleanupMediaPipe();
-    
-    console.log("✅ Todos os recursos da câmera liberados");
-  };
-
-  // Check session
+  // Check if the user is logged in when the component mounts
   useEffect(() => {
     const checkSession = async () => {
       const { data } = await supabase.auth.getSession();
@@ -79,149 +37,132 @@ export const FacialCaptureStep = ({ onNext, videoConstraints }: FacialCaptureSte
         console.log("User session found:", data.session.user.id);
       }
     };
+    
     checkSession();
   }, [toast]);
 
-  // Initialize MediaPipe and camera
-  useEffect(() => {
-    const iniciarCamera = async () => {
-      try {
-        // Initialize MediaPipe
-        await initializeMediaPipe();
-        
-        const stream = await navigator.mediaDevices.getUserMedia({ 
-          video: { facingMode: 'user' } 
-        });
-        
-        // Armazenar referência do stream
-        streamRef.current = stream;
-        
-        if (webcamRef.current?.video) {
-          webcamRef.current.video.srcObject = stream;
-        }
-        
-        // Wait a bit for video to start then begin detection
-        setTimeout(() => {
-          detectarMovimento();
-        }, 1000);
-      } catch (err) {
-        console.error('Erro ao acessar câmera:', err);
-        toast({
-          title: "Erro na Câmera",
-          description: "Não foi possível acessar a câmera",
-          variant: "destructive",
-        });
+  const { faceDetected, facePosition, faceProximity, lightingQuality } = useFaceDetection(webcamRef, true, true);
+
+  const { 
+    isProcessing, 
+    cameraActive, 
+    captureProgress,
+    isCapturing,
+    isStable,
+    toggleCamera 
+  } = useFacialCapture({
+    webcamRef,
+    faceDetected,
+    faceProximity,
+    facePosition,
+    onComplete: onNext
+  });
+
+  // Enhanced video constraints for better image quality
+  const updatedVideoConstraints = {
+    ...videoConstraints,
+    facingMode: "user",
+    width: { ideal: 1280 },
+    height: { ideal: 720 },
+    advanced: [
+      { 
+        exposureMode: "continuous",
+        whiteBalanceMode: "continuous",
+        focusMode: "continuous",
+        brightness: { ideal: 1.2 }, // Aumentado para melhor iluminação
+        contrast: { ideal: 1.1 }, // Ligeiramente aumentado
+        saturation: { ideal: 1.0 }
       }
-    };
-
-    iniciarCamera();
-
-    // Cleanup on unmount
-    return () => {
-      console.log("🧹 FacialCaptureStep desmontando - limpando recursos");
-      cleanupCameraResources();
-    };
-  }, [toast]);
-
-  // Helper function for delays
-  const aguardar = (ms: number) => {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    ]
   };
 
-  const detectarMovimento = async () => {
-    falar("Aproxime o rosto do celular");
-    await aguardar(3000);
-    falar("Afaste o rosto do celular");
-    await aguardar(3000);
-    falar("Centralize o rosto dentro do oval");
-    await aguardar(3000);
-
-    // Simplified detection for demo
-    setTimeout(() => {
-      setEtapa(3);
-      falar("Reconhecimento facial concluído");
-    }, 2000);
-  };
-
-  const tirarSelfie = () => {
-    if (etapa < 3) {
-      toast({
-        title: "Aguarde",
-        description: "Aguarde a conclusão do reconhecimento facial.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    if (!webcamRef.current) {
-      toast({
-        title: "Erro",
-        description: "Câmera não disponível",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    const canvas = document.createElement('canvas');
-    const video = webcamRef.current.video;
-    
-    if (video) {
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      const ctx = canvas.getContext('2d');
-      
-      if (ctx) {
-        ctx.drawImage(video, 0, 0);
-        const fotoBase64 = canvas.toDataURL('image/jpeg');
-        localStorage.setItem('selfieBase64', fotoBase64);
-        
-        toast({
-          title: "Sucesso",
-          description: "Selfie capturada com sucesso!",
-        });
-        
-        // Limpar recursos da câmera antes de prosseguir
-        console.log("🧹 Limpando câmera antes de prosseguir...");
-        cleanupCameraResources();
-        
-        // Delay para garantir limpeza
-        setTimeout(() => {
-          onNext(fotoBase64);
-        }, 500);
-      }
+  const getLightingMessage = () => {
+    switch (lightingQuality) {
+      case "too-dark":
+        return "💡 Muito escuro - Procure mais luz";
+      case "too-bright":
+        return "☀️ Muito claro - Diminua a luz";
+      case "poor":
+        return "⚠️ Iluminação inadequada";
+      case "good":
+        return "✅ Iluminação ideal";
+      default:
+        return "";
     }
   };
 
   return (
-    <div className="min-h-screen w-full bg-primary text-white flex flex-col items-center justify-center">
-      {/* Oval guide */}
-      <div className="border-[3px] border-white rounded-[50%] w-[280px] h-[380px] flex items-center justify-center overflow-hidden relative shadow-[0_0_12px_rgba(255,255,255,0.3)]">
-        <Webcam
-          ref={webcamRef}
-          audio={false}
-          screenshotFormat="image/jpeg"
-          videoConstraints={{
-            facingMode: "user",
-            width: 1280,
-            height: 720
-          }}
-          className="w-full transform scale-x-[-1]"
-          style={{ transform: 'scaleX(-1)' }}
-        />
-      </div>
+    <div className="relative h-[420px] mx-4 rounded-lg overflow-hidden">
+      {/* Removido o cabeçalho com o texto e ícone da câmera */}
+      {isCapturing && (
+        <div className="absolute top-0 left-0 w-full bg-black bg-opacity-50 text-white p-2 z-20 text-center">
+          <p className="text-xs text-yellow-300">
+            Capturando... {Math.round(captureProgress)}% - Mantenha a posição
+          </p>
+        </div>
+      )}
       
-      {/* Status text with animation */}
-      <div className="mt-5 text-lg font-bold animate-pulse">
-        {statusText}
-      </div>
+      <CameraView 
+        webcamRef={webcamRef}
+        cameraActive={cameraActive}
+        videoConstraints={updatedVideoConstraints}
+      />
       
-      {/* Continue button */}
-      <Button 
-        onClick={tirarSelfie}
-        className="mt-5 px-5 py-2 bg-white text-[#2f145e] font-bold rounded-lg hover:bg-gray-100"
-      >
-        Continuar
-      </Button>
+      <FaceOvalGuide 
+        faceDetected={faceDetected} 
+        captureProgress={captureProgress}
+        faceProximity={faceProximity}
+        isCapturing={isCapturing}
+      />
+      
+      <CameraToggle 
+        cameraActive={cameraActive}
+        onToggle={toggleCamera}
+      />
+      
+      <div className="absolute bottom-6 w-full flex justify-center items-center">
+        {isProcessing && (
+          <div className="bg-black bg-opacity-70 text-white px-4 py-2 rounded-full text-sm animate-pulse">
+            Processando imagem com segurança...
+          </div>
+        )}
+        
+        {!isProcessing && isCapturing && (
+          <div className="bg-red-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
+            🔴 Capturando... {Math.round(captureProgress)}%
+          </div>
+        )}
+        
+        {!isProcessing && !isCapturing && faceDetected && faceProximity === "ideal" && lightingQuality === "good" && isStable && (
+          <div className="bg-green-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
+            ✅ Pronto para capturar
+          </div>
+        )}
+        
+        {!isProcessing && !isCapturing && faceDetected && faceProximity === "ideal" && lightingQuality === "good" && !isStable && (
+          <div className="bg-yellow-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
+            ⏳ Estabilizando posição...
+          </div>
+        )}
+        
+        {!isProcessing && !isCapturing && lightingQuality !== "good" && (
+          <div className="bg-orange-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
+            {getLightingMessage()}
+          </div>
+        )}
+        
+        {!isProcessing && !isCapturing && !faceDetected && lightingQuality === "good" && (
+          <div className="bg-red-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
+            ❌ Rosto não detectado
+          </div>
+        )}
+        
+        {!isProcessing && !isCapturing && faceDetected && faceProximity !== "ideal" && lightingQuality === "good" && (
+          <div className="bg-orange-600 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm">
+            ⚠️ Ajuste a posição no oval
+          </div>
+        )}
+      </div>
     </div>
   );
 };

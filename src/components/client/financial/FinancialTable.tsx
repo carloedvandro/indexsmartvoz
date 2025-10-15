@@ -15,7 +15,7 @@ interface FinancialTableProps {
 
 export function FinancialTable({ filteredTransactions, isMobile }: FinancialTableProps) {
   return (
-    <div className="bg-white rounded-lg overflow-hidden border mx-auto w-full md:w-[540px]">
+    <div className="bg-white rounded-lg overflow-hidden border mx-auto w-full md:w-[540px] overflow-x-auto">
       <Table>
         <TableHeader className="bg-gray-50">
           <TableRow>

@@ -35,7 +35,7 @@ export const ProfileStats = ({ profileId }: ProfileStatsProps) => {
   }, [profileId]);
 
   // Use the members status hook to get accurate counts
-  const memberCounts = useNetworkMembersStatus();
+  const { data: memberCounts } = useNetworkMembersStatus(profileId, networkId);
   
   // We'll hardcode the team size to 8 to match the design
   const teamSize = 8;

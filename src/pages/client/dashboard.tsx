@@ -11,8 +11,6 @@ import { StatsCardsGrid } from "@/components/client/dashboard/stats/StatsCardsGr
 import { InteractiveBrazilMap } from "@/components/client/dashboard/InteractiveBrazilMap";
 import { NetworkCard } from "@/components/client/dashboard/NetworkCard";
 import { PlansCard } from "@/components/client/dashboard/PlansCard";
-import { InteractivePlanCard } from "@/components/client/dashboard/InteractivePlanCard";
-import { ProfileCard } from "@/components/client/dashboard/ProfileCard";
 import "@/styles/logo.css";
 export default function ClientDashboard() {
   const navigate = useNavigate();
@@ -44,26 +42,17 @@ export default function ClientDashboard() {
       <StatsCardsGrid />
 
       <div className="container mb-8 mt-16">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          {/* Profile Card */}
-          <div className="lg:col-span-1">
-            <ProfileCard profile={profile} />
-          </div>
-          
-          {/* Network Card */}
-          <div className="lg:col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 ">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-120 p-4">
             <NetworkCard networkStats={networkStats || {
-              level1Count: 0,
-              level2Count: 0,
-              level3Count: 0,
-              level4Count: 0
-            }} onClick={handleNetworkClick} />
+            level1Count: 0,
+            level2Count: 0,
+            level3Count: 0,
+            level4Count: 0
+          }} onClick={handleNetworkClick} />
           </div>
+          <PlansCard />
         </div>
-      </div>
-
-      <div className="container mb-8">
-        <InteractivePlanCard />
       </div>
 
       <div className="container mb-8">

@@ -1,72 +1,88 @@
 
-import { useState, useEffect } from 'react';
 import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
+import { useQuery } from "@tanstack/react-query";
 
-interface NetworkMember {
+interface NetworkMemberRPC {
   id: string;
-  full_name: string;
-  email: string;
-  status: string;
-  created_at: string;
+  user_id: string;
+  parent_id: string;
+  level: number;
 }
 
-export const useNetworkMembersStatus = () => {
-  const [members, setMembers] = useState<NetworkMember[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const { toast } = useToast();
+interface MembersStatus {
+  active: number;
+  pending: number;
+}
 
-  useEffect(() => {
-    const fetchNetworkMembers = async () => {
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return;
+export const useNetworkMembersStatus = (userId: string | undefined, networkId: string | undefined) => {
+  return useQuery({
+    queryKey: ['networkMembersStatus', userId, networkId],
+    queryFn: async () => {
+      if (!userId || !networkId) return null;
 
-        const { data: networkData, error } = await supabase
-          .from('network')
-          .select(`
-            member:profiles!network_member_id_fkey(
-              id,
-              full_name,
-              email,
-              status,
-              created_at
-            )
-          `)
-          .eq('user_id', user.id);
+      console.log("Fetching members status for network:", networkId);
 
-        if (error) throw error;
+      const { data: allNetworkData, error: networkError } = await supabase
+        .rpc('get_all_network_members', { 
+          root_network_id: networkId 
+        }) as { data: NetworkMemberRPC[] | null, error: any };
 
-        const membersData = networkData
-          ?.map(item => item.member)
-          .filter(Boolean)
-          .flat() as NetworkMember[];
-
-        setMembers(membersData || []);
-      } catch (error) {
-        console.error('Erro ao buscar membros da rede:', error);
-        toast({
-          variant: "destructive",
-          title: "Erro",
-          description: "Não foi possível carregar os membros da rede."
-        });
-      } finally {
-        setIsLoading(false);
+      if (networkError) {
+        console.error("Error fetching network members:", networkError);
+        return { active: 0, pending: 0 };
       }
-    };
 
-    fetchNetworkMembers();
-  }, [toast]);
+      if (!allNetworkData || !Array.isArray(allNetworkData)) {
+        console.log("No network members found or invalid data format");
+        return { active: 0, pending: 0 };
+      }
 
-  const activeMembers = members.filter(member => member.status === 'active').length;
-  const pendingMembers = members.filter(member => member.status === 'pending').length;
-  const inactiveMembers = members.filter(member => member.status === 'inactive').length;
+      // Filter out duplicates and the user themselves
+      const validMembers = allNetworkData.filter(member => 
+        member.user_id !== userId
+      );
+      
+      // Use Set to ensure no duplicates of user_id
+      const networkUserIds = [...new Set(validMembers.map(item => item.user_id))];
 
-  return {
-    members,
-    activeMembers,
-    pendingMembers,
-    inactiveMembers,
-    isLoading
-  };
+      console.log("Valid members count:", validMembers.length);
+      console.log("Unique network user IDs:", networkUserIds.length);
+
+      if (networkUserIds.length === 0) {
+        return { active: 0, pending: 0 };
+      }
+
+      // Check which profiles actually exist (to filter out deleted users)
+      const { data: profilesData, error: profilesError } = await supabase
+        .from('profiles')
+        .select('id, status')
+        .in('id', networkUserIds);
+
+      if (profilesError) {
+        console.error("Error fetching profiles:", profilesError);
+        return { active: 0, pending: 0 };
+      }
+
+      if (!profilesData || profilesData.length === 0) {
+        console.log("No profiles found");
+        return { active: 0, pending: 0 };
+      }
+
+      // Only count profiles that still exist in the system
+      const existingProfiles = profilesData || [];
+      console.log("Existing profiles data:", existingProfiles);
+
+      const active = existingProfiles.filter(p => p.status === 'active').length;
+      const pending = existingProfiles.filter(p => p.status === 'pending').length;
+
+      console.log("Active members:", active);
+      console.log("Pending members:", pending);
+      console.log("Total members:", active + pending);
+
+      return { active, pending };
+    },
+    enabled: !!userId && !!networkId,
+    refetchInterval: 30000, // Refetch every 30 seconds to stay updated
+    staleTime: 10000 // Consider data stale after 10 seconds
+  });
 };

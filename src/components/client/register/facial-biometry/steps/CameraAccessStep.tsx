@@ -1,9 +1,10 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Camera } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useCameraManagement } from "@/hooks/useCameraManagement";
+import { supabase } from "@/integrations/supabase/client";
 
 interface CameraAccessStepProps {
   onNext: () => void;
@@ -12,153 +13,96 @@ interface CameraAccessStepProps {
 export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
   const [showError, setShowError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
   const { toast } = useToast();
+  const { videoConstraints, hasBackCamera } = useCameraManagement(true);
+
+  const storeCameraCapabilities = async (capabilities: MediaTrackCapabilities) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) return;
+
+      const jsonCapabilities = JSON.parse(JSON.stringify(capabilities));
+      
+      const { error } = await supabase.from('camera_capabilities').insert([{
+        device_id: capabilities.deviceId?.toString() || null,
+        facing_mode: capabilities.facingMode?.toString() || null,
+        min_width: capabilities.width?.min || null,
+        max_width: capabilities.width?.max || null,
+        min_height: capabilities.height?.min || null,
+        max_height: capabilities.height?.max || null,
+        supported_constraints: jsonCapabilities,
+        user_id: user.id
+      }]);
+
+      if (error) {
+        console.error('Error storing camera capabilities:', error);
+      }
+    } catch (error) {
+      console.error('Error storing camera capabilities:', error);
+    }
+  };
 
   const handleCameraAccess = async () => {
     try {
       setIsLoading(true);
       setShowError(false);
-      setErrorMessage("");
-      
-      console.log("🎥 Iniciando verificação de câmera...");
       
       if (!navigator.mediaDevices?.getUserMedia) {
-        throw new Error("UNSUPPORTED_BROWSER");
+        throw new Error("Câmera não suportada neste navegador");
       }
 
-      // Estratégia 1: Tentar câmera básica primeiro
-      console.log("🎥 Tentativa 1: Câmera básica");
-      let stream;
+      // Try to get camera access with environment mode first
+      const constraints = {
+        video: {
+          facingMode: { ideal: "environment" },
+          width: { ideal: 1280 },
+          height: { ideal: 720 }
+        },
+        audio: false
+      };
+
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
       
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-          audio: false
-        });
-        console.log("✅ Câmera básica funcionou");
-      } catch (basicError: any) {
-        console.log("⚠️ Câmera básica falhou:", basicError.name, basicError.message);
-        
-        // Estratégia 2: Tentar com constraints específicas
-        console.log("🎥 Tentativa 2: Constraints específicas");
-        try {
-          stream = await navigator.mediaDevices.getUserMedia({
-            video: {
-              width: { min: 320, ideal: 640, max: 1280 },
-              height: { min: 240, ideal: 480, max: 720 },
-              frameRate: { ideal: 15, max: 30 }
-            },
-            audio: false
-          });
-          console.log("✅ Câmera com constraints específicas funcionou");
-        } catch (constraintError: any) {
-          console.log("⚠️ Câmera com constraints falhou:", constraintError.name, constraintError.message);
-          
-          // Estratégia 3: Tentar com resolução mínima
-          console.log("🎥 Tentativa 3: Resolução mínima");
-          try {
-            stream = await navigator.mediaDevices.getUserMedia({
-              video: {
-                width: { ideal: 320 },
-                height: { ideal: 240 }
-              },
-              audio: false
-            });
-            console.log("✅ Câmera com resolução mínima funcionou");
-          } catch (minimalError: any) {
-            console.log("❌ Todas as tentativas falharam");
-            throw basicError; // Lança o erro original
-          }
-        }
-      }
-      
-      // Verificar se realmente obteve acesso
-      if (!stream) {
-        throw new Error("NO_STREAM_OBTAINED");
+      // Get video track capabilities
+      const videoTrack = stream.getVideoTracks()[0];
+      if (!videoTrack) {
+        throw new Error("Não foi possível acessar a câmera");
       }
 
-      const videoTracks = stream.getVideoTracks();
-      if (videoTracks.length === 0) {
-        throw new Error("NO_VIDEO_TRACK");
-      }
-
-      const videoTrack = videoTracks[0];
-      console.log("📹 Informações da câmera obtida:", {
-        label: videoTrack.label,
-        kind: videoTrack.kind,
-        readyState: videoTrack.readyState,
-        settings: videoTrack.getSettings(),
-        capabilities: videoTrack.getCapabilities()
-      });
+      // Store camera capabilities
+      const capabilities = videoTrack.getCapabilities();
+      await storeCameraCapabilities(capabilities);
       
-      // Parar o stream após teste bem-sucedido
-      stream.getTracks().forEach(track => {
-        track.stop();
-        console.log("🛑 Track parado:", track.kind);
-      });
+      // Stop the stream after testing
+      stream.getTracks().forEach(track => track.stop());
       
       toast({
         title: "Câmera liberada",
-        description: "Acesso à câmera obtido com sucesso!",
+        description: hasBackCamera 
+          ? "Câmera traseira acessada com sucesso."
+          : "Câmera frontal acessada com sucesso.",
       });
       
-      console.log("✅ Teste de câmera concluído com sucesso");
       onNext();
-      
     } catch (error: any) {
-      console.error("❌ Erro ao acessar câmera:", error);
+      console.error("Erro ao acessar câmera:", error);
       setShowError(true);
       
-      let userMessage = "Erro desconhecido ao acessar a câmera.";
+      let errorMessage = "Por favor, permita o acesso à câmera para continuar.";
       
-      // Mensagens de erro mais específicas
-      switch (error.message) {
-        case "UNSUPPORTED_BROWSER":
-          userMessage = "Seu navegador não suporta acesso à câmera. Use Chrome, Firefox ou Safari atualizado.";
-          break;
-        case "NO_STREAM_OBTAINED":
-          userMessage = "Não foi possível obter acesso à câmera.";
-          break;
-        case "NO_VIDEO_TRACK":
-          userMessage = "Câmera detectada mas sem vídeo disponível.";
-          break;
-        default:
-          switch (error.name) {
-            case "NotAllowedError":
-              userMessage = "Acesso negado. Clique no ícone da câmera na barra de endereços e permita o acesso.";
-              break;
-            case "NotFoundError":
-              userMessage = "Nenhuma câmera encontrada. Verifique se há uma câmera conectada ao dispositivo.";
-              break;
-            case "NotReadableError":
-              userMessage = "Câmera está sendo usada por outro aplicativo ou há um problema de hardware.";
-              break;
-            case "OverconstrainedError":
-              userMessage = "Não foi possível encontrar uma câmera compatível. Tente com outro dispositivo.";
-              break;
-            case "SecurityError":
-              userMessage = "Acesso bloqueado por segurança. Certifique-se de estar usando HTTPS.";
-              break;
-            case "AbortError":
-              userMessage = "Operação cancelada. Tente novamente.";
-              break;
-            default:
-              if (error.message.includes("Permission")) {
-                userMessage = "Permissão de câmera necessária. Permita o acesso quando solicitado.";
-              } else if (error.message.includes("busy") || error.message.includes("use")) {
-                userMessage = "Câmera em uso. Feche outros apps ou abas que possam estar usando a câmera.";
-              } else {
-                userMessage = `Erro: ${error.message}`;
-              }
-          }
+      if (error.name === "NotAllowedError") {
+        errorMessage = "Acesso à câmera foi negado. Por favor, permita o acesso nas configurações do seu navegador/dispositivo.";
+      } else if (error.name === "NotFoundError") {
+        errorMessage = "Nenhuma câmera encontrada no dispositivo.";
+      } else if (error.name === "NotReadableError") {
+        errorMessage = "A câmera pode estar sendo usada por outro aplicativo.";
+      } else if (error.name === "OverconstrainedError") {
+        errorMessage = "Não foi possível encontrar uma câmera que atenda aos requisitos.";
       }
       
-      setErrorMessage(userMessage);
-      
       toast({
-        title: "Erro de Acesso à Câmera",
-        description: userMessage,
+        title: "Erro de Acesso",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
@@ -175,7 +119,9 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
           {showError && (
             <Alert variant="destructive" className="mb-4">
               <AlertTitle>Erro de Acesso</AlertTitle>
-              <AlertDescription>{errorMessage}</AlertDescription>
+              <AlertDescription>
+                Por favor, permita o acesso à câmera para continuar.
+              </AlertDescription>
             </Alert>
           )}
 
@@ -183,18 +129,7 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
             <div className="bg-gray-100 rounded-full p-6 mb-4">
               <Camera className="h-12 w-12 text-[#8425af]" />
             </div>
-            <p className="text-sm text-gray-600 text-center">
-              {isLoading 
-                ? "Verificando acesso à câmera..." 
-                : "Aperte o botão abaixo para iniciar"
-              }
-            </p>
-            
-            {isLoading && (
-              <div className="mt-2 text-xs text-gray-500 text-center">
-                Testando diferentes configurações...
-              </div>
-            )}
+            <p className="text-sm text-gray-600 text-center">Aperte o botão abaixo para iniciar</p>
           </div>
         </div>
       </div>
@@ -206,7 +141,7 @@ export const CameraAccessStep = ({ onNext }: CameraAccessStepProps) => {
           disabled={isLoading}
           className="w-full h-12 bg-[#8425af] text-white hover:bg-[#7a1fa2] font-medium uppercase text-base tracking-wider rounded-none"
         >
-          {isLoading ? "TESTANDO CÂMERA..." : "LIBERAR CÂMERA"}
+          {isLoading ? "VERIFICANDO CÂMERA..." : "LIBERAR CÂMERA"}
         </Button>
       </div>
     </div>

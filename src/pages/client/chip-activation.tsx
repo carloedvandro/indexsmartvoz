@@ -1,388 +1,362 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChipActivationFlow } from "@/components/client/products/ChipActivationFlow";
-import { ESIMActivationFlow } from "@/components/client/esim/ChipActivationFlow";
-import { ConfirmationScreen } from "@/components/client/products/chip-activation/ConfirmationScreen";
-import { supabase } from "@/integrations/supabase/client";
+import { SuccessScreen } from "@/components/client/products/SuccessScreen";
 import { useToast } from "@/hooks/use-toast";
-
-/**
- * Purpose: Página principal de ativação de chip após pagamento confirmado  
- * Permite escolher entre chip físico ou eSIM e direciona para o fluxo correspondente
- */
+import { supabase } from "@/integrations/supabase/client";
 
 export default function ChipActivation() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [currentStep, setCurrentStep] = useState<'selection' | 'physical' | 'virtual'>('selection');
-  const [activationData, setActivationData] = useState<any>({});
-  
-  // Estados específicos para fluxo de eSIM
-  const [esimStep, setEsimStep] = useState(1);
-  const [esimActivationData, setEsimActivationData] = useState<{
-    type?: 'self' | 'collaborator';
-    device_type?: 'android' | 'ios';
-    imei?: string;
-    eid?: string;
-    internet?: string;
-    ddd?: string;
-    dueDate?: number;
-    price?: number;
-  }>({});
-
-  // Estados específicos para fluxo de chip físico
-  const [physicalChipStep, setPhysicalChipStep] = useState(4); // Começar no step 4 (guia de código de barras)
-  const [scanningIndex, setScanningIndex] = useState<number | null>(null);
+  const [currentStep, setCurrentStep] = useState(4); // Start at chip instructions step
   const [selectedLines, setSelectedLines] = useState<any[]>([]);
-  const [showConfirmation, setShowConfirmation] = useState(false);
   const [protocol, setProtocol] = useState("");
-  const [isUpdatingOrder, setIsUpdatingOrder] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [scanningIndex, setScanningIndex] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [orderData, setOrderData] = useState<any>(null);
 
-  // Verificar se há dados do pedido e criar linha para ativação
   useEffect(() => {
-    const orderData = localStorage.getItem('orderData');
-    const selectedPlan = localStorage.getItem('selectedPlan');
-    
-    if (!orderData) {
-      console.warn('⚠️ [CHIP-ACTIVATION] Nenhum dado de pedido encontrado');
-      navigate('/client/dashboard', { replace: true });
-      return;
-    }
+    loadOrderData();
+  }, []);
 
+  const loadOrderData = async () => {
     try {
-      const parsedOrderData = JSON.parse(orderData);
-      let parsedPlanData = null;
+      // Primeiro tentar carregar do localStorage
+      const storedOrderData = localStorage.getItem('orderData');
+      const storedPlan = localStorage.getItem('selectedPlan');
+      console.log('🔍 [CHIP-ACTIVATION] Verificando orderData:', storedOrderData);
+      console.log('🔍 [CHIP-ACTIVATION] Verificando selectedPlan:', storedPlan);
       
-      if (selectedPlan) {
-        parsedPlanData = JSON.parse(selectedPlan);
+      if (storedOrderData) {
+        const order = JSON.parse(storedOrderData);
+        console.log('📋 [CHIP-ACTIVATION] Order do localStorage:', order);
+        setOrderData(order);
+        await loadOrderFromDatabase(order.orderId || order.protocol);
+      } else {
+        // Se não tiver no localStorage, buscar o pedido mais recente do usuário
+        await loadLatestOrder();
       }
-      
-      console.log('📋 [CHIP-ACTIVATION] Dados do pedido carregados:', parsedOrderData);
-      console.log('📋 [CHIP-ACTIVATION] Dados do plano carregados:', parsedPlanData);
-      
-      setActivationData(parsedOrderData);
-      
-      // Criar linha com os dados do plano para ativação (chip físico)
-      const line = {
-        id: 1,
-        number: `Linha ${parsedPlanData?.title || 'Principal'}`,
-        internet: parsedPlanData?.title || parsedPlanData?.name || 'Plano Selecionado',
-        type: 'Chip Físico',
-        ddd: '11', // DDD padrão, pode ser ajustado conforme necessário
-        price: parsedPlanData?.price || parsedPlanData?.value || parsedOrderData.total,
-        barcode: '',
-        planId: parsedPlanData?.id,
-        planName: parsedPlanData?.title || parsedPlanData?.name
-      };
-      
-      setSelectedLines([line]);
-      console.log('📱 [CHIP-ACTIVATION] Linha criada para ativação:', line);
-
-      // Configurar dados do eSIM também
-      setEsimActivationData({
-        internet: parsedPlanData?.title || parsedPlanData?.name || 'Plano Selecionado',
-        ddd: '11',
-        dueDate: 10,
-        price: parsedPlanData?.price || parsedPlanData?.value || parsedOrderData.total
-      });
-      
     } catch (error) {
-      console.error('❌ [CHIP-ACTIVATION] Erro ao processar dados:', error);
-      navigate('/client/dashboard', { replace: true });
+      console.error('❌ [CHIP-ACTIVATION] Erro ao carregar orderData:', error);
+      await loadLatestOrder();
     }
-  }, [navigate]);
-
-  const handleBackToSelection = () => {
-    setCurrentStep('selection');
-    setEsimStep(1);
-    setPhysicalChipStep(4);
-    setScanningIndex(null);
-    setShowConfirmation(false);
   };
 
-  // Função para atualizar status do pedido
-  const updateOrderStatus = async () => {
+  const loadOrderFromDatabase = async (orderId: string) => {
     try {
-      setIsUpdatingOrder(true);
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
       
-      const orderData = localStorage.getItem('orderData');
-      if (!orderData) {
-        throw new Error('Dados do pedido não encontrados');
+      if (userError || !user) {
+        console.error('❌ [CHIP-ACTIVATION] Usuário não autenticado:', userError);
+        navigate("/client/login");
+        return;
       }
 
-      const parsedOrderData = JSON.parse(orderData);
-      console.log('📋 [CHIP-ACTIVATION] Dados do pedido para atualização:', parsedOrderData);
+      // Buscar o pedido específico
+      const { data: order, error: orderError } = await supabase
+        .from('orders')
+        .select(`
+          *,
+          plans(
+            id,
+            title,
+            description,
+            value
+          )
+        `)
+        .eq('id', orderId)
+        .eq('user_id', user.id)
+        .single();
+
+      if (orderError) {
+        console.error('❌ [CHIP-ACTIVATION] Erro ao buscar order:', orderError);
+        await loadLatestOrder();
+        return;
+      }
+
+      if (order) {
+        console.log('📋 [CHIP-ACTIVATION] Order encontrada no banco:', order);
+        
+        // Tentar obter DDD do localStorage se disponível
+        let dddFromPlan = '';
+        try {
+          const storedPlan = localStorage.getItem('selectedPlan');
+          if (storedPlan) {
+            const planData = JSON.parse(storedPlan);
+            dddFromPlan = planData.ddd || '';
+          }
+        } catch (error) {
+          console.log('Erro ao obter DDD do plano salvo:', error);
+        }
+        
+        // Criar linha baseada nos dados reais do pedido
+        const line = {
+          id: 1,
+          internet: order.plans?.title || "Plano eSIM",
+          type: "eSIM",
+          ddd: dddFromPlan, // DDD do plano selecionado
+          price: order.plans?.value || order.total_amount || 0,
+          planId: order.plan_id,
+          planName: order.plans?.title,
+          orderData: order // Manter referência aos dados completos
+        };
+        
+        setSelectedLines([line]);
+        setProtocol(order.id);
+        setOrderData(order);
+        setLoading(false);
+      } else {
+        await loadLatestOrder();
+      }
+    } catch (error) {
+      console.error('💥 [CHIP-ACTIVATION] Erro ao carregar order do banco:', error);
+      await loadLatestOrder();
+    }
+  };
+
+  const loadLatestOrder = async () => {
+    try {
+      const { data: { user }, error: userError } = await supabase.auth.getUser();
       
-      // Verificar se há ID válido no pedido
-      if (!parsedOrderData.id) {
-        console.log('⚠️ [CHIP-ACTIVATION] ID do pedido não encontrado, simulando sucesso...');
-        // Gerar protocolo mesmo sem atualizar banco
-        const protocolNumber = `CHIP-${Date.now()}`;
-        setProtocol(protocolNumber);
+      if (userError || !user) {
+        console.error('❌ [CHIP-ACTIVATION] Usuário não autenticado:', userError);
+        toast({
+          title: "Erro",
+          description: "Usuário não autenticado. Redirecionando...",
+          variant: "destructive"
+        });
+        navigate("/client/login");
+        return;
+      }
+
+      console.log('👤 [CHIP-ACTIVATION] Usuário autenticado:', user.id);
+
+      // Buscar o pedido pago mais recente
+      const { data: orders, error: orderError } = await supabase
+        .from('orders')
+        .select(`
+          *,
+          plans(
+            id,
+            title,
+            description,
+            value
+          )
+        `)
+        .eq('user_id', user.id)
+        .eq('status', 'paid')
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      if (orderError) {
+        console.error('❌ [CHIP-ACTIVATION] Erro ao buscar orders:', orderError);
+        throw orderError;
+      }
+
+      if (orders && orders.length > 0) {
+        const latestOrder = orders[0];
+        console.log('📋 [CHIP-ACTIVATION] Latest order encontrada:', latestOrder);
+        
+        const line = {
+          id: 1,
+          internet: latestOrder.plans?.title || "Plano eSIM",
+          type: "eSIM", 
+          ddd: "",
+          price: latestOrder.plans?.value || latestOrder.total_amount || 0,
+          planId: latestOrder.plan_id,
+          planName: latestOrder.plans?.title,
+          orderData: latestOrder
+        };
+        
+        setSelectedLines([line]);
+        setProtocol(latestOrder.id);
+        setOrderData(latestOrder);
+        setLoading(false);
+      } else {
+        console.warn('⚠️ [CHIP-ACTIVATION] Nenhuma order paga encontrada');
+        toast({
+          title: "Erro",
+          description: "Nenhum pedido encontrado. Redirecionando para produtos...",
+          variant: "destructive"
+        });
+        navigate("/client/products");
+      }
+    } catch (error) {
+      console.error('💥 [CHIP-ACTIVATION] Erro ao carregar latest order:', error);
+      toast({
+        title: "Erro",
+        description: "Erro ao carregar dados do pedido. Redirecionando...",
+        variant: "destructive"
+      });
+      navigate("/client/products");
+    }
+  };
+
+  const createOrderRecord = async (barcodes: string[]) => {
+    try {
+      const { data: session } = await supabase.auth.getSession();
+      if (!session.session?.user) {
+        throw new Error('Usuário não autenticado');
+      }
+
+      console.log('💾 [CHIP-ACTIVATION] Salvando códigos escaneados:', barcodes);
+      console.log('💾 [CHIP-ACTIVATION] Protocol usado:', protocol);
+      
+      // Preparar notas com os códigos escaneados e DDD
+      const lineWithBarcode = selectedLines[0];
+      const notesText = `${lineWithBarcode?.planName || 'Plano eSIM'} - DDD: ${lineWithBarcode?.ddd || 'Não informado'} - Códigos escaneados: ${barcodes.join(', ')} - Ativação solicitada em ${new Date().toISOString()}`;
+      
+      // Atualizar o pedido existente
+      console.log('📝 [CHIP-ACTIVATION] Atualizando order:', protocol);
+      
+      const { data: updatedOrder, error: updateError } = await supabase
+        .from('orders')
+        .update({
+          notes: notesText,
+          status: 'chip_activation'
+        })
+        .eq('id', protocol)
+        .select()
+        .single();
+
+      if (updateError) {
+        console.error('❌ [CHIP-ACTIVATION] Erro ao atualizar order:', updateError);
+        throw updateError;
+      }
+
+      console.log('✅ [CHIP-ACTIVATION] Order atualizada com códigos:', updatedOrder);
+      return updatedOrder;
+    } catch (error) {
+      console.error('❌ [CHIP-ACTIVATION] Erro ao processar:', error);
+      toast({
+        title: "Erro ao processar solicitação",
+        description: error instanceof Error ? error.message : "Erro desconhecido. Tente novamente.",
+        variant: "destructive"
+      });
+      throw error;
+    }
+  };
+
+  const handleContinue = async () => {
+    console.log('🔄 [CHIP-ACTIVATION] handleContinue - currentStep:', currentStep);
+    console.log('📋 [CHIP-ACTIVATION] selectedLines:', selectedLines);
+
+    try {
+      if (currentStep === 4) {
+        setCurrentStep(5);
+      } else if (currentStep === 5) {
+        setCurrentStep(6);
+      } else if (currentStep === 6) {
+        // Verificar se todos os códigos foram escaneados
+        const allBarcodesScanned = selectedLines.every(line => line.barcode && line.barcode.length > 0);
+        
+        console.log('🔍 [CHIP-ACTIVATION] Verificando códigos escaneados:', {
+          selectedLines,
+          allBarcodesScanned,
+          barcodes: selectedLines.map(line => line.barcode)
+        });
+
+        if (!allBarcodesScanned) {
+          toast({
+            title: "Atenção",
+            description: "Por favor, escaneie o código de barras antes de continuar.",
+            variant: "destructive"
+          });
+          return;
+        }
+
+        const barcodes = selectedLines.map(line => line.barcode).filter(Boolean);
+        console.log('📄 [CHIP-ACTIVATION] Processando códigos:', barcodes);
+        
+        // Atualizar o pedido com códigos escaneados
+        await createOrderRecord(barcodes);
         
         toast({
           title: "Sucesso!",
-          description: "Ativação enviada para aprovação da empresa.",
+          description: "Solicitação de ativação enviada para processamento.",
+          variant: "default"
         });
-        return true;
+
+        console.log('✅ [CHIP-ACTIVATION] Mostrando tela de confirmação');
+        setShowConfirmation(true);
       }
-      
-      // Atualizar status do pedido para 'chip_activation'
-      const { error } = await supabase
-        .from('orders')
-        .update({ 
-          status: 'chip_activation',
-          updated_at: new Date().toISOString(),
-          notes: `Código de barras escaneado: ${selectedLines[0]?.barcode}`
-        })
-        .eq('id', parsedOrderData.id);
-
-      if (error) {
-        throw error;
-      }
-
-      // Gerar protocolo
-      const protocolNumber = `CHIP-${Date.now()}`;
-      setProtocol(protocolNumber);
-
-      console.log('✅ [CHIP-ACTIVATION] Pedido atualizado com sucesso');
-      
-      toast({
-        title: "Sucesso!",
-        description: "Ativação enviada para aprovação da empresa.",
-      });
-
-      return true;
     } catch (error) {
-      console.error('❌ [CHIP-ACTIVATION] Erro ao atualizar pedido:', error);
-      toast({
-        title: "Erro",
-        description: "Erro ao processar ativação. Tente novamente.",
-        variant: "destructive",
-      });
-      return false;
-    } finally {
-      setIsUpdatingOrder(false);
+      console.error('❌ [CHIP-ACTIVATION] Erro no handleContinue:', error);
+      // Error toast is already shown in createOrderRecord
     }
   };
 
-  // Handlers para eSIM
-  const handleEsimBack = () => {
-    if (esimStep === 1) {
-      handleBackToSelection();
+  const handleBack = () => {
+    if (currentStep === 4) {
+      navigate("/client/payment-return");
     } else {
-      setEsimStep(esimStep - 1);
+      setCurrentStep(currentStep - 1);
     }
-  };
-
-  const handleEsimContinue = () => {
-    setEsimStep(esimStep + 1);
-  };
-
-  const handleDeviceSelect = (device: 'android' | 'ios') => {
-    setEsimActivationData({ ...esimActivationData, device_type: device });
-    handleEsimContinue();
-  };
-
-  const handleTypeSelect = (type: 'self' | 'collaborator') => {
-    setEsimActivationData({ ...esimActivationData, type });
-    handleEsimContinue();
-  };
-
-  const handlePlanSelect = (planData: {internet: string; ddd: string; dueDate: number; price: number}) => {
-    setEsimActivationData({ 
-      ...esimActivationData, 
-      internet: planData.internet,
-      ddd: planData.ddd,
-      dueDate: planData.dueDate,
-      price: planData.price
-    });
-    handleEsimContinue();
-  };
-
-  const handleIMEISubmit = (imei: string) => {
-    if (!esimActivationData.imei || esimActivationData.imei !== imei) {
-      setEsimActivationData({ ...esimActivationData, imei });
-    }
-    handleEsimContinue();
-  };
-
-  const handleEIDSubmit = (eid: string) => {
-    if (!esimActivationData.eid || esimActivationData.eid !== eid) {
-      setEsimActivationData({ ...esimActivationData, eid });
-    }
-    handleEsimContinue();
-  };
-
-  // Handlers para chip físico
-  const handlePhysicalChipBack = () => {
-    if (showConfirmation) {
-      setShowConfirmation(false);
-      return;
-    }
-    
-    if (physicalChipStep === 4) {
-      handleBackToSelection();
-    } else {
-      setPhysicalChipStep(physicalChipStep - 1);
-      setScanningIndex(null);
-    }
-  };
-
-  const handlePhysicalChipContinue = async () => {
-    if (physicalChipStep === 4) {
-      setPhysicalChipStep(5); // Ir para instruções de código de barras
-    } else if (physicalChipStep === 5) {
-      setPhysicalChipStep(6); // Ir para escaneamento
-    } else if (physicalChipStep === 6) {
-      // Verificar se todos os códigos foram escaneados
-      const allBarcodesScanned = selectedLines.every(line => line.barcode && line.barcode.length > 0);
-      if (allBarcodesScanned) {
-        console.log('✅ [CHIP-ACTIVATION] Todos os códigos escaneados, atualizando pedido...');
-        const success = await updateOrderStatus();
-        if (success) {
-          setShowConfirmation(true);
-        }
-      } else {
-        console.log('⚠️ [CHIP-ACTIVATION] Nem todos os códigos foram escaneados');
-        toast({
-          title: "Atenção",
-          description: "Por favor, escaneie o código de barras do chip antes de continuar.",
-          variant: "destructive",
-        });
-      }
-    }
-  };
-
-  const handleStartScanning = (index: number) => {
-    console.log('📱 [CHIP-ACTIVATION] Iniciando escaneamento para linha:', index);
-    setScanningIndex(index);
-  };
-
-  const handleUpdateBarcode = (index: number, barcode: string) => {
-    console.log('📋 [CHIP-ACTIVATION] Código escaneado:', barcode, 'para linha:', index);
-
-    const updatedLines = [...selectedLines];
-    updatedLines[index] = { ...updatedLines[index], barcode };
-    setSelectedLines(updatedLines);
-    setScanningIndex(null);
-
-    // Atualizar dados de ativação
-    setActivationData({ ...activationData, selectedLines: updatedLines });
-    
-    console.log('✅ [CHIP-ACTIVATION] Linha atualizada:', updatedLines[index]);
-  };
-
-  const handleScanningClose = () => {
-    setScanningIndex(null);
   };
 
   const handleUnderstand = () => {
-    // Limpar dados do localStorage
+    // Clear order data and navigate to dashboard
     localStorage.removeItem('orderData');
-    localStorage.removeItem('selectedPlan');
-    
-    // Navegar para o dashboard
-    navigate('/client/dashboard', { replace: true });
+    navigate("/client/dashboard");
   };
 
-  // Renderizar tela de confirmação
-  if (showConfirmation) {
+  const handleUpdateBarcode = (index: number, barcode: string) => {
+    console.log('📱 [CHIP-ACTIVATION] Atualizando código:', { index, barcode });
+    
+    const updatedLines = [...selectedLines];
+    updatedLines[index] = {
+      ...updatedLines[index],
+      barcode
+    };
+    setSelectedLines(updatedLines);
+    
+    console.log('✅ [CHIP-ACTIVATION] Código atualizado:', updatedLines[index]);
+  };
+
+  const handleUpdateDDD = (index: number, ddd: string) => {
+    console.log('📱 [CHIP-ACTIVATION] Atualizando DDD:', { index, ddd });
+    
+    const updatedLines = [...selectedLines];
+    updatedLines[index] = {
+      ...updatedLines[index],
+      ddd
+    };
+    setSelectedLines(updatedLines);
+    
+    console.log('✅ [CHIP-ACTIVATION] DDD atualizado:', updatedLines[index]);
+  };
+
+  // Show loading while data is being loaded
+  if (loading) {
     return (
-      <ConfirmationScreen
-        selectedLines={selectedLines}
-        protocol={protocol}
-      />
-    );
-  }
-
-  // Renderizar seleção de tipo de ativação
-  if (currentStep === 'selection') {
-    return (
-      <div className="min-h-screen bg-white">
-
-        <div className="pt-20 flex items-center justify-center min-h-screen">
-          <div className="w-full max-w-md mx-auto p-4 space-y-6">
-            <div className="text-center space-y-4">
-              <h1 className="text-2xl font-bold">Escolha o tipo de ativação</h1>
-              <p className="text-gray-600">Como você deseja ativar sua linha?</p>
-            </div>
-
-            <div className="space-y-4">
-              <button
-                onClick={() => setCurrentStep('physical')}
-                className="w-full p-4 border-2 border-[#8425af] rounded-lg hover:bg-[#8425af] hover:text-white transition-colors"
-              >
-                <div className="text-left">
-                  <h3 className="font-semibold">Chip Físico</h3>
-                  <p className="text-sm opacity-75">Ativar usando chip SIM físico</p>
-                </div>
-              </button>
-
-              <button
-                onClick={() => setCurrentStep('virtual')}
-                className="w-full p-4 border-2 border-[#8425af] rounded-lg hover:bg-[#8425af] hover:text-white transition-colors"
-              >
-                <div className="text-left">
-                  <h3 className="font-semibold">eSIM</h3>
-                  <p className="text-sm opacity-75">Ativar usando eSIM virtual</p>
-                </div>
-              </button>
-            </div>
-          </div>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Carregando dados do pedido...</p>
         </div>
       </div>
     );
   }
 
-  // Renderizar fluxo de chip físico
-  if (currentStep === 'physical') {
-    return (
-      <div className="min-h-screen bg-white">
-        <ChipActivationFlow
-          currentStep={physicalChipStep}
-          selectedLines={selectedLines}
-          scanningIndex={scanningIndex}
-          onBack={handlePhysicalChipBack}
-          onContinue={handlePhysicalChipContinue}
-          onStartScanning={handleStartScanning}
-          onUpdateBarcode={handleUpdateBarcode}
-          onScanningClose={handleScanningClose}
-        />
-        
-        {isUpdatingOrder && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg">
-              <div className="flex items-center space-x-3">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-[#8425af]"></div>
-                <p>Processando ativação...</p>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    );
+  // Show success screen if confirmation is active
+  if (showConfirmation) {
+    return <SuccessScreen selectedLines={selectedLines} protocol={protocol} onUnderstand={handleUnderstand} showBarcodes={true} />;
   }
 
-  // Renderizar fluxo de eSIM
-  if (currentStep === 'virtual') {
-    return (
-      <div className="min-h-screen bg-white">
-        <ESIMActivationFlow
-          currentStep={esimStep}
-          onBack={handleEsimBack}
-          onContinue={handleEsimContinue}
-          onDeviceSelect={handleDeviceSelect}
-          onTypeSelect={handleTypeSelect}
-          onPlanSelect={handlePlanSelect}
-          onIMEISubmit={handleIMEISubmit}
-          onEIDSubmit={handleEIDSubmit}
-          activationData={esimActivationData}
-        />
-      </div>
-    );
-  }
-
-  return null;
+  return (
+    <div className="min-h-screen bg-white">
+      <ChipActivationFlow 
+        currentStep={currentStep} 
+        selectedLines={selectedLines} 
+        scanningIndex={scanningIndex} 
+        onBack={handleBack} 
+        onContinue={handleContinue} 
+        onStartScanning={index => setScanningIndex(index)} 
+        onUpdateBarcode={handleUpdateBarcode} 
+        onScanningClose={() => setScanningIndex(null)}
+        onUpdateDDD={handleUpdateDDD}
+      />
+    </div>
+  );
 }

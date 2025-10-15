@@ -1,6 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useNetworkStats } from "@/hooks/useNetworkStats";
-import { motion } from "framer-motion";
 interface NetworkCardProps {
   networkStats: {
     level1Count: number;
@@ -28,86 +27,27 @@ export const NetworkCard = ({
         </p>
       </div>
       <div className="py-2 bg-transparent pt-4">
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 gap-6">
-          <motion.div initial={{
-          opacity: 0,
-          y: 20
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.5,
-          delay: 0 * 0.2
-        }} className="relative rounded-lg px-4 py-3 border-2 border-yellow-200 bg-gradient-to-br from-yellow-100 to-yellow-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500">
-            <div className="absolute inset-0 rounded-lg border border-white/40 pointer-events-none z-0" />
-            <div className="relative z-10">
-              <h3 className="text-left text-lg font-bold text-black drop-shadow-md mb-2">Nível 1</h3>
-              <p className="text-left text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
-                {networkStats?.level1Count || 0}
-              </p>
-              <p className="text-left text-sm font-medium text-black/70 mt-2">Indicados Diretos</p>
-            </div>
-          </motion.div>
-          
-          <motion.div initial={{
-          opacity: 0,
-          y: 20
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.5,
-          delay: 1 * 0.2
-        }} className="relative rounded-lg px-6 py-4 border-2 border-lime-200 bg-gradient-to-br from-lime-100 to-green-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500">
-            <div className="absolute inset-0 rounded-lg border border-white/40 pointer-events-none z-0" />
-            <div className="relative z-10">
-              <h3 className="text-left text-lg font-bold text-black drop-shadow-md mb-2">Nível 2</h3>
-              <p className="text-left text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
-                {networkStats?.level2Count || 0}
-              </p>
-              <p className="text-left text-sm font-medium text-black/70 mt-2">Indicados Indiretos</p>
-            </div>
-          </motion.div>
-          
-          <motion.div initial={{
-          opacity: 0,
-          y: 20
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.5,
-          delay: 2 * 0.2
-        }} className="relative rounded-lg px-6 py-4 border-2 border-sky-200 bg-gradient-to-br from-sky-100 to-blue-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500">
-            <div className="absolute inset-0 rounded-lg border border-white/40 pointer-events-none z-0" />
-            <div className="relative z-10">
-              <h3 className="text-left text-lg font-bold text-black drop-shadow-md mb-2">Nível 3</h3>
-              <p className="text-left text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
-                {networkStats?.level3Count || 0}
-              </p>
-              <p className="text-left text-sm font-medium text-black/70 mt-2">Indicados Indiretos</p>
-            </div>
-          </motion.div>
-          
-          <motion.div initial={{
-          opacity: 0,
-          y: 20
-        }} animate={{
-          opacity: 1,
-          y: 0
-        }} transition={{
-          duration: 0.5,
-          delay: 3 * 0.2
-        }} className="relative rounded-lg px-6 py-4 border-2 border-pink-200 bg-gradient-to-br from-pink-100 to-pink-50 shadow-xl overflow-hidden hover:scale-[1.03] transition-transform duration-500">
-            <div className="absolute inset-0 rounded-lg border border-white/40 pointer-events-none z-0" />
-            <div className="relative z-10">
-              <h3 className="text-left text-lg font-bold text-black drop-shadow-md mb-2">Nível 4</h3>
-              <p className="text-left text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-black to-neutral-600 drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
-                {networkStats?.level4Count || 0}
-              </p>
-              <p className="text-left text-sm font-medium text-black/70 mt-2">Indicados Indiretos</p>
-            </div>
-          </motion.div>
+        <div className="grid grid-cols-1 gap-4">
+          <div className="p-4 bg-red-50 rounded-lg text-center">
+            <p className="text-sm text-red-600 font-medium">Nível 1</p>
+            <p className="text-2xl font-bold text-red-700">{networkStats?.level1Count || 0}</p>
+            <p className="text-xs text-red-600">Indicados Diretos</p>
+          </div>
+          <div className="p-4 bg-green-50 rounded-lg text-center">
+            <p className="text-sm text-green-600 font-medium">Nível 2</p>
+            <p className="text-2xl font-bold text-green-700">{networkStats?.level2Count || 0}</p>
+            <p className="text-xs text-green-600">Indicados Indiretos</p>
+          </div>
+          <div className="p-4 bg-purple-50 rounded-lg text-center">
+            <p className="text-sm text-purple-600 font-medium">Nível 3</p>
+            <p className="text-2xl font-bold text-purple-700">{networkStats?.level3Count || 0}</p>
+            <p className="text-xs text-purple-600">Indicados Indiretos</p>
+          </div>
+          <div className="p-4 bg-orange-50 rounded-lg text-center">
+            <p className="text-sm text-orange-600 font-medium">Nível 4</p>
+            <p className="text-2xl font-bold text-orange-700">{networkStats?.level4Count || 0}</p>
+            <p className="text-xs text-orange-600">Indicados Indiretos</p>
+          </div>
         </div>
       </div>
     </div>;

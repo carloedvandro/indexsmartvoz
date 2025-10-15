@@ -6,7 +6,7 @@ import { PriceSummary } from "@/components/client/products/PriceSummary";
 import { NavigationButtons } from "@/components/client/products/NavigationButtons";
 import { PlanSelectionHeader } from "@/components/client/products/plan-selection/PlanSelectionHeader";
 import { PlanSelectionForm } from "@/components/client/products/plan-selection/PlanSelectionForm";
-import { internetOptions, mapUrlPlanToInternet, mapPlanValueToInternet } from "@/components/client/products/plan-selection/planOptions";
+import { internetOptions, mapUrlPlanToInternet } from "@/components/client/products/plan-selection/planOptions";
 import { useToast } from "@/hooks/use-toast";
 
 interface PlanSelectionStepProps {
@@ -26,31 +26,6 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   const [searchParams] = useSearchParams();
   const planIdFromUrl = searchParams.get('plan');
   const { toast } = useToast();
-  
-  // Auto-select plan based on localStorage data from plan selection
-  useEffect(() => {
-    const storedPlan = localStorage.getItem('selectedPlan');
-    if (storedPlan && !selectedInternet) {
-      try {
-        const planData = JSON.parse(storedPlan);
-        console.log('🎯 Plano selecionado encontrado:', planData);
-        
-        // Try to map the plan value to internet option
-        const mappedInternet = mapPlanValueToInternet(planData.price);
-        if (mappedInternet) {
-          console.log('✅ Auto-selecionando plano:', mappedInternet);
-          setSelectedInternet(mappedInternet);
-          
-          // Auto-set a default DDD if none is selected
-          if (!selectedDDD) {
-            setSelectedDDD("11");
-          }
-        }
-      } catch (error) {
-        console.error('❌ Erro ao processar plano selecionado:', error);
-      }
-    }
-  }, [selectedInternet, selectedDDD]);
   
   // Set initial plan based on URL parameter if present
   useEffect(() => {
@@ -105,12 +80,6 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
   // Fix: The button should only be enabled when all three fields are filled
   const isDisabled = !selectedInternet || !selectedDDD || !selectedDueDate;
 
-  // Create internetOptions with id property for eSIM component compatibility
-  const internetOptionsWithId = internetOptions.map((option, index) => ({
-    ...option,
-    id: `esim-plan-${index}`
-  }));
-
   return (
     <div className="max-w-[379px] mx-auto w-full" style={{ marginTop: "24px" }}>
       <div className="space-y-6">
@@ -122,7 +91,7 @@ export function PlanSelectionStep({ onBack, onContinue }: PlanSelectionStepProps
             setSelectedInternet={setSelectedInternet}
             selectedDDD={selectedDDD}
             setSelectedDDD={setSelectedDDD}
-            internetOptions={internetOptionsWithId}
+            internetOptions={internetOptions}
           />
 
           <div className="w-full max-w-[340px] mx-auto">
