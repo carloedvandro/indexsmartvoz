@@ -73,7 +73,7 @@ function App() {
           <Route path="/client/user-dashboard" element={<UserDashboard />} />
 
           <Route path="/client">
-            <Route path="" element={}>
+            <Route path="" element={<ProtectedRoute />}>
               <Route path="payment-return" element={<PaymentReturn />} />
               <Route path="dashboard" element={<ClientDashboard />} />
               <Route path="financial" element={<ClientFinancial />} />
