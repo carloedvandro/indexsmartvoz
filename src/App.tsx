@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -56,10 +55,11 @@ function App() {
           {/* Client Routes */}
           <Route path="/client/login" element={<ClientLogin />} />
           <Route path="/client/register" element={<ClientRegister />} />
+          <Route path="/client/chip-activation" element={<ClientProducts />} />
           <Route path="/client/reset-password" element={<ClientResetPassword />} />
-          
+
           {/* Protected Client Routes */}
-          <Route path="/client" element={<ProtectedRoute />}>
+          <Route path="/client">
             <Route path="" element={<DynamicLayout />}>
               <Route path="dashboard" element={<ClientDashboard />} />
               <Route path="financial" element={<ClientFinancial />} />
@@ -75,17 +75,14 @@ function App() {
               <Route path="inventory-reports" element={<InventoryReports />} />
             </Route>
           </Route>
-          
+
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<ProtectedRoute />}>
-            <Route path="" element={<RoleBasedRoute allowedRoles={['admin']} />}>
+            <Route path="" element={<RoleBasedRoute allowedRoles={["admin"]} />}>
               {/* Rota especial para add-edit sem sidebar */}
-              <Route 
-                path="plans/add-edit" 
-                element={<AdminPlanAddEdit />} 
-              />
-              
+              <Route path="plans/add-edit" element={<AdminPlanAddEdit />} />
+
               {/* Outras rotas admin com sidebar */}
               <Route path="" element={<DynamicLayout forceRole="admin" />}>
                 <Route path="dashboard" element={<AdminDashboard />} />
@@ -97,7 +94,7 @@ function App() {
               </Route>
             </Route>
           </Route>
-          
+
           <Route path="*" element={<h1>Not Found</h1>} />
         </Routes>
       </QueryClientProvider>
